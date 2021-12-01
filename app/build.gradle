@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+
 }
 
 android {
@@ -64,5 +66,10 @@ dependencies {
 
     // Moshi
     implementation("com.squareup.moshi:moshi:1.12.0")
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.40.2"
+    kapt "com.google.dagger:hilt-compiler:2.40.2"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-beta01'
 }
