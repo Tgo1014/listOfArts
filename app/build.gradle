@@ -21,10 +21,13 @@ android {
             useSupportLibrary true
         }
     }
-
     buildTypes {
+        all {
+            buildConfigField 'String', 'BASE_URL', '"https://api.punkapi.com/v2/"'
+        }
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -69,7 +72,13 @@ dependencies {
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
 
     // Hilt
-    implementation "com.google.dagger:hilt-android:2.40.2"
-    kapt "com.google.dagger:hilt-compiler:2.40.2"
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-beta01'
+    implementation "com.google.dagger:hilt-android:2.40.3"
+    kapt "com.google.dagger:hilt-compiler:2.40.3"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0-beta01"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.3"
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
 }
