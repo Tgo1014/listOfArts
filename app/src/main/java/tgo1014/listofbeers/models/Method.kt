@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Method(
-    val fermentation: Fermentation,
+    val fermentation: Fermentation = Fermentation(),
     @Json(name = "mash_temp")
-    val mashTemp: List<MashTemp>,
-    val twist: Any,
+    val mashTemp: List<MashTemp> = listOf(),
+    val twist: Any = Any(),
 )
