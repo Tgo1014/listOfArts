@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -46,6 +47,7 @@ android {
 }
 
 dependencies {
+    // Android stuff
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
@@ -60,4 +62,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     implementation "androidx.compose.material3:material3:1.0.0-alpha02"
 
+    // Moshi
+    implementation("com.squareup.moshi:moshi:1.12.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
 }
