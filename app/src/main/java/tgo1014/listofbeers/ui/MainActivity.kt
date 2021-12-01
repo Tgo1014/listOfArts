@@ -1,4 +1,4 @@
-package tgo1014.listofbeers
+package tgo1014.listofbeers.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
