@@ -4,6 +4,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Malt(
-    val amount: Amount = Amount(),
-    val name: String = "",
+    val amount: Amount? = Amount(),
+    val name: String? = "",
 )

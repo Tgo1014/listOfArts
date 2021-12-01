@@ -6,7 +6,7 @@ import retrofit2.http.Query
 import tgo1014.listofbeers.models.Beer
 
 interface PunkApi {
-    @GET(" movie/now_playing")
+    @GET("beers")
     suspend fun getBeers(
         @Query("page") page: Int? = null,
     ): Response<List<Beer>>

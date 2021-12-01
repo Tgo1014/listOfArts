@@ -4,5 +4,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Fermentation(
-    val temp: Temp = Temp(),
+    val temp: Temp? = Temp(),
 )
