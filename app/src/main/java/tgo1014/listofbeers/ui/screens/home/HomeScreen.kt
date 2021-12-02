@@ -4,15 +4,18 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -24,6 +27,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.loadingFlow
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.Scaffold
+import com.google.accompanist.insets.ui.TopAppBar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import tgo1014.listofbeers.R
 import tgo1014.listofbeers.ui.composables.BeerComposable
@@ -39,21 +47,20 @@ fun HomeScreen() {
     val viewModel = hiltViewModel<HomeViewModel>()
     val beers by viewModel.beersFlow.collectAsState()
     val isLoading by viewModel.loadingFlow.collectAsState()
-    BoxWithConstraints {
+    Surface {
         Scaffold(
-            topBar = {
-                SmallTopAppBar(
-                    title = { Text(text = stringResource(id = R.string.app_name)) }
-                )
-            },
-            content = {
+            topBar = { Toolbar() },
+            bottomBar = { BottomSpacing() },
+        ) { contentPadding ->
+            BoxWithConstraints {
                 val cellSize = 170
                 val grizSize = (maxWidth.value / cellSize).toInt()
                 LazyVerticalGrid(
                     cells = GridCells.Fixed(grizSize),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    contentPadding = contentPadding,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxSize().padding(16.dp)
                 ) {
                     itemsIndexed(beers) { index, beer ->
                         BeerComposable(beer)
@@ -74,7 +81,29 @@ fun HomeScreen() {
                         }
                     }
                 }
-            },
-        )
+            }
+        }
     }
+}
+
+@Composable
+private fun Toolbar() {
+    TopAppBar(
+        title = { Text(stringResource(R.string.app_name)) },
+        backgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        contentPadding = rememberInsetsPaddingValues(
+            LocalWindowInsets.current.statusBars,
+            applyBottom = false,
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun BottomSpacing() {
+    Spacer(
+        modifier = Modifier
+            .navigationBarsHeight()
+            .fillMaxWidth()
+    )
 }
