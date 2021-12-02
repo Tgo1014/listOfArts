@@ -4,7 +4,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Ingredients(
-    val hops: List<Any>,
-    val malt: List<Malt>,
-    val yeast: String,
+    val hops: List<Any>? = listOf(),
+    val malt: List<Malt>? = listOf(),
+    val yeast: String? = "",
 )

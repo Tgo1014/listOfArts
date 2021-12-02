@@ -4,6 +4,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class BoilVolume(
-    val unit: String,
-    val value: Int,
+    val unit: String? = "",
+    val value: Int? = 0,
 )
