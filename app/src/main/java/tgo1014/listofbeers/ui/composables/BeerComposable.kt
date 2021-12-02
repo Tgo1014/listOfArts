@@ -1,5 +1,6 @@
 package tgo1014.listofbeers.ui.composables
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -24,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import tgo1014.listofbeers.R
 import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.ui.theme.Amber700
 import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
@@ -87,6 +88,10 @@ fun BeerComposable(beer: Beer, modifier: Modifier = Modifier) {
                 .width(beerWidth)
                 .align(Alignment.TopStart)
                 .height(180.dp)
+                .shadow(3.dp)
+                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(8.dp))
+                .padding(8.dp)
+
         )
     }
 }

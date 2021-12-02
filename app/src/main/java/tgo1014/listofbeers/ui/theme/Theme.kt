@@ -9,15 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColorScheme(
-    primary = Amber200,
-    primaryContainer = Amber200,
-    onPrimaryContainer = Color.White,
-    secondary = Red200
+    primary = Amber500,
+    secondary = Amber200
 )
 
 private val LightColorPalette = lightColorScheme(
-    primary = Amber200,
-    secondary = Red200,
+    primary = Amber500,
+    secondary = Amber200,
     /* Other default colors to override
     background = Color.White,
     surface = Color.White,
@@ -38,7 +36,7 @@ fun ListOfBeersTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compo
         else -> LightColorPalette
     }
     MaterialTheme(
-        colorScheme = LightColorPalette,
+        colorScheme = colorScheme,
         content = content
     )
 }
