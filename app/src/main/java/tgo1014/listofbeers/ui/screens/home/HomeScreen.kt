@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,8 +20,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import tgo1014.listofbeers.R
 import tgo1014.listofbeers.ui.composables.BeerComposable
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalPagerApi::class,
+    ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun HomeScreen() {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -41,11 +43,7 @@ fun HomeScreen() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(beers) { beer ->
-                    BeerComposable(
-                        beer = beer,
-                        modifier = Modifier
-                        //.border(3.dp, Color.Red)
-                    )
+                    BeerComposable(beer)
                 }
             }
         }
