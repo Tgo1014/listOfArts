@@ -43,46 +43,51 @@ import tgo1014.listofbeers.ui.theme.Amber700
     ExperimentalFoundationApi::class
 )
 @Composable
-fun HomeScreen() {
+fun HomeScreen() = Surface {
     val viewModel = hiltViewModel<HomeViewModel>()
     val beers by viewModel.beersFlow.collectAsState()
     val isLoading by viewModel.loadingFlow.collectAsState()
-    Surface {
-        Scaffold(
-            topBar = { Toolbar() },
-            bottomBar = { BottomSpacing() },
-        ) { contentPadding ->
-            BoxWithConstraints {
-                val cellSize = 170
-                val grizSize = (maxWidth.value / cellSize).toInt()
-                LazyVerticalGrid(
-                    cells = GridCells.Fixed(grizSize),
-                    contentPadding = contentPadding,
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.fillMaxSize().padding(16.dp)
-                ) {
-                    itemsIndexed(beers) { index, beer ->
-                        BeerComposable(beer)
-                        if (beers.lastIndex == index) {
-                            SideEffect { viewModel.onBottomReached() }
-                        }
+    Scaffold(
+        topBar = { Toolbar() },
+        bottomBar = { BottomSpacing() },
+    ) { contentPadding ->
+        BoxWithConstraints {
+            val cellSize = 170
+            val grizSize = (maxWidth.value / cellSize).toInt()
+            LazyVerticalGrid(
+                cells = GridCells.Fixed(grizSize),
+                contentPadding = contentPadding,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                itemsIndexed(beers) { index, beer ->
+                    BeerComposable(beer)
+                    if (beers.lastIndex == index) {
+                        SideEffect { viewModel.onBottomReached() }
                     }
-                    if (isLoading) {
-                        item {
-                            Box(modifier = Modifier.size(cellSize.dp)) {
-                                CircularProgressIndicator(
-                                    color = Amber700,
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .align(Alignment.Center)
-                                )
-                            }
-                        }
+                }
+                if (isLoading) {
+                    item {
+                        Progress(Modifier.size(cellSize.dp))
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun Progress(modifier: Modifier) {
+    Box(modifier = modifier) {
+        CircularProgressIndicator(
+            color = Amber700,
+            modifier = Modifier
+                .size(40.dp)
+                .align(Alignment.Center)
+        )
     }
 }
 
