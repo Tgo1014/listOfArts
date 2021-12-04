@@ -2,8 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
-
+    id 'dagger.hilt.android.plugin'\
 }
 
 android {
@@ -34,6 +33,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -93,5 +93,11 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets:$accompanist"
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanist"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+
+    // Compose Calendar
+    implementation 'com.github.DogusTeknoloji:compose-date-picker:1.0.1'
+
+    // Java Desuraring
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
 }
