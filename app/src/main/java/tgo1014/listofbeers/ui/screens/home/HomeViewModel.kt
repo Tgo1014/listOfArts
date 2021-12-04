@@ -34,17 +34,17 @@ class HomeViewModel @Inject constructor(
 
     private val monthYearFormat = SimpleDateFormat("MMM yyyy", Locale.getDefault())
 
-    private var startFilterDateFlow = MutableStateFlow<Date?>(null)
-    private var endFilterDateFlow = MutableStateFlow<Date?>(null)
-    var startFilter = startFilterDateFlow.map { it?.let { monthYearFormat.format(it) } }
-    var endFilter = endFilterDateFlow.map { it?.let { monthYearFormat.format(it) } }
+    private var afterFilterDateFlow = MutableStateFlow<Date?>(null)
+    private var beforeFilterDateFlow = MutableStateFlow<Date?>(null)
+    var afterFilter = afterFilterDateFlow.map { it?.let { monthYearFormat.format(it) } }
+    var beforeFilter = beforeFilterDateFlow.map { it?.let { monthYearFormat.format(it) } }
 
     init {
         fetchBeers()
     }
 
     private fun fetchBeers() {
-        getBeersInteractor(page)
+        getBeersInteractor(page, afterFilterDateFlow.value, beforeFilterDateFlow.value)
             .bindLoading(this)
             .bindError(this)
             .onSuccess {
@@ -67,11 +67,20 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onAfterClicked(date: Date?) = viewModelScope.launch {
-        startFilterDateFlow.emit(date)
+        afterFilterDateFlow.emit(date)
+        reset()
+        fetchBeers()
     }
 
     fun onBeforeFilterSelected(date: Date?) = viewModelScope.launch {
-        endFilterDateFlow.emit(date)
+        beforeFilterDateFlow.emit(date)
+        reset()
+        fetchBeers()
     }
 
+    private fun reset() = viewModelScope.launch {
+        _beersFlow.emit(emptyList())
+        lastPageReached = false
+        page = 1
+    }
 }

@@ -63,8 +63,8 @@ fun HomeScreen() {
     val isLoading by viewModel.loadingFlow.collectAsState()
     val lazyState = rememberLazyListState()
     val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
-    val afterFilter by viewModel.startFilter.collectAsState(null)
-    val beforeFilter by viewModel.endFilter.collectAsState(null)
+    val afterFilter by viewModel.afterFilter.collectAsState(null)
+    val beforeFilter by viewModel.beforeFilter.collectAsState(null)
     var afterCalendarOpen by remember { mutableStateOf(false) }
     var beforeCalendarOpen by remember { mutableStateOf(false) }
     Scaffold(
