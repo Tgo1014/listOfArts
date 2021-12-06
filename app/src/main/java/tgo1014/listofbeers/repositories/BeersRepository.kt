@@ -18,11 +18,12 @@ class BeersRepository @Inject constructor(private val punkApi: PunkApi) {
     suspend fun getBeers(page: Int, after: Date? = null, before: Date? = null): List<Beer> {
         val afterString = after?.let { monthYearFormat.format(after) }
         val beforeString = before?.let { monthYearFormat.format(before) }
-        return punkApi.getBeers(
+        val response = punkApi.getBeers(
             page = page,
             brewedAfter = afterString,
             brewedBefore = beforeString,
-        ).successOrThrow()
+        )
+        return response.successOrThrow()
     }
 
     private fun <T> Response<T>.successOrThrow(): T {

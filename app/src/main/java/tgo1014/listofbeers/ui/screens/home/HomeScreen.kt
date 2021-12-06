@@ -120,7 +120,7 @@ fun HomeScreen() {
     }
     MonthYearCalendar(
         show = state.isCalendarAfterOpen,
-        onDateSelected = { viewModel.onAfterClicked(it) },
+        onDateSelected = { viewModel.onAfterFilterClicked(it) },
         onCancel = { viewModel.onCalendarCancel() },
     )
     MonthYearCalendar(
