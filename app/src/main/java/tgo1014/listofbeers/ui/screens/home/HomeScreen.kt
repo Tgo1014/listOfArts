@@ -109,7 +109,7 @@ fun HomeScreen() {
                                 SideEffect { viewModel.onBottomReached() }
                             }
                         }
-                        // This avoids the last row to take all the space istead of just 1 "grid block"
+                        // This avoids the last row to take all the space instead of just 1 "grid block"
                         val cellsNotFilled = gridSize - chunk.size
                         repeat(cellsNotFilled) { Spacer(modifier) }
                     }
@@ -144,18 +144,18 @@ private fun Filter(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(text = "_Filter:_")
+        Text(text = stringResource(R.string.filter))
         Spacer(modifier = Modifier.width(8.dp))
         FilterChip(
             isFilled = startFilter != null,
-            noFilterText = "_Brewed After_",
-            date = "After: $startFilter"
+            noFilterText = stringResource(R.string.brewed_after),
+            date = "${stringResource(R.string.after)}: $startFilter"
         ) { onAfterClicked() }
         Spacer(modifier = Modifier.width(8.dp))
         FilterChip(
             isFilled = endFilter != null,
-            noFilterText = "_Brewed Before_",
-            date = "Before $endFilter"
+            noFilterText = stringResource(R.string.brewed_before),
+            date = stringResource(R.string.before) + ": " + endFilter
         ) { onBeforeClicked() }
     }
 }
@@ -199,7 +199,7 @@ private fun BottomSpacing() {
 private fun EmptyState() {
     Surface(Modifier.fillMaxSize()) {
         Text(
-            text = "No beers to display. Try checking your filter or your internet connection",
+            text = stringResource(R.string.no_beers),
             textAlign = TextAlign.Center,
         )
     }

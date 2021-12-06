@@ -9,9 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import tgo1014.listofbeers.R
 import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
 
 @Composable
@@ -45,11 +47,11 @@ fun FilterChip(
 @Preview
 @Composable
 fun FilterChipPreview() = ListOfBeersTheme {
-    FilterChip(false, "Brewed Before") {}
+    FilterChip(false, stringResource(R.string.brewed_before)) {}
 }
 
 @Preview
 @Composable
 fun FilterChipPreviewWithFilter() = ListOfBeersTheme {
-    FilterChip(true, "Brewed Before", "11-2021") {}
+    FilterChip(true, stringResource(R.string.brewed_before), "11-2021") {}
 }
