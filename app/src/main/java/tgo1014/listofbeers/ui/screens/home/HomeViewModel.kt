@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onBeforeFilterClicked() = viewModelScope.launch {
-        if (state.value.afterFilter != null) {
+        if (state.value.beforeFilter != null) {
             _state.emit(state.value.copy(beforeFilter = null))
         } else {
             _state.emit(state.value.copy(isCalendarBeforeOpen = true))
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
         _state.emit(state.value.copy(isCalendarBeforeOpen = false, isCalendarAfterOpen = false))
     }
 
-    fun onAfterClicked(date: Date?) = viewModelScope.launch {
+    fun onAfterFilterClicked(date: Date?) = viewModelScope.launch {
         _state.emit(state.value.copy(afterFilter = date, isCalendarAfterOpen = false))
         resetAndFetchBeers()
     }
