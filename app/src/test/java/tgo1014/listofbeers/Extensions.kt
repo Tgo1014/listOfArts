@@ -5,14 +5,6 @@ import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-object TestHelper {
-
-    fun generateRetrofit(mockWebServer: MockWebServer): Retrofit = Retrofit.Builder()
-        .baseUrl(mockWebServer.url("/"))
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
-}
-
 inline fun <reified T> MockWebServer.getService(): T = Retrofit.Builder()
     .baseUrl(this.url("/"))
     .addConverterFactory(MoshiConverterFactory.create())
