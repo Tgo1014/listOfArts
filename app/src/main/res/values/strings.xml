@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">listOfBeers()</string>
+    <string name="filter">Filter:</string>
+    <string name="brewed_after">Brewed After</string>
+    <string name="after">After</string>
+    <string name="brewed_before">Brewed Before</string>
+    <string name="before">Before</string>
+    <string name="no_beers">No beers to display. Try checking your filter or your internet connection</string>
 </resources>

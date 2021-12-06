@@ -21,6 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,16 +65,16 @@ fun BeerComposable(beer: Beer, modifier: Modifier = Modifier) {
                         fontSize = 16.sp,
                         color = Color.Black
                     ),
-                    modifier = Modifier
                 )
                 Text(
                     text = beer.tagline.orEmpty(),
+                    overflow = TextOverflow.Ellipsis,
                     style = TextStyle(
                         fontStyle = FontStyle.Italic,
                         fontSize = 12.sp,
                         color = Color.Black
                     ),
-                    modifier = Modifier
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
@@ -82,6 +84,14 @@ fun BeerComposable(beer: Beer, modifier: Modifier = Modifier) {
                 .crossfade(true)
                 .build(),
             loading = { CircularProgressIndicator(color = Amber700) },
+            error = {
+                Text(
+                    text = "No Image",
+                    textAlign = TextAlign.Center,
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp
+                )
+            },
             contentDescription = null,
             modifier = Modifier
                 .padding(start = 8.dp)
@@ -96,7 +106,7 @@ fun BeerComposable(beer: Beer, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(device = "spec:shape=Normal,width=420,height=400,unit=px,dpi=420")
 @Composable
 private fun BeerComposablePreview() = ListOfBeersTheme {
     BeerComposable(

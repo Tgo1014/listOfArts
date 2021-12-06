@@ -1,3 +1,5 @@
+@file:Suppress("PackageDirectoryMismatch")
+
 package androidx.lifecycle // Package set to androidx.lifecycle so we can have access to package private methods
 
 import kotlinx.coroutines.flow.Flow
