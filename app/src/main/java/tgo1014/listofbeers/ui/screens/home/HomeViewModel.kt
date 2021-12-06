@@ -9,16 +9,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import tgo1014.listofbeers.extensions.onError
 import tgo1014.listofbeers.extensions.onSuccess
 import tgo1014.listofbeers.interactors.GetBeersInteractor
-import tgo1014.listofbeers.models.Beer
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,31 +25,24 @@ class HomeViewModel @Inject constructor(
     private var page = 1
     private var lastPageReached = false
 
-    private val _beersFlow = MutableStateFlow<List<Beer>>(emptyList())
-    val beersFlow = _beersFlow.asStateFlow()
-
-    private val monthYearFormat = SimpleDateFormat("MMM yyyy", Locale.getDefault())
-
-    private var afterFilterDateFlow = MutableStateFlow<Date?>(null)
-    private var beforeFilterDateFlow = MutableStateFlow<Date?>(null)
-    var afterFilter = afterFilterDateFlow.map { it?.let { monthYearFormat.format(it) } }
-    var beforeFilter = beforeFilterDateFlow.map { it?.let { monthYearFormat.format(it) } }
+    private val _state = MutableStateFlow(HomeState())
+    val state = _state.asStateFlow()
 
     init {
         fetchBeers()
     }
 
     private fun fetchBeers() {
-        getBeersInteractor(page, afterFilterDateFlow.value, beforeFilterDateFlow.value)
+        getBeersInteractor(page, state.value.afterFilter, state.value.beforeFilter)
             .bindLoading(this)
             .bindError(this)
             .onSuccess {
                 if (it.isEmpty()) {
                     lastPageReached = true
                 }
-                val currentList = _beersFlow.value.toMutableList()
+                val currentList = state.value.beerList.toMutableList()
                 currentList.addAll(it)
-                _beersFlow.emit(currentList)
+                _state.emit(state.value.copy(beerList = currentList))
             }
             .onError(Timber::w)
             .launchIn(viewModelScope)
@@ -66,21 +55,42 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun onAfterFilterClicked() = viewModelScope.launch {
+        if (state.value.afterFilter != null) {
+            _state.emit(state.value.copy(afterFilter = null))
+        } else {
+            _state.emit(state.value.copy(isCalendarAfterOpen = true))
+        }
+        resetAndFetchBeers()
+    }
+
+    fun onBeforeFilterClicked() = viewModelScope.launch {
+        if (state.value.afterFilter != null) {
+            _state.emit(state.value.copy(beforeFilter = null))
+        } else {
+            _state.emit(state.value.copy(isCalendarBeforeOpen = true))
+        }
+        resetAndFetchBeers()
+    }
+
+    fun onCalendarCancel() = viewModelScope.launch {
+        _state.emit(state.value.copy(isCalendarBeforeOpen = false, isCalendarAfterOpen = false))
+    }
+
     fun onAfterClicked(date: Date?) = viewModelScope.launch {
-        afterFilterDateFlow.emit(date)
-        reset()
-        fetchBeers()
+        _state.emit(state.value.copy(afterFilter = date, isCalendarAfterOpen = false))
+        resetAndFetchBeers()
     }
 
     fun onBeforeFilterSelected(date: Date?) = viewModelScope.launch {
-        beforeFilterDateFlow.emit(date)
-        reset()
-        fetchBeers()
+        _state.emit(state.value.copy(beforeFilter = date, isCalendarBeforeOpen = false))
+        resetAndFetchBeers()
     }
 
-    private fun reset() = viewModelScope.launch {
-        _beersFlow.emit(emptyList())
+    private fun resetAndFetchBeers() = viewModelScope.launch {
+        _state.emit(state.value.copy(beerList = emptyList()))
         lastPageReached = false
         page = 1
+        fetchBeers()
     }
 }

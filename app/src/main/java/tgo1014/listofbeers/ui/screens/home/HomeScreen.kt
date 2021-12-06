@@ -26,9 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,7 +47,9 @@ import tgo1014.listofbeers.ui.composables.BeerComposable
 import tgo1014.listofbeers.ui.composables.FilterChip
 import tgo1014.listofbeers.ui.composables.InsetLargeTopAppBar
 import tgo1014.listofbeers.ui.theme.Amber700
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @OptIn(
     ExperimentalPagerApi::class,
@@ -58,15 +58,19 @@ import java.util.Date
 )
 @Composable
 fun HomeScreen() {
+
+    val monthYearFormat = SimpleDateFormat("MMM yyyy", Locale.getDefault())
+
     val viewModel = hiltViewModel<HomeViewModel>()
-    val beers by viewModel.beersFlow.collectAsState()
     val isLoading by viewModel.loadingFlow.collectAsState()
     val lazyState = rememberLazyListState()
     val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
-    val afterFilter by viewModel.afterFilter.collectAsState(null)
-    val beforeFilter by viewModel.beforeFilter.collectAsState(null)
-    var afterCalendarOpen by remember { mutableStateOf(false) }
-    var beforeCalendarOpen by remember { mutableStateOf(false) }
+
+    val state = viewModel.state.collectAsState().value
+    val beerList = state.beerList
+    val afterFilter = state.afterFilter?.let { monthYearFormat.format(it) }
+    val beforeFilter = state.beforeFilter?.let { monthYearFormat.format(it) }
+
     Scaffold(
         topBar = { Toolbar(scrollBehavior) },
         bottomBar = { BottomSpacing() },
@@ -88,30 +92,16 @@ fun HomeScreen() {
                     Filter(
                         startFilter = afterFilter,
                         endFilter = beforeFilter,
-                        onStartClicked = {
-                            // If the filter is set clear it TODO move to viewModel the logic
-                            if (afterFilter != null) {
-                                viewModel.onAfterClicked(null)
-                            } else {
-                                afterCalendarOpen = true
-                            }
-                        },
-                        onEndClicked = {
-                            // If the filter is set clear it TODO move to viewModel the logic
-                            if (beforeFilter != null) {
-                                viewModel.onBeforeFilterSelected(null)
-                            } else {
-                                beforeCalendarOpen = true
-                            }
-                        }
+                        onAfterClicked = { viewModel.onAfterFilterClicked() },
+                        onBeforeClicked = { viewModel.onBeforeFilterClicked() }
                     )
                 }
-                items(beers.chunked(gridSize)) { chunk ->
+                items(beerList.chunked(gridSize)) { chunk ->
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         val modifier = Modifier.weight(1f)
                         chunk.forEach { beer ->
                             BeerComposable(beer, modifier)
-                            if (beer == beers.lastOrNull()) {
+                            if (beer == beerList.lastOrNull()) {
                                 SideEffect { viewModel.onBottomReached() }
                             }
                         }
@@ -129,20 +119,14 @@ fun HomeScreen() {
         }
     }
     MonthYearCalendar(
-        show = afterCalendarOpen,
-        onDateSelected = {
-            viewModel.onAfterClicked(it)
-            afterCalendarOpen = false
-        },
-        onCancel = { afterCalendarOpen = false },
+        show = state.isCalendarAfterOpen,
+        onDateSelected = { viewModel.onAfterClicked(it) },
+        onCancel = { viewModel.onCalendarCancel() },
     )
     MonthYearCalendar(
-        show = beforeCalendarOpen,
-        onDateSelected = {
-            viewModel.onBeforeFilterSelected(it)
-            beforeCalendarOpen = false
-        },
-        onCancel = { beforeCalendarOpen = false },
+        show = state.isCalendarBeforeOpen,
+        onDateSelected = { viewModel.onBeforeFilterSelected(it) },
+        onCancel = { viewModel.onCalendarCancel() },
     )
 }
 
@@ -150,8 +134,8 @@ fun HomeScreen() {
 private fun Filter(
     startFilter: String? = null,
     endFilter: String? = null,
-    onStartClicked: () -> Unit,
-    onEndClicked: () -> Unit,
+    onAfterClicked: () -> Unit,
+    onBeforeClicked: () -> Unit,
 ) = Surface {
     Row(
         horizontalArrangement = Arrangement.End,
@@ -164,13 +148,13 @@ private fun Filter(
             isFilled = startFilter != null,
             noFilterText = "_Brewed After_",
             date = "After: $startFilter"
-        ) { onStartClicked() }
+        ) { onAfterClicked() }
         Spacer(modifier = Modifier.width(8.dp))
         FilterChip(
             isFilled = endFilter != null,
             noFilterText = "_Brewed Before_",
             date = "Before $endFilter"
-        ) { onEndClicked() }
+        ) { onBeforeClicked() }
     }
 }
 
