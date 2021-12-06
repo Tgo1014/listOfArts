@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.loadingFlow
@@ -85,7 +86,7 @@ fun HomeScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
                 item {
@@ -95,6 +96,9 @@ fun HomeScreen() {
                         onAfterClicked = { viewModel.onAfterFilterClicked() },
                         onBeforeClicked = { viewModel.onBeforeFilterClicked() }
                     )
+                }
+                if (beerList.isEmpty()) {
+                    item { EmptyState() }
                 }
                 items(beerList.chunked(gridSize)) { chunk ->
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -110,10 +114,8 @@ fun HomeScreen() {
                         repeat(cellsNotFilled) { Spacer(modifier) }
                     }
                 }
-                item {
-                    if (isLoading) {
-                        Progress(Modifier.fillMaxWidth())
-                    }
+                if (isLoading) {
+                    item { Progress(Modifier.fillMaxWidth()) }
                 }
             }
         }
@@ -174,13 +176,13 @@ private fun Progress(modifier: Modifier) {
 private fun Toolbar(scrollBehavior: TopAppBarScrollBehavior) {
     InsetLargeTopAppBar(
         title = { Text(stringResource(R.string.app_name)) },
-        backgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
         modifier = Modifier.fillMaxWidth(),
-        scrollBehavior = scrollBehavior,
         contentPadding = rememberInsetsPaddingValues(
             LocalWindowInsets.current.statusBars,
             applyBottom = false,
         ),
+        backgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        scrollBehavior = scrollBehavior,
     )
 }
 
@@ -191,6 +193,16 @@ private fun BottomSpacing() {
             .navigationBarsHeight()
             .fillMaxWidth()
     )
+}
+
+@Composable
+private fun EmptyState() {
+    Surface(Modifier.fillMaxSize()) {
+        Text(
+            text = "No beers to display. Try checking your filter or your internet connection",
+            textAlign = TextAlign.Center,
+        )
+    }
 }
 
 @Composable
