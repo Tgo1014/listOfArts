@@ -23,6 +23,7 @@ fun InsetLargeTopAppBar(
     actions: @Composable (RowScope.() -> Unit) = {},
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     scrollBehavior: TopAppBarScrollBehavior? = null,
+    titleContentColor: Color = Color.Unspecified,
 ) {
     Surface(
         color = backgroundColor,
@@ -31,7 +32,10 @@ fun InsetLargeTopAppBar(
         LargeTopAppBar(
             title = title,
             actions = actions,
-            colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.Transparent),
+            colors = TopAppBarDefaults.largeTopAppBarColors(
+                containerColor = Color.Transparent,
+                titleContentColor = titleContentColor
+            ),
             modifier = Modifier.padding(contentPadding),
             scrollBehavior = scrollBehavior
         )

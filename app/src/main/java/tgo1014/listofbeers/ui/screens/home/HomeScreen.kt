@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -88,6 +89,7 @@ fun HomeScreen(onBeerClicked: (Beer) -> Unit) {
                     .nestedScroll(scrollBehavior.nestedScrollConnection)
             ) {
                 item {
+                    Spacer(modifier = Modifier.height(8.dp))
                     Filter(
                         startFilter = afterFilter,
                         endFilter = beforeFilter,
@@ -185,8 +187,9 @@ private fun Toolbar(scrollBehavior: TopAppBarScrollBehavior) {
             LocalWindowInsets.current.statusBars,
             applyBottom = false,
         ),
-        backgroundColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.95f),
         scrollBehavior = scrollBehavior,
+        titleContentColor = Color.Black
     )
 }
 
