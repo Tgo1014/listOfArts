@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">listOfBeers()</string>
+    <string name="app_name">listOf&lt;Beer&gt;()</string>
     <string name="filter">Filter:</string>
     <string name="brewed_after">Brewed After</string>
     <string name="after">After</string>

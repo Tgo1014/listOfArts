@@ -1,6 +1,5 @@
 package tgo1014.listofbeers.ui.screens.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +44,6 @@ import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
-import com.google.accompanist.pager.ExperimentalPagerApi
 import tgo1014.listofbeers.R
 import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.ui.composables.BeerComposable
@@ -54,11 +54,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(
-    ExperimentalPagerApi::class,
-    ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
-)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onBeerClicked: (Beer) -> Unit) {
 
@@ -177,7 +173,13 @@ private fun Progress(modifier: Modifier) {
 @Composable
 private fun Toolbar(scrollBehavior: TopAppBarScrollBehavior) {
     InsetLargeTopAppBar(
-        title = { Text(stringResource(R.string.app_name)) },
+        title = {
+            Text(
+                text = stringResource(R.string.app_name),
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = FontFamily.Serif,
+            )
+        },
         modifier = Modifier.fillMaxWidth(),
         contentPadding = rememberInsetsPaddingValues(
             LocalWindowInsets.current.statusBars,
