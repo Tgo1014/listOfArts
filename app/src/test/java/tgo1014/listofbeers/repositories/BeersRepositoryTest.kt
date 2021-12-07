@@ -6,6 +6,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertThrows
 import org.junit.Test
 import tgo1014.listofbeers.getService
+import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.network.PunkApi
 import tgo1014.listofbeers.toJsonString
 

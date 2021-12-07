@@ -11,6 +11,7 @@ import org.junit.Test
 import tgo1014.listofbeers.MainCoroutineRule
 import tgo1014.listofbeers.getService
 import tgo1014.listofbeers.interactors.GetBeersInteractor
+import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.network.PunkApi
 import tgo1014.listofbeers.repositories.BeersRepository
 import tgo1014.listofbeers.toJsonString
