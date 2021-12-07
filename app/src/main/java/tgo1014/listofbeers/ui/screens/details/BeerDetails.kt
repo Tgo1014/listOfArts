@@ -1,7 +1,13 @@
 package tgo1014.listofbeers.ui.screens.details
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import tgo1014.listofbeers.models.Beer
+import tgo1014.listofbeers.ui.composables.simpleVerticalScrollbar
 import tgo1014.listofbeers.ui.theme.Amber700
 import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
 
@@ -28,7 +35,10 @@ fun BeerDetails(beer: Beer) = Surface(
     color = MaterialTheme.colorScheme.primary,
     contentColor = Color.Black
 ) {
-    Row(Modifier.padding(16.dp).height(350.dp)) {
+    val scrollState = rememberLazyListState()
+    Row(Modifier
+        .padding(12.dp)
+        .height(350.dp)) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(beer.imageUrl)
@@ -46,10 +56,13 @@ fun BeerDetails(beer: Beer) = Surface(
             contentDescription = null,
             modifier = Modifier.weight(0.7f)
         )
-        Spacer(Modifier.size(8.dp))
+        Spacer(Modifier.size(12.dp))
         LazyColumn(
+            state = scrollState,
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .simpleVerticalScrollbar(scrollState)
         ) {
             item {
                 Text(
