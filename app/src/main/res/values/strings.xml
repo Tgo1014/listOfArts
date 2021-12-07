@@ -6,4 +6,9 @@
     <string name="brewed_before">Brewed Before</string>
     <string name="before">Before</string>
     <string name="no_beers">No beers to display. Try checking your filter or your internet connection</string>
+    <string name="no_image">No Image</string>
+    <string name="first_brewed">First Brewed:</string>
+    <string name="description">Description</string>
+    <string name="food_pairing">Food Pairing</string>
+    <string name="brewer_tips">Brewer Tips</string>
 </resources>

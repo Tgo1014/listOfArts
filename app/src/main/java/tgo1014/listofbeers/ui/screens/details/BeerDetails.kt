@@ -14,12 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import tgo1014.listofbeers.R
 import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.ui.composables.BeerImage
 import tgo1014.listofbeers.ui.composables.simpleVerticalScrollbar
@@ -61,7 +63,7 @@ fun BeerDetails(beer: Beer) = Surface(
             }
             item {
                 Text(
-                    text = "First Brewed:",
+                    text = stringResource(R.string.first_brewed),
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Serif,
                     fontSize = 20.sp,
@@ -70,7 +72,7 @@ fun BeerDetails(beer: Beer) = Surface(
             }
             item {
                 Text(
-                    text = "Description",
+                    text = stringResource(R.string.description),
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Serif,
                     fontSize = 20.sp,
@@ -79,7 +81,7 @@ fun BeerDetails(beer: Beer) = Surface(
             }
             item {
                 Text(
-                    text = "Food Pairing",
+                    text = stringResource(R.string.food_pairing),
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Serif,
                     fontSize = 20.sp,
@@ -91,7 +93,7 @@ fun BeerDetails(beer: Beer) = Surface(
             }
             item {
                 Text(
-                    text = "Brewer Tips",
+                    text = stringResource(R.string.brewer_tips),
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Serif,
                     fontSize = 20.sp,
