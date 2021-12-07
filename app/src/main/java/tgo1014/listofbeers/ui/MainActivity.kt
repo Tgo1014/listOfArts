@@ -4,8 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -51,7 +59,8 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController(bottomSheetNavigator)
                     ModalBottomSheetLayout(
                         bottomSheetNavigator = bottomSheetNavigator,
-                        sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
+                        sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
+                        sheetBackgroundColor = MaterialTheme.colorScheme.primary,
                     ) {
                         NavHost(navController, Destinations.Home) {
                             composable(route = Destinations.Home) {
@@ -64,7 +73,16 @@ class MainActivity : ComponentActivity() {
                                 val arg = backstackEntry.arguments?.getString("arg") ?: ""
                                 val beer = BeerJsonAdapter(moshi).fromJson(arg)
                                 if (beer != null) {
-                                    BeerDetails(beer)
+                                    Column(Modifier.fillMaxWidth()) {
+                                        Divider(
+                                            modifier = Modifier
+                                                .width(50.dp)
+                                                .padding(8.dp)
+                                                .align(Alignment.CenterHorizontally),
+                                            thickness = 3.dp
+                                        )
+                                        BeerDetails(beer)
+                                    }
                                 }
                             }
                         }
