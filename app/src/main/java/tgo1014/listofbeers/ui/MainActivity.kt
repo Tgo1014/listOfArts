@@ -78,5 +78,4 @@ class MainActivity : ComponentActivity() {
         const val Home = "HOME"
         const val Details = "DETAILS"
     }
-
 }
