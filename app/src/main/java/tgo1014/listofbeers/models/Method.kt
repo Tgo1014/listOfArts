@@ -1,12 +1,12 @@
 package tgo1014.listofbeers.models
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Method(
     val fermentation: Fermentation? = Fermentation(),
-    @Json(name = "mash_temp")
+    @SerialName("mash_temp")
     val mashTemp: List<MashTemp>? = listOf(),
-    val twist: Any? = Any(),
+    val twist: String? = "",
 )

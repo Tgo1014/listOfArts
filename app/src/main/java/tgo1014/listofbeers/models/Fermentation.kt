@@ -1,8 +1,8 @@
 package tgo1014.listofbeers.models
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Fermentation(
     val temp: Temp? = Temp(),
 )

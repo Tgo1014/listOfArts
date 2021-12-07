@@ -1,10 +1,10 @@
 package tgo1014.listofbeers.models
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class Ingredients(
-    val hops: List<Any>? = listOf(),
+    val hops: List<Hops>? = listOf(),
     val malt: List<Malt>? = listOf(),
     val yeast: String? = "",
 )

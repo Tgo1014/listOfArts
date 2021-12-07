@@ -13,17 +13,19 @@ import kotlinx.coroutines.launch
 import tgo1014.listofbeers.extensions.onError
 import tgo1014.listofbeers.extensions.onSuccess
 import tgo1014.listofbeers.interactors.GetBeersInteractor
+import tgo1014.listofbeers.models.Beer
 import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class BeerViewModel @Inject constructor(
     private val getBeersInteractor: GetBeersInteractor,
 ) : ViewModel() {
 
     private var page = 1
     private var lastPageReached = false
+    var beerToShown: Beer? = null
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
