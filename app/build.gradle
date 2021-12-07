@@ -96,6 +96,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets:$accompanist"
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanist"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+    implementation "com.google.accompanist:accompanist-navigation-material:$accompanist"
 
     // Compose Calendar
     implementation 'com.github.DogusTeknoloji:compose-date-picker:1.0.1'

@@ -2,6 +2,7 @@ package tgo1014.listofbeers.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -44,6 +45,7 @@ import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.pager.ExperimentalPagerApi
 import tgo1014.listofbeers.R
+import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.ui.composables.BeerComposable
 import tgo1014.listofbeers.ui.composables.FilterChip
 import tgo1014.listofbeers.ui.composables.InsetLargeTopAppBar
@@ -58,7 +60,7 @@ import java.util.Locale
     ExperimentalFoundationApi::class
 )
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onBeerClicked: (Beer) -> Unit) {
 
     val monthYearFormat = SimpleDateFormat("MMM yyyy", Locale.getDefault())
 
@@ -104,7 +106,7 @@ fun HomeScreen() {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         val modifier = Modifier.weight(1f)
                         chunk.forEach { beer ->
-                            BeerComposable(beer, modifier)
+                            BeerComposable(beer, modifier.clickable { onBeerClicked(beer) })
                             if (beer == beerList.lastOrNull()) {
                                 SideEffect { viewModel.onBottomReached() }
                             }
