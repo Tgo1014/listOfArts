@@ -104,11 +104,9 @@ class HomeViewModelTest {
     fun `GIVEN viewmodel is created WHEN it's initialized THEN fetch beers`() = runBlocking {
         val beerName = "Test beer"
         val beer = Beer(name = beerName)
-        mockWebServer.enqueue(
-            MockResponse().setBody(listOf(beer).toJsonString())
-        )
         viewModel.state.test {
             assert(awaitItem().beerList.isEmpty()) // Init state, empty
+            mockWebServer.enqueue(MockResponse().setBody(listOf(beer).toJsonString()))
             val beerList = awaitItem().beerList
             assert(beerList.isNotEmpty())
             assert(beerList.size == 1)
