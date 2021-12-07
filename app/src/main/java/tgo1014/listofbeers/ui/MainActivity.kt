@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,20 +27,15 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.squareup.moshi.Moshi
 import dagger.hilt.android.AndroidEntryPoint
-import tgo1014.listofbeers.models.BeerJsonAdapter
 import tgo1014.listofbeers.ui.screens.details.BeerDetails
+import tgo1014.listofbeers.ui.screens.home.BeerViewModel
 import tgo1014.listofbeers.ui.screens.home.HomeScreen
 import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
-import javax.inject.Inject
 
 @ExperimentalMaterialNavigationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var moshi: Moshi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +53,7 @@ class MainActivity : ComponentActivity() {
                 ProvideWindowInsets {
                     val bottomSheetNavigator = rememberBottomSheetNavigator()
                     val navController = rememberNavController(bottomSheetNavigator)
+                    val viewModel: BeerViewModel = hiltViewModel()
                     ModalBottomSheetLayout(
                         bottomSheetNavigator = bottomSheetNavigator,
                         sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
@@ -64,24 +61,22 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(navController, Destinations.Home) {
                             composable(route = Destinations.Home) {
-                                HomeScreen {
-                                    val arg = BeerJsonAdapter(moshi).toJson(it)
-                                    navController.navigate(Destinations.Details + "?arg=$arg")
+                                HomeScreen(viewModel) {
+                                    viewModel.beerToShown = it
+                                    navController.navigate(Destinations.Details)
                                 }
                             }
-                            bottomSheet(route = Destinations.Details + "?arg={arg}") { backstackEntry ->
-                                val arg = backstackEntry.arguments?.getString("arg") ?: ""
-                                val beer = BeerJsonAdapter(moshi).fromJson(arg)
-                                if (beer != null) {
-                                    Column(Modifier.fillMaxWidth()) {
-                                        Divider(
-                                            modifier = Modifier
-                                                .width(50.dp)
-                                                .padding(8.dp)
-                                                .align(Alignment.CenterHorizontally),
-                                            thickness = 3.dp
-                                        )
-                                        BeerDetails(beer)
+                            bottomSheet(route = Destinations.Details) {
+                                Column(Modifier.fillMaxWidth()) {
+                                    Divider(
+                                        modifier = Modifier
+                                            .width(50.dp)
+                                            .padding(8.dp)
+                                            .align(Alignment.CenterHorizontally),
+                                        thickness = 3.dp
+                                    )
+                                    if (viewModel.beerToShown != null) {
+                                        BeerDetails(viewModel.beerToShown!!)
                                     }
                                 }
                             }

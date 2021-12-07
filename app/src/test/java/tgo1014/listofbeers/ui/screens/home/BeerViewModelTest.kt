@@ -11,14 +11,13 @@ import org.junit.Test
 import tgo1014.listofbeers.MainCoroutineRule
 import tgo1014.listofbeers.getService
 import tgo1014.listofbeers.interactors.GetBeersInteractor
-import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.network.PunkApi
 import tgo1014.listofbeers.repositories.BeersRepository
 import tgo1014.listofbeers.toJsonString
 import java.util.Date
 
 @ExperimentalCoroutinesApi
-class HomeViewModelTest {
+class BeerViewModelTest {
 
     // Set the main coroutines dispatcher for unit testing
     @get:Rule
@@ -28,11 +27,11 @@ class HomeViewModelTest {
     private val instagramApi by lazy { mockWebServer.getService<PunkApi>() }
     private val beerRepository by lazy { BeersRepository(instagramApi) }
     private val interactor by lazy { GetBeersInteractor(beerRepository) }
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: BeerViewModel
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel(interactor)
+        viewModel = BeerViewModel(interactor)
     }
 
     @Test

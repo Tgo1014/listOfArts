@@ -57,11 +57,13 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onBeerClicked: (Beer) -> Unit) {
+fun HomeScreen(
+    viewModel: BeerViewModel,
+    onBeerClicked: (Beer) -> Unit,
+) {
 
     val monthYearFormat = SimpleDateFormat("MMM yyyy", Locale.getDefault())
 
-    val viewModel = hiltViewModel<HomeViewModel>()
     val isLoading by viewModel.loadingFlow.collectAsState()
     val lazyState = rememberLazyListState()
     val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
