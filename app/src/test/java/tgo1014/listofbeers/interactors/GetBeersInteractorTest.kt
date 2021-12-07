@@ -20,15 +20,16 @@ class GetBeersInteractorTest {
     private val interactor by lazy { GetBeersInteractor(beerRepository) }
 
     @Test
-    fun `GIVEN a beer request is made WHEN it's success THEN beer list is returned`() = runBlocking {
-        mockWebServer.enqueue(MockResponse().setBody(listOf(Beer()).toJsonString()))
-        interactor(1).test {
-            val result = awaitItem()
-            assert(result is UseCaseResult.Success)
-            assert((result as UseCaseResult.Success).value.size == 1)
-            awaitComplete()
+    fun `GIVEN a beer request is made WHEN it's success THEN beer list is returned`() =
+        runBlocking {
+            mockWebServer.enqueue(MockResponse().setBody(listOf(Beer()).toJsonString()))
+            interactor(1).test {
+                val result = awaitItem()
+                assert(result is UseCaseResult.Success)
+                assert((result as UseCaseResult.Success).value.size == 1)
+                awaitComplete()
+            }
         }
-    }
 
     @Test
     fun `GIVEN a beer request is made WHEN it fails THEN error is returned`() = runBlocking {
@@ -39,5 +40,4 @@ class GetBeersInteractorTest {
             awaitComplete()
         }
     }
-
 }
