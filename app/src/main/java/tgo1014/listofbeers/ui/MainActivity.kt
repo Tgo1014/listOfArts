@@ -66,6 +66,8 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate(Destinations.Details)
                                 }
                             }
+                            // If the bottomSheet is open when going from landscape to portrait the
+                            // app crashes because of this issue: https://issuetracker.google.com/issues/178529942
                             bottomSheet(route = Destinations.Details) {
                                 Column(Modifier.fillMaxWidth()) {
                                     Divider(
