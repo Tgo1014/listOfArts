@@ -6,7 +6,9 @@ import androidx.lifecycle.bindLoading
 import androidx.lifecycle.loadingFlow
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +19,9 @@ import tgo1014.beerbox.interactors.GetBeersInteractor
 import tgo1014.beerbox.models.Beer
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @HiltViewModel
 class BeerViewModel @Inject constructor(
     private val getBeersInteractor: GetBeersInteractor,
@@ -42,21 +46,12 @@ class BeerViewModel @Inject constructor(
         fetchBeers()
     }
 
-    private fun fetchBeers() {
-        getBeersInteractor(page)
-            .bindLoading(this)
-            .bindError(this)
-            .onSuccess {
-                if (it.isEmpty()) {
-                    lastPageReached = true
-                }
-                val currentList = state.value.beerList.toMutableList()
-                currentList.addAll(it)
-                _state.emit(state.value.copy(beerList = currentList))
-            }
-            .onError(Timber::w)
-            .launchIn(viewModelScope)
+    fun search(query: String) {
+        resetVariables()
+        lastSearchString = query
+        searchInternal()
     }
+
 
     fun onBottomReached() {
         if (!loadingFlow.value && !lastPageReached) {
@@ -65,16 +60,39 @@ class BeerViewModel @Inject constructor(
         }
     }
 
-    fun search(query: String) {
-        lastSearchString = query
-        resetAndFetchBeers()
+    private fun fetchBeers(scope: CoroutineScope? = null) {
+        getBeersInteractor(page, lastSearchString)
+            .bindLoading(this)
+            .bindError(this)
+            .onSuccess(::handleSuccessfulResult)
+            .onError(Timber::w)
+            .launchIn(scope ?: viewModelScope)
     }
 
-    private fun resetAndFetchBeers() = viewModelScope.launch {
-        _state.emit(state.value.copy(beerList = emptyList()))
+    private fun searchInternal() {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(350)
+            if (lastSearchString.isNotBlank()) {
+                fetchBeers(this)
+                return@launch
+            }
+            searchJob?.cancel()
+            fetchBeers()
+        }
+    }
+
+    private fun handleSuccessfulResult(beerList: List<Beer>) {
+        when {
+            page == 1 -> state(state.value.copy(beerList = beerList))
+            beerList.isEmpty() -> lastPageReached = true
+            else -> state(state.value.copy(beerList = state.value.beerList + beerList))
+        }
+    }
+
+    private fun resetVariables() {
         lastPageReached = false
         page = 1
-        fetchBeers()
     }
 
     private fun state(mainViewState: HomeState) = viewModelScope.launch {

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetBeersInteractor @Inject constructor(
     private val beersRepository: BeersRepository,
 ) {
-    operator fun invoke(page: Int, after: Date? = null, before: Date? = null) = useCaseFlow {
-        beersRepository.getBeers(page, after, before)
+    operator fun invoke(page: Int, search: String? = null) = useCaseFlow {
+        beersRepository.getBeers(page, search)
     }
 }
