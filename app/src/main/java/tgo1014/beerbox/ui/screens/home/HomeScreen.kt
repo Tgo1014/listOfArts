@@ -27,9 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.loadingFlow
 import com.google.accompanist.insets.LocalWindowInsets
@@ -39,7 +41,7 @@ import com.google.accompanist.insets.ui.Scaffold
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.composables.BeerComposable
-import tgo1014.beerbox.ui.composables.InsetLargeTopAppBar
+import tgo1014.beerbox.ui.composables.InsetCenterAlignedTopAppBar
 import tgo1014.beerbox.ui.theme.TypographyGray
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,22 +105,23 @@ private fun Progress(modifier: Modifier) {
 
 @Composable
 private fun Toolbar(scrollBehavior: TopAppBarScrollBehavior) {
-    InsetLargeTopAppBar(
+    InsetCenterAlignedTopAppBar(
         title = {
-            Text(
-                text = stringResource(R.string.app_name),
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Serif,
-            )
+            val title = buildAnnotatedString {
+                append("Beer ")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append("Box")
+                }
+            }
+            Text(title, color = Color.White)
+
         },
-        modifier = Modifier.fillMaxWidth(),
         contentPadding = rememberInsetsPaddingValues(
             LocalWindowInsets.current.statusBars,
             applyBottom = false,
         ),
         backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.95f),
         scrollBehavior = scrollBehavior,
-        titleContentColor = Color.Black
     )
 }
 

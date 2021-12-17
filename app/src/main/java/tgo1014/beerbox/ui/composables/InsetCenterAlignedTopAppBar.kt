@@ -3,6 +3,7 @@ package tgo1014.beerbox.ui.composables
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +17,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InsetLargeTopAppBar(
+fun InsetCenterAlignedTopAppBar(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -29,10 +30,10 @@ fun InsetLargeTopAppBar(
         color = backgroundColor,
         modifier = modifier
     ) {
-        LargeTopAppBar(
+        CenterAlignedTopAppBar(
             title = title,
             actions = actions,
-            colors = TopAppBarDefaults.largeTopAppBarColors(
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                 containerColor = Color.Transparent,
                 titleContentColor = titleContentColor
             ),
