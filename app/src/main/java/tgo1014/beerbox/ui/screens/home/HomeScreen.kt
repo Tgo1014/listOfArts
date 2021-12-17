@@ -23,6 +23,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +39,12 @@ import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
+import kotlinx.coroutines.launch
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.composables.BeerComposable
 import tgo1014.beerbox.ui.composables.InsetCenterAlignedTopAppBar
+import tgo1014.beerbox.ui.composables.SearchBar
 import tgo1014.beerbox.ui.theme.TypographyGray
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,17 +60,29 @@ fun HomeScreen(
 
     val state = viewModel.state.collectAsState().value
     val beerList = state.beerList
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = { Toolbar(scrollBehavior) },
         bottomBar = { BottomSpacing() },
         backgroundColor = MaterialTheme.colorScheme.background
     ) { contentPadding ->
-
         LazyColumn(
             state = lazyState,
             contentPadding = contentPadding
         ) {
+            item {
+                SearchBar(
+                    query = state.searchText,
+                    onQueryChanged = {
+                        coroutineScope.launch {
+                            lazyState.scrollToItem(0)
+                        }
+                        viewModel.search(it)
+                    },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             if (beerList.isEmpty()) {
                 item { EmptyState() }
             }

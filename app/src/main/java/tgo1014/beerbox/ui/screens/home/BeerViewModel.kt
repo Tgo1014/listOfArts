@@ -6,6 +6,7 @@ import androidx.lifecycle.bindLoading
 import androidx.lifecycle.loadingFlow
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +16,6 @@ import tgo1014.beerbox.extensions.onSuccess
 import tgo1014.beerbox.interactors.GetBeersInteractor
 import tgo1014.beerbox.models.Beer
 import timber.log.Timber
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,12 +30,20 @@ class BeerViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
+    // Search
+    private var searchJob: Job? = null
+    private var lastSearchString = ""
+        set(value) {
+            field = value
+            state(_state.value.copy(searchText = value))
+        }
+
     init {
         fetchBeers()
     }
 
     private fun fetchBeers() {
-        getBeersInteractor(page, state.value.afterFilter, state.value.beforeFilter)
+        getBeersInteractor(page)
             .bindLoading(this)
             .bindError(this)
             .onSuccess {
@@ -57,35 +65,8 @@ class BeerViewModel @Inject constructor(
         }
     }
 
-    fun onAfterFilterClicked() = viewModelScope.launch {
-        if (state.value.afterFilter != null) {
-            _state.emit(state.value.copy(afterFilter = null))
-        } else {
-            _state.emit(state.value.copy(isCalendarAfterOpen = true))
-        }
-        resetAndFetchBeers()
-    }
-
-    fun onBeforeFilterClicked() = viewModelScope.launch {
-        if (state.value.beforeFilter != null) {
-            _state.emit(state.value.copy(beforeFilter = null))
-        } else {
-            _state.emit(state.value.copy(isCalendarBeforeOpen = true))
-        }
-        resetAndFetchBeers()
-    }
-
-    fun onCalendarCancel() = viewModelScope.launch {
-        _state.emit(state.value.copy(isCalendarBeforeOpen = false, isCalendarAfterOpen = false))
-    }
-
-    fun onAfterFilterClicked(date: Date?) = viewModelScope.launch {
-        _state.emit(state.value.copy(afterFilter = date, isCalendarAfterOpen = false))
-        resetAndFetchBeers()
-    }
-
-    fun onBeforeFilterSelected(date: Date?) = viewModelScope.launch {
-        _state.emit(state.value.copy(beforeFilter = date, isCalendarBeforeOpen = false))
+    fun search(query: String) {
+        lastSearchString = query
         resetAndFetchBeers()
     }
 
@@ -95,4 +76,9 @@ class BeerViewModel @Inject constructor(
         page = 1
         fetchBeers()
     }
+
+    private fun state(mainViewState: HomeState) = viewModelScope.launch {
+        _state.emit(mainViewState)
+    }
+
 }
