@@ -24,17 +24,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.composables.BeerImage
 import tgo1014.beerbox.ui.composables.simpleVerticalScrollbar
 import tgo1014.beerbox.ui.theme.BeerBoxTheme
-import tgo1014.beerbox.R
 
 @Composable
-fun BeerDetails(beer: Beer) = Surface(
-    color = MaterialTheme.colorScheme.primary,
-    contentColor = Color(0xFF9CA3A5)
-) {
+fun BeerDetails(beer: Beer) = Surface {
     Column {
         val scrollState = rememberLazyListState()
         Icon(
@@ -65,8 +62,7 @@ fun BeerDetails(beer: Beer) = Surface(
                 item {
                     Text(
                         text = beer.name.orEmpty(),
-                        fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 22.sp,
                         color = Color.White
                     )
                     Text(
@@ -78,7 +74,6 @@ fun BeerDetails(beer: Beer) = Surface(
                     Text(
                         text = stringResource(R.string.first_brewed),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold,
                     )
                     Text(text = beer.firstBrewed.orEmpty())
                 }
@@ -86,7 +81,6 @@ fun BeerDetails(beer: Beer) = Surface(
                     Text(
                         text = stringResource(R.string.description),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold,
                     )
                     Text(text = beer.description.orEmpty())
                 }
@@ -94,7 +88,6 @@ fun BeerDetails(beer: Beer) = Surface(
                     Text(
                         text = stringResource(R.string.food_pairing),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold,
                     )
                     beer.foodPairing.orEmpty().forEach {
                         Text(text = " • $it")
@@ -104,7 +97,6 @@ fun BeerDetails(beer: Beer) = Surface(
                     Text(
                         text = stringResource(R.string.brewer_tips),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold
                     )
                     Text(text = beer.brewersTips.orEmpty())
                 }

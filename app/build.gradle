@@ -99,9 +99,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
     implementation "com.google.accompanist:accompanist-navigation-material:$accompanist"
 
-    // Compose Calendar
-    implementation 'com.github.DogusTeknoloji:compose-date-picker:1.0.1'
-
     // Java Desugaring
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 

@@ -1,92 +1,72 @@
 package tgo1014.beerbox.ui.composables
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.theme.BeerBoxTheme
+import tgo1014.beerbox.ui.theme.Yellow
 
 @Composable
-fun BeerComposable(beer: Beer, modifier: Modifier = Modifier) {
-    val beerWidth = 60.dp
-    Box(
+fun BeerComposable(
+    beer: Beer,
+    modifier: Modifier = Modifier
+) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(190.dp)
-            .then(modifier),
-        contentAlignment = Alignment.BottomCenter
+            .then(modifier)
     ) {
-        Surface(
-            color = MaterialTheme.colorScheme.primary,
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(130.dp)
-        ) {
-            val padding = 16.dp
-            Column(
-                modifier = Modifier.padding(
-                    start = beerWidth + padding,
-                    end = padding,
-                    top = padding,
-                    bottom = padding
-                )
-            ) {
-                Text(
-                    text = beer.name.orEmpty(),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        color = Color.Black
-                    ),
-                )
-                Text(
-                    text = beer.tagline.orEmpty(),
-                    overflow = TextOverflow.Ellipsis,
-                    style = TextStyle(
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 12.sp,
-                        color = Color.Black
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
         BeerImage(
-            beer = beer,
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .width(beerWidth)
-                .align(Alignment.TopStart)
-                .height(180.dp)
-                .shadow(3.dp)
-                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(8.dp))
-                .padding(8.dp)
+            beer,
+            Modifier
+                .height(100.dp)
+                .width(40.dp)
         )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Text(
+                text = beer.name.orEmpty(),
+                fontSize = 16.sp,
+                color = Color.White
+            )
+            Text(
+                text = beer.tagline.orEmpty(),
+                fontSize = 14.sp
+            )
+            Spacer(Modifier.padding(4.dp))
+            Text(
+                text = beer.description.orEmpty(),
+                maxLines = 2,
+                lineHeight = 16.sp,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 14.sp
+            )
+            Text(
+                text = stringResource(R.string.more_info),
+                color = Yellow,
+                fontSize = 14.sp,
+            )
+        }
     }
 }
 
-@Preview(device = "spec:shape=Normal,width=420,height=400,unit=px,dpi=420")
+@Preview(showBackground = true)
 @Composable
 private fun BeerComposablePreview() = BeerBoxTheme {
     BeerComposable(
