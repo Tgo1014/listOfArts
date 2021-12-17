@@ -153,7 +153,11 @@ private fun BottomSpacing() {
 
 @Composable
 private fun EmptyState() {
-    Surface(Modifier.fillMaxSize()) {
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Text(
             text = stringResource(R.string.no_beers),
             textAlign = TextAlign.Center,
