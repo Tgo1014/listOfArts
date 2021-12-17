@@ -37,7 +37,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.loadingFlow
 import com.dt.composedatepicker.ComposeCalendar
 import com.dt.composedatepicker.SelectDateListener
@@ -50,7 +49,6 @@ import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.ui.composables.BeerComposable
 import tgo1014.listofbeers.ui.composables.FilterChip
 import tgo1014.listofbeers.ui.composables.InsetLargeTopAppBar
-import tgo1014.listofbeers.ui.theme.Amber700
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -166,7 +164,7 @@ private fun Filter(
 private fun Progress(modifier: Modifier) {
     Box(modifier = modifier) {
         CircularProgressIndicator(
-            color = Amber700,
+            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier
                 .size(40.dp)
                 .align(Alignment.Center)
@@ -228,7 +226,7 @@ private fun MonthYearCalendar(
         contentAlignment = Alignment.Center
     ) {
         ComposeCalendar(
-            themeColor = Amber700,
+            themeColor = MaterialTheme.colorScheme.secondary,
             listener = object : SelectDateListener {
                 override fun onCanceled() {
                     onCancel()

@@ -1,6 +1,7 @@
 package tgo1014.listofbeers.ui.composables
 
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import tgo1014.listofbeers.R
 import tgo1014.listofbeers.models.Beer
-import tgo1014.listofbeers.ui.theme.Amber700
 
 @Composable
 fun BeerImage(beer: Beer, modifier: Modifier) {
@@ -21,7 +21,7 @@ fun BeerImage(beer: Beer, modifier: Modifier) {
             .data(beer.imageUrl)
             .crossfade(true)
             .build(),
-        loading = { CircularProgressIndicator(color = Amber700) },
+        loading = { CircularProgressIndicator(color = MaterialTheme.colorScheme.secondary) },
         error = {
             Text(
                 text = stringResource(R.string.no_image),

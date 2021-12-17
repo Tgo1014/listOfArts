@@ -4,16 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -69,17 +62,8 @@ class MainActivity : ComponentActivity() {
                             // If the bottomSheet is open when going from landscape to portrait the
                             // app crashes because of this issue: https://issuetracker.google.com/issues/178529942
                             bottomSheet(route = Destinations.Details) {
-                                Column(Modifier.fillMaxWidth()) {
-                                    Divider(
-                                        modifier = Modifier
-                                            .width(50.dp)
-                                            .padding(8.dp)
-                                            .align(Alignment.CenterHorizontally),
-                                        thickness = 3.dp
-                                    )
-                                    if (viewModel.beerToShown != null) {
-                                        BeerDetails(viewModel.beerToShown!!)
-                                    }
+                                if (viewModel.beerToShown != null) {
+                                    BeerDetails(viewModel.beerToShown!!)
                                 }
                             }
                         }
