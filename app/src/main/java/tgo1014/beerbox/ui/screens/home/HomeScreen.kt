@@ -44,6 +44,7 @@ import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.composables.BeerComposable
 import tgo1014.beerbox.ui.composables.InsetCenterAlignedTopAppBar
+import tgo1014.beerbox.ui.composables.OfferComposable
 import tgo1014.beerbox.ui.composables.SearchBar
 import tgo1014.beerbox.ui.theme.TypographyGray
 
@@ -83,6 +84,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
+            item { OfferComposable(Modifier.padding(16.dp)) }
             if (beerList.isEmpty()) {
                 item { EmptyState() }
             }

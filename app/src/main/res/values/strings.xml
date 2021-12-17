@@ -9,4 +9,6 @@
     <string name="brewer_tips">Brewer Tips</string>
     <string name="more_info">MORE INFO</string>
     <string name="search">Search</string>
+    <string name="offer_title">Weekend Offers</string>
+    <string name="offer_description">Free shopping on orders over 60€</string>
 </resources>
