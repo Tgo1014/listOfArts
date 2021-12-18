@@ -17,6 +17,7 @@ import tgo1014.beerbox.extensions.onError
 import tgo1014.beerbox.extensions.onSuccess
 import tgo1014.beerbox.interactors.GetBeersInteractor
 import tgo1014.beerbox.models.Beer
+import tgo1014.beerbox.models.Filter
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.time.ExperimentalTime
@@ -52,6 +53,18 @@ class BeerViewModel @Inject constructor(
         searchInternal()
     }
 
+    fun onFilterClicked(filter: Filter) {
+        val updatedFilters = state.value.filters.map {
+            if (it.filter == filter) {
+                it.copy(isSelected = !it.isSelected)
+            } else {
+                it.copy(isSelected = false)
+            }
+        }
+        state(state.value.copy(filters = updatedFilters))
+        resetVariables()
+        fetchBeers()
+    }
 
     fun onBottomReached() {
         if (!loadingFlow.value && !lastPageReached) {
@@ -61,7 +74,8 @@ class BeerViewModel @Inject constructor(
     }
 
     private fun fetchBeers(scope: CoroutineScope? = null) {
-        getBeersInteractor(page, lastSearchString)
+        val selected = state.value.filters.firstOrNull { it.isSelected }
+        getBeersInteractor(page, lastSearchString, selected?.filter?.yeast)
             .bindLoading(this)
             .bindError(this)
             .onSuccess(::handleSuccessfulResult)

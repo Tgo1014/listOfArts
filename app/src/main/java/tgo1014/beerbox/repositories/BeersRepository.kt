@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class BeersRepository @Inject constructor(private val punkApi: PunkApi) {
 
-    suspend fun getBeers(page: Int, search: String? = null): List<Beer> {
+    suspend fun getBeers(page: Int, search: String? = null, yeast: String? = null): List<Beer> {
         val query = if (search.isNullOrBlank()) {
             null
         } else {
@@ -18,6 +18,7 @@ class BeersRepository @Inject constructor(private val punkApi: PunkApi) {
         val response = punkApi.getBeers(
             page = page,
             beerName = query,
+            yeast = yeast
         )
         return response.successOrThrow()
     }

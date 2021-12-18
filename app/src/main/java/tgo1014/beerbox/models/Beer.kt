@@ -21,7 +21,7 @@ data class Beer(
     @SerialName("food_pairing")
     val foodPairing: List<String>? = listOf(),
     val ibu: Double? = 0.0,
-    val id: Int? = 0,
+    val id: Int = 0,
     @SerialName("image_url")
     val imageUrl: String? = "",
     val ingredients: Ingredients? = Ingredients(),

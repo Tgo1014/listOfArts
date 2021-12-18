@@ -11,4 +11,7 @@
     <string name="search">Search</string>
     <string name="offer_title">Weekend Offers</string>
     <string name="offer_description">Free shopping on orders over 60€</string>
+    <string name="blonde">Blonde</string>
+    <string name="lager">Lager</string>
+    <string name="malt">Malt</string>
 </resources>

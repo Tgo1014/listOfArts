@@ -1,6 +1,8 @@
 package tgo1014.beerbox.ui.screens.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,6 +38,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.loadingFlow
 import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.imePadding
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
@@ -46,9 +49,10 @@ import tgo1014.beerbox.ui.composables.BeerComposable
 import tgo1014.beerbox.ui.composables.InsetCenterAlignedTopAppBar
 import tgo1014.beerbox.ui.composables.OfferComposable
 import tgo1014.beerbox.ui.composables.SearchBar
+import tgo1014.beerbox.ui.composables.SingleSelectionFilter
 import tgo1014.beerbox.ui.theme.TypographyGray
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: BeerViewModel,
@@ -62,6 +66,17 @@ fun HomeScreen(
     val state = viewModel.state.collectAsState().value
     val beerList = state.beerList
     val coroutineScope = rememberCoroutineScope()
+    
+    //   Hello reviewer, hope you're having a nice day! Some small notes :)
+    //
+    // - Tests are available, so please take a look
+    // - I wasn't sure which field in the API the filters should be used, so it's filtering by the
+    //   yeast field
+    // - No asset was provided for the "bookmark" icon in the details screen, so I had to provide
+    //   one myself that doesn't match perfectly the on in the mockup I received
+    // - I tried my best but all the UI was made "by eye" measurements, in a real world scenario
+    //   when receiving the designs via Figma (or similar tool) would be much easier to match all
+    //   the sizes with the designs
 
     Scaffold(
         topBar = { Toolbar(scrollBehavior) },
@@ -70,7 +85,9 @@ fun HomeScreen(
     ) { contentPadding ->
         LazyColumn(
             state = lazyState,
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.imePadding()
         ) {
             item {
                 SearchBar(
@@ -84,16 +101,24 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            item { OfferComposable(Modifier.padding(16.dp)) }
+            item { OfferComposable(Modifier.padding(horizontal = 16.dp)) }
+            item {
+                SingleSelectionFilter(
+                    filters = state.filters,
+                    onClick = { viewModel.onFilterClicked(it) },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
             if (beerList.isEmpty()) {
                 item { EmptyState() }
             }
-            items(beerList) { beer ->
+            items(items = beerList, key = { it.id }) { beer ->
                 BeerComposable(
                     beer = beer,
                     modifier = Modifier
                         .clickable { onBeerClicked(beer) }
                         .padding(16.dp)
+                        .animateItemPlacement()
                 )
                 if (beer == beerList.lastOrNull()) {
                     SideEffect { viewModel.onBottomReached() }

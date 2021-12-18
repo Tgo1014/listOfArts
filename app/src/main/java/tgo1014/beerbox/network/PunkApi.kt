@@ -10,5 +10,6 @@ interface PunkApi {
     suspend fun getBeers(
         @Query("page") page: Int? = null,
         @Query("beer_name") beerName: String? = null,
+        @Query("yeast") yeast: String? = null,
     ): Response<List<Beer>>
 }
