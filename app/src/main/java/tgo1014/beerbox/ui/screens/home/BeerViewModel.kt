@@ -1,5 +1,6 @@
 package tgo1014.beerbox.ui.screens.home
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.bindError
 import androidx.lifecycle.bindLoading
@@ -73,7 +74,8 @@ class BeerViewModel @Inject constructor(
         }
     }
 
-    private fun fetchBeers(scope: CoroutineScope? = null) {
+    @VisibleForTesting
+    fun fetchBeers(scope: CoroutineScope? = null) {
         val selected = state.value.filters.firstOrNull { it.isSelected }
         getBeersInteractor(page, lastSearchString, selected?.filter?.yeast)
             .bindLoading(this)

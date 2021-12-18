@@ -66,7 +66,7 @@ fun HomeScreen(
     val state = viewModel.state.collectAsState().value
     val beerList = state.beerList
     val coroutineScope = rememberCoroutineScope()
-    
+
     //   Hello reviewer, hope you're having a nice day! Some small notes :)
     //
     // - Tests are available, so please take a look

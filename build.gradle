@@ -3,6 +3,7 @@ buildscript {
         compose_version = '1.1.0-rc01'
         compose_compiler = '1.1.0-rc02'
         accompanist = '0.21.4-beta'
+        coroutines_test = '1.6.0-RC3'
     }
     dependencies {
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.5'

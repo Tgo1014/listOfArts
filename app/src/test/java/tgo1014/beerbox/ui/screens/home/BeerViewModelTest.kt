@@ -12,10 +12,11 @@ import tgo1014.beerbox.MainCoroutineRule
 import tgo1014.beerbox.getService
 import tgo1014.beerbox.interactors.GetBeersInteractor
 import tgo1014.beerbox.models.Beer
+import tgo1014.beerbox.models.Filter
 import tgo1014.beerbox.network.PunkApi
 import tgo1014.beerbox.repositories.BeersRepository
 import tgo1014.beerbox.toJsonString
-import java.util.Date
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class BeerViewModelTest {
@@ -25,10 +26,14 @@ class BeerViewModelTest {
     var coroutinesRule = MainCoroutineRule()
 
     private val mockWebServer = MockWebServer()
-    private val instagramApi by lazy { mockWebServer.getService<PunkApi>() }
-    private val beerRepository by lazy { BeersRepository(instagramApi) }
+    private val beerApi by lazy { mockWebServer.getService<PunkApi>() }
+    private val beerRepository by lazy { BeersRepository(beerApi) }
     private val interactor by lazy { GetBeersInteractor(beerRepository) }
     private lateinit var viewModel: BeerViewModel
+
+    init {
+        Timber.plant(Timber.DebugTree())
+    }
 
     @Before
     fun setup() {
@@ -36,95 +41,18 @@ class BeerViewModelTest {
     }
 
     @Test
-    fun `GIVEN user clicks after filter WHEN filter is empty THEN after calendar opens`() =
-        runBlocking {
-            viewModel.state.test {
-                awaitItem() // Init state, ignore
-                viewModel.onAfterFilterClicked()
-                assert(awaitItem().isCalendarAfterOpen)
-            }
-        }
-
-    @Test
-    fun `GIVEN user clicks before filter WHEN filter is empty THEN before calendar opens`() =
-        runBlocking {
-            viewModel.state.test {
-                awaitItem() // Init state, ignore
-                viewModel.onBeforeFilterClicked()
-                assert(awaitItem().isCalendarBeforeOpen)
-            }
-        }
-
-    @Test
-    fun `GIVEN after filter is not null WHEN filter clicked THEN filter is cleared`() =
-        runBlocking {
-            viewModel.state.test {
-                awaitItem() // Init state, ignore
-                viewModel.onAfterFilterClicked(Date())
-                assert(awaitItem().afterFilter != null)
-                viewModel.onAfterFilterClicked()
-                assert(awaitItem().afterFilter == null)
-            }
-        }
-
-    @Test
-    fun `GIVEN before filter is not null WHEN filter clicked THEN filter is clear`() = runBlocking {
-        viewModel.state.test {
-            awaitItem() // Init state, ignore
-            viewModel.onBeforeFilterSelected(Date())
-            assert(awaitItem().beforeFilter != null)
-            viewModel.onBeforeFilterClicked()
-            assert(awaitItem().beforeFilter == null)
-        }
-    }
-
-    @Test
-    fun `GIVEN after calendar is open WHEN user cancel THEN calendar is closed`() = runBlocking {
-        viewModel.state.test {
-            awaitItem() // Init state, ignore
-            viewModel.onAfterFilterClicked()
-            assert(awaitItem().isCalendarAfterOpen)
-            viewModel.onCalendarCancel()
-            assert(!awaitItem().isCalendarAfterOpen)
-        }
-    }
-
-    @Test
-    fun `GIVEN before calendar is open WHEN user cancel THEN calendar is closed`() = runBlocking {
-        viewModel.state.test {
-            awaitItem() // Init state, ignore
-            viewModel.onBeforeFilterClicked()
-            assert(awaitItem().isCalendarBeforeOpen)
-            viewModel.onCalendarCancel()
-            assert(!awaitItem().isCalendarBeforeOpen)
-        }
-    }
-
-    @Test
-    fun `GIVEN viewmodel is created WHEN it's initialized THEN fetch beers`() = runBlocking {
-        val beerName = "Test beer"
-        val beer = Beer(name = beerName)
-        viewModel.state.test {
-            assert(awaitItem().beerList.isEmpty()) // Init state, empty
-            mockWebServer.enqueue(MockResponse().setBody(listOf(beer).toJsonString()))
-            val beerList = awaitItem().beerList
-            assert(beerList.isNotEmpty())
-            assert(beerList.size == 1)
-            assert(beerList.first().name == beerName)
-        }
-    }
-
-    @Test
     fun `GIVEN user scrolled WHEN reached the bottom THEN fetch next page`() = runBlocking {
         val beer1 = Beer(name = "Test beer 1")
         val beer2 = Beer(name = "Test beer 2")
-        mockWebServer.enqueue(MockResponse().setBody(listOf(beer1).toJsonString()))
-        mockWebServer.enqueue(MockResponse().setBody(listOf(beer2).toJsonString()))
         viewModel.state.test {
+            assert(awaitItem().beerList.isEmpty()) // Init state, empty
+            mockWebServer.enqueue(MockResponse().setBody(listOf(beer1).toJsonString()))
+            viewModel.fetchBeers()
             var beerList = awaitItem().beerList
             assert(beerList.size == 1)
             assert(beerList.find { it.name == beer1.name } != null)
             assert(beerList.find { it.name == beer2.name } == null)
+            mockWebServer.enqueue(MockResponse().setBody(listOf(beer2).toJsonString()))
             viewModel.onBottomReached()
             beerList = awaitItem().beerList
             assert(beerList.size == 2)
@@ -134,26 +62,57 @@ class BeerViewModelTest {
     }
 
     @Test
-    fun `GIVEN user changed filter WHEN list have values THEN clear list and fetch new`() {
-        val beer1 = Beer(name = "Test beer 1")
-        val beer2 = Beer(name = "Test beer 2")
-        val filterDate = Date()
-        mockWebServer.enqueue(MockResponse().setBody(listOf(beer1).toJsonString()))
-        mockWebServer.enqueue(MockResponse().setBody(listOf(beer2).toJsonString()))
+    fun `GIVEN user changed filter WHEN list have values THEN clear list and fetch new`() =
         runBlocking {
+            val filter = Filter.LAGER
+            val beer1 = Beer(name = "Test beer 1")
+            val beer2 = Beer(name = "Test beer 2")
             viewModel.state.test {
+                assert(awaitItem().beerList.isEmpty()) // Init state, empty
+                mockWebServer.enqueue(MockResponse().setBody(listOf(beer1).toJsonString()))
+                viewModel.fetchBeers()
                 var beerList = awaitItem().beerList
                 assert(beerList.size == 1)
                 assert(beerList.find { it.name == beer1.name } != null)
                 assert(beerList.find { it.name == beer2.name } == null)
-                viewModel.onAfterFilterClicked(filterDate)
-                assert(awaitItem().afterFilter == filterDate)
-                assert(awaitItem().beerList.isEmpty()) // List empty before fetching new data
+                mockWebServer.enqueue(MockResponse().setBody(listOf(beer2).toJsonString()))
+                viewModel.onFilterClicked(filter)
+                assert(awaitItem().filters.any { it.filter == filter })
                 beerList = awaitItem().beerList
                 assert(beerList.size == 1)
                 assert(beerList.find { it.name == beer1.name } == null)
                 assert(beerList.find { it.name == beer2.name } != null)
             }
         }
-    }
+
+    @Test
+    fun `GIVEN user changed filter WHEN updating filters THEN just last one is selected`() =
+        runBlocking {
+            val filter1 = Filter.LAGER
+            val filter2 = Filter.BLONDE
+            viewModel.state.test {
+                assert(awaitItem().filters.none { it.isSelected })
+                viewModel.onFilterClicked(filter1)
+                var filterList = awaitItem().filters
+                assert(filterList.find { it.filter == filter1 }?.isSelected == true)
+                assert(filterList.find { it.filter == filter2 }?.isSelected == false)
+                viewModel.onFilterClicked(filter2)
+                filterList = awaitItem().filters
+                assert(filterList.find { it.filter == filter1 }?.isSelected == false)
+                assert(filterList.find { it.filter == filter2 }?.isSelected == true)
+            }
+        }
+
+    @Test
+    fun `GIVEN user changed filter WHEN is the same as previous THEN its deselected`() =
+        runBlocking {
+            val filter = Filter.LAGER
+            viewModel.state.test {
+                assert(awaitItem().filters.none { it.isSelected })
+                viewModel.onFilterClicked(filter)
+                assert(awaitItem().filters.find { it.filter == filter }?.isSelected == true)
+                viewModel.onFilterClicked(filter)
+                assert(awaitItem().filters.none { it.isSelected })
+            }
+        }
 }
