@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     val viewModel: BeerViewModel = hiltViewModel()
                     ModalBottomSheetLayout(
                         bottomSheetNavigator = bottomSheetNavigator,
-                        sheetShape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
+                        sheetShape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp),
                         sheetBackgroundColor = MaterialTheme.colorScheme.primary,
                     ) {
                         NavHost(navController, Destinations.Home) {

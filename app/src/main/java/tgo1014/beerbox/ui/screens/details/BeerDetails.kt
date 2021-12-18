@@ -1,7 +1,7 @@
 package tgo1014.beerbox.ui.screens.details
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -20,10 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.composables.BeerImage
@@ -32,15 +32,17 @@ import tgo1014.beerbox.ui.theme.BeerBoxTheme
 
 @Composable
 fun BeerDetails(beer: Beer) = Surface {
-    Column {
+    Box {
         val scrollState = rememberLazyListState()
         Icon(
             painter = painterResource(id = R.drawable.ic_bookmark),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.secondary,
             modifier = Modifier
-                .align(Alignment.End)
-                .padding(end = 10.dp)
+                .align(Alignment.TopEnd)
+                .width(45.dp)
+                .padding(end = 20.dp)
+                .zIndex(1f)
         )
         Row(
             modifier = Modifier
@@ -56,6 +58,7 @@ fun BeerDetails(beer: Beer) = Surface {
             Spacer(Modifier.size(12.dp))
             LazyColumn(
                 state = scrollState,
+
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.simpleVerticalScrollbar(scrollState)
             ) {
