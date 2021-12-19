@@ -15,8 +15,8 @@ import tgo1014.beerbox.toJsonString
 class GetBeersInteractorTest {
 
     private val mockWebServer = MockWebServer()
-    private val instagramApi by lazy { mockWebServer.getService<PunkApi>() }
-    private val beerRepository by lazy { BeersRepository(instagramApi) }
+    private val punkApi by lazy { mockWebServer.getService<PunkApi>() }
+    private val beerRepository by lazy { BeersRepository(punkApi) }
     private val interactor by lazy { GetBeersInteractor(beerRepository) }
 
     @Test

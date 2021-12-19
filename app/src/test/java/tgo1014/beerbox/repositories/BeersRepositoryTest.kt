@@ -13,8 +13,8 @@ import tgo1014.beerbox.toJsonString
 class BeersRepositoryTest {
 
     private val mockWebServer = MockWebServer()
-    private val instagramApi by lazy { mockWebServer.getService<PunkApi>() }
-    private val beerRepository by lazy { BeersRepository(instagramApi) }
+    private val punkApi by lazy { mockWebServer.getService<PunkApi>() }
+    private val beerRepository by lazy { BeersRepository(punkApi) }
 
     @Test
     fun `GIVEN a request is made WHEN response is successful THEN return beer list`() =
