@@ -54,15 +54,15 @@ class MainActivity : ComponentActivity() {
                         NavHost(navController, Destinations.Home) {
                             composable(route = Destinations.Home) {
                                 HomeScreen(viewModel) {
-                                    viewModel.beerToShown = it
+                                    viewModel.beerToShow = it
                                     navController.navigate(Destinations.Details)
                                 }
                             }
                             // If the bottomSheet is open when going from landscape to portrait the
                             // app crashes because of this issue: https://issuetracker.google.com/issues/178529942
                             bottomSheet(route = Destinations.Details) {
-                                if (viewModel.beerToShown != null) {
-                                    BeerDetails(viewModel.beerToShown!!)
+                                if (viewModel.beerToShow != null) {
+                                    BeerDetails(viewModel.beerToShow!!)
                                 }
                             }
                         }

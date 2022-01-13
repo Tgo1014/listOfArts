@@ -20,20 +20,13 @@ class BeerViewModel @Inject constructor(
     private val getBeersInteractor: GetBeersInteractor,
 ) : ViewModel() {
 
+    private var searchJob: Job? = null
     private var page = 1
     private var lastPageReached = false
-    var beerToShown: Beer? = null
+    var beerToShow: Beer? = null
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
-
-    // Search
-    private var searchJob: Job? = null
-    private var lastSearchString = ""
-        set(value) {
-            field = value
-            state(_state.value.copy(searchText = value))
-        }
 
     init {
         fetchBeers()
@@ -41,7 +34,7 @@ class BeerViewModel @Inject constructor(
 
     fun search(query: String) {
         resetToFirstPage()
-        lastSearchString = query
+        state(_state.value.copy(searchText = query))
         searchInternal()
     }
 
@@ -71,7 +64,7 @@ class BeerViewModel @Inject constructor(
         val selected = state.value.filters.firstOrNull { it.isSelected }
         val beerList = getBeersInteractor(
             page = page,
-            search = lastSearchString,
+            search = state.value.searchText,
             yeast = selected?.filter?.yeast
         ).getOrDefault(emptyList())
         handleSuccessfulResult(beerList)
@@ -82,7 +75,7 @@ class BeerViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(350)
-            if (lastSearchString.isNotBlank()) {
+            if (state.value.searchText.isNotBlank()) {
                 fetchBeers(this)
                 return@launch
             }
