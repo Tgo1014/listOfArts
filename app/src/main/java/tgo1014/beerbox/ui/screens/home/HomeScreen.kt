@@ -2,28 +2,16 @@ package tgo1014.beerbox.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -35,8 +23,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.loadingFlow
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.imePadding
 import com.google.accompanist.insets.navigationBarsHeight
@@ -45,11 +33,7 @@ import com.google.accompanist.insets.ui.Scaffold
 import kotlinx.coroutines.launch
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
-import tgo1014.beerbox.ui.composables.BeerComposable
-import tgo1014.beerbox.ui.composables.InsetCenterAlignedTopAppBar
-import tgo1014.beerbox.ui.composables.OfferComposable
-import tgo1014.beerbox.ui.composables.SearchBar
-import tgo1014.beerbox.ui.composables.SingleSelectionFilter
+import tgo1014.beerbox.ui.composables.*
 import tgo1014.beerbox.ui.theme.TypographyGray
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -59,7 +43,6 @@ fun HomeScreen(
     onBeerClicked: (Beer) -> Unit,
 ) = Surface {
 
-    val isLoading by viewModel.loadingFlow.collectAsState()
     val lazyState = rememberLazyListState()
     val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
 
@@ -126,7 +109,7 @@ fun HomeScreen(
                     Divider(startIndent = 24.dp, color = TypographyGray.copy(0.2f))
                 }
             }
-            if (isLoading) {
+            if (state.isLoading) {
                 item { Progress(Modifier.fillMaxWidth()) }
             }
         }
@@ -176,6 +159,7 @@ private fun BottomSpacing() {
     )
 }
 
+@Preview
 @Composable
 private fun EmptyState() {
     Surface(

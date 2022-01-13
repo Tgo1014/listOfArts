@@ -2,9 +2,6 @@ package tgo1014.beerbox.ui.screens.home
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.bindError
-import androidx.lifecycle.bindLoading
-import androidx.lifecycle.loadingFlow
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -12,18 +9,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
-import tgo1014.beerbox.extensions.onError
-import tgo1014.beerbox.extensions.onSuccess
 import tgo1014.beerbox.interactors.GetBeersInteractor
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.models.Filter
-import timber.log.Timber
 import javax.inject.Inject
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 @HiltViewModel
 class BeerViewModel @Inject constructor(
     private val getBeersInteractor: GetBeersInteractor,
@@ -49,7 +40,7 @@ class BeerViewModel @Inject constructor(
     }
 
     fun search(query: String) {
-        resetVariables()
+        resetToFirstPage()
         lastSearchString = query
         searchInternal()
     }
@@ -63,26 +54,28 @@ class BeerViewModel @Inject constructor(
             }
         }
         state(state.value.copy(filters = updatedFilters))
-        resetVariables()
+        resetToFirstPage()
         fetchBeers()
     }
 
     fun onBottomReached() {
-        if (!loadingFlow.value && !lastPageReached) {
+        if (!state.value.isLoading && !lastPageReached) {
             page += 1
             fetchBeers()
         }
     }
 
     @VisibleForTesting
-    fun fetchBeers(scope: CoroutineScope? = null) {
+    fun fetchBeers(scope: CoroutineScope? = null) = (scope ?: viewModelScope).launch {
+        state(state.value.copy(isLoading = true))
         val selected = state.value.filters.firstOrNull { it.isSelected }
-        getBeersInteractor(page, lastSearchString, selected?.filter?.yeast)
-            .bindLoading(this)
-            .bindError(this)
-            .onSuccess(::handleSuccessfulResult)
-            .onError(Timber::w)
-            .launchIn(scope ?: viewModelScope)
+        val beerList = getBeersInteractor(
+            page = page,
+            search = lastSearchString,
+            yeast = selected?.filter?.yeast
+        ).getOrDefault(emptyList())
+        handleSuccessfulResult(beerList)
+        state(state.value.copy(isLoading = false))
     }
 
     private fun searchInternal() {
@@ -106,7 +99,7 @@ class BeerViewModel @Inject constructor(
         }
     }
 
-    private fun resetVariables() {
+    private fun resetToFirstPage() {
         lastPageReached = false
         page = 1
     }
