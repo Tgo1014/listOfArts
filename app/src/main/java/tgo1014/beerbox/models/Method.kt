@@ -5,8 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Method(
-    val fermentation: Fermentation? = Fermentation(),
     @SerialName("mash_temp")
-    val mashTemp: List<MashTemp>? = listOf(),
-    val twist: String? = "",
+    val mashTemp: List<MashTemp>? = null,
+    @SerialName("fermentation")
+    val fermentation: Fermentation? = null,
+    @SerialName("twist")
+    val twist: String? = null
 )

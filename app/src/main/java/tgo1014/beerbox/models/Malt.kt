@@ -1,9 +1,12 @@
 package tgo1014.beerbox.models
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Malt(
-    val amount: Amount? = Amount(),
-    val name: String? = "",
+    @SerialName("name")
+    val name: String? = null,
+    @SerialName("amount")
+    val amount: Amount? = null
 )

@@ -5,34 +5,46 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Beer(
-    val abv: Double? = 0.0,
-    @SerialName("attenuation_level")
-    val attenuationLevel: Double? = 0.0,
-    @SerialName("boil_volume")
-    val boilVolume: BoilVolume? = BoilVolume(),
-    @SerialName("brewers_tips")
-    val brewersTips: String? = "",
-    @SerialName("contributed_by")
-    val contributedBy: String? = "",
-    val description: String? = "",
-    val ebc: Double? = 0.0,
+    @SerialName("id")
+    val id: Int = -1,
+    @SerialName("name")
+    val name: String? = null,
+    @SerialName("tagline")
+    val tagline: String? = null,
     @SerialName("first_brewed")
-    val firstBrewed: String? = "",
-    @SerialName("food_pairing")
-    val foodPairing: List<String>? = listOf(),
-    val ibu: Double? = 0.0,
-    val id: Int = 0,
+    val firstBrewed: String? = null,
+    @SerialName("description")
+    val description: String? = null,
     @SerialName("image_url")
-    val imageUrl: String? = "",
-    val ingredients: Ingredients? = Ingredients(),
-    val method: Method? = Method(),
-    val name: String? = "",
-    val ph: Double? = 0.0,
-    val srm: Double? = 0.0,
-    val tagline: String? = "",
+    val imageUrl: String? = null,
+    @SerialName("abv")
+    val abv: Double? = null,
+    @SerialName("ibu")
+    val ibu: Double? = null,
     @SerialName("target_fg")
-    val targetFg: Double? = 0.0,
+    val targetFg: Double? = null,
     @SerialName("target_og")
-    val targetOg: Double? = 0.0,
-    val volume: Volume? = Volume(),
+    val targetOg: Double? = null,
+    @SerialName("ebc")
+    val ebc: Double? = null,
+    @SerialName("srm")
+    val srm: Double? = null,
+    @SerialName("ph")
+    val ph: Double? = null,
+    @SerialName("attenuation_level")
+    val attenuationLevel: Double? = null,
+    @SerialName("volume")
+    val volume: Volume? = null,
+    @SerialName("boil_volume")
+    val boilVolume: BoilVolume? = null,
+    @SerialName("method")
+    val method: Method? = null,
+    @SerialName("ingredients")
+    val ingredients: Ingredients? = null,
+    @SerialName("food_pairing")
+    val foodPairing: List<String>? = null,
+    @SerialName("brewers_tips")
+    val brewersTips: String? = null,
+    @SerialName("contributed_by")
+    val contributedBy: String? = null
 )
