@@ -1,18 +1,34 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package tgo1014.beerbox.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +41,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.imePadding
 import com.google.accompanist.insets.navigationBarsHeight
@@ -33,10 +51,16 @@ import com.google.accompanist.insets.ui.Scaffold
 import kotlinx.coroutines.launch
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
-import tgo1014.beerbox.ui.composables.*
+import tgo1014.beerbox.ui.composables.BeerComposable
+import tgo1014.beerbox.ui.composables.InsetCenterAlignedTopAppBar
+import tgo1014.beerbox.ui.composables.SearchBar
+import tgo1014.beerbox.ui.composables.SingleSelectionFilter
 import tgo1014.beerbox.ui.theme.TypographyGray
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalFoundationApi::class,
+    ExperimentalLifecycleComposeApi::class,
+)
 @Composable
 fun HomeScreen(
     viewModel: BeerViewModel,
@@ -44,25 +68,12 @@ fun HomeScreen(
 ) = Surface {
 
     val lazyState = rememberLazyListState()
-    val scrollBehavior = remember { TopAppBarDefaults.enterAlwaysScrollBehavior() }
-
-    val state = viewModel.state.collectAsState().value
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val beerList = state.beerList
     val coroutineScope = rememberCoroutineScope()
 
-    //   Hello reviewer, hope you're having a nice day! Some small notes :)
-    //
-    // - Tests are available, so please take a look
-    // - I wasn't sure which field in the API the filters should be used, so it's filtering by the
-    //   yeast field
-    // - No asset was provided for the "bookmark" icon in the details screen, so I had to provide
-    //   one myself that doesn't match perfectly the on in the mockup I received
-    // - I tried my best but all the UI was made "by eye" measurements, in a real world scenario
-    //   when receiving the designs via Figma (or similar tool) would be much easier to match all
-    //   the sizes with the designs
-
     Scaffold(
-        topBar = { Toolbar(scrollBehavior) },
+        topBar = { Toolbar(TopAppBarDefaults.enterAlwaysScrollBehavior()) },
         bottomBar = { BottomSpacing() },
         backgroundColor = MaterialTheme.colorScheme.background
     ) { contentPadding ->
@@ -84,7 +95,6 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            item { OfferComposable(Modifier.padding(horizontal = 16.dp)) }
             item {
                 SingleSelectionFilter(
                     filters = state.filters,
@@ -133,7 +143,7 @@ private fun Toolbar(scrollBehavior: TopAppBarScrollBehavior) {
     InsetCenterAlignedTopAppBar(
         title = {
             val title = buildAnnotatedString {
-                append("Beer ")
+                append("Beer")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                     append("Box")
                 }
@@ -141,10 +151,7 @@ private fun Toolbar(scrollBehavior: TopAppBarScrollBehavior) {
             Text(title, color = Color.White)
 
         },
-        contentPadding = rememberInsetsPaddingValues(
-            LocalWindowInsets.current.statusBars,
-            applyBottom = false,
-        ),
+        contentPadding = WindowInsets.statusBars.asPaddingValues(),
         backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.95f),
         scrollBehavior = scrollBehavior,
     )

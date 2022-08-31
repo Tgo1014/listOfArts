@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tgo1014.beerbox.interactors.GetBeersInteractor
 import tgo1014.beerbox.models.Beer
@@ -34,7 +35,7 @@ class BeerViewModel @Inject constructor(
 
     fun search(query: String) {
         resetToFirstPage()
-        state(_state.value.copy(searchText = query))
+        _state.update { it.copy(searchText = query) }
         searchInternal()
     }
 
@@ -46,7 +47,7 @@ class BeerViewModel @Inject constructor(
                 it.copy(isSelected = false)
             }
         }
-        state(state.value.copy(filters = updatedFilters))
+        _state.update { it.copy(filters = updatedFilters) }
         resetToFirstPage()
         fetchBeers()
     }
@@ -60,7 +61,7 @@ class BeerViewModel @Inject constructor(
 
     @VisibleForTesting
     fun fetchBeers(scope: CoroutineScope? = null) = (scope ?: viewModelScope).launch {
-        state(state.value.copy(isLoading = true))
+        _state.update { it.copy(isLoading = true) }
         val selected = state.value.filters.firstOrNull { it.isSelected }
         val beerList = getBeersInteractor(
             page = page,
@@ -68,7 +69,7 @@ class BeerViewModel @Inject constructor(
             yeast = selected?.filter?.yeast
         ).getOrDefault(emptyList())
         handleSuccessfulResult(beerList)
-        state(state.value.copy(isLoading = false))
+        _state.update { it.copy(isLoading = false) }
     }
 
     private fun searchInternal() {
@@ -86,19 +87,15 @@ class BeerViewModel @Inject constructor(
 
     private fun handleSuccessfulResult(beerList: List<Beer>) {
         when {
-            page == 1 -> state(state.value.copy(beerList = beerList))
+            page == 1 -> _state.update { it.copy(beerList = beerList) }
             beerList.isEmpty() -> lastPageReached = true
-            else -> state(state.value.copy(beerList = state.value.beerList + beerList))
+            else -> _state.update { it.copy(beerList = state.value.beerList + beerList) }
         }
     }
 
     private fun resetToFirstPage() {
         lastPageReached = false
         page = 1
-    }
-
-    private fun state(mainViewState: HomeState) = viewModelScope.launch {
-        _state.emit(mainViewState)
     }
 
 }

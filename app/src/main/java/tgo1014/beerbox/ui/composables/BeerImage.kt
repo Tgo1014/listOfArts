@@ -9,19 +9,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 
 @Composable
 fun BeerImage(beer: Beer, modifier: Modifier) {
-    AsyncImage(
+    SubcomposeAsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(beer.imageUrl)
             .crossfade(true)
             .build(),
-        loading = { CircularProgressIndicator(color = MaterialTheme.colorScheme.secondary) },
+        loading = {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.secondary)
+        },
         error = {
             Text(
                 text = stringResource(R.string.no_image),

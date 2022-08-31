@@ -61,7 +61,7 @@ fun SearchBar(
 
 @Preview(showBackground = true)
 @Composable
-private fun SearchBarPreview() = BeerBoxTheme(true) {
+private fun SearchBarPreview() = BeerBoxTheme {
     var text by remember { mutableStateOf("") }
     Box(Modifier.padding(8.dp)) {
         SearchBar(text, { text = it })

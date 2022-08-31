@@ -7,7 +7,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BeersRepository @Inject constructor(private val punkApi: PunkApi) {
+class BeersRepository @Inject constructor(
+    private val punkApi: PunkApi
+) {
 
     suspend fun getBeers(page: Int, search: String? = null, yeast: String? = null): List<Beer> {
         val query = if (search.isNullOrBlank()) {

@@ -13,7 +13,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
@@ -42,28 +41,26 @@ class MainActivity : ComponentActivity() {
                 )
             }
             BeerBoxTheme {
-                ProvideWindowInsets {
-                    val bottomSheetNavigator = rememberBottomSheetNavigator()
-                    val navController = rememberNavController(bottomSheetNavigator)
-                    val viewModel: BeerViewModel = hiltViewModel()
-                    ModalBottomSheetLayout(
-                        bottomSheetNavigator = bottomSheetNavigator,
-                        sheetShape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp),
-                        sheetBackgroundColor = MaterialTheme.colorScheme.primary,
-                    ) {
-                        NavHost(navController, Destinations.Home) {
-                            composable(route = Destinations.Home) {
-                                HomeScreen(viewModel) {
-                                    viewModel.beerToShow = it
-                                    navController.navigate(Destinations.Details)
-                                }
+                val bottomSheetNavigator = rememberBottomSheetNavigator()
+                val navController = rememberNavController(bottomSheetNavigator)
+                val viewModel: BeerViewModel = hiltViewModel()
+                ModalBottomSheetLayout(
+                    bottomSheetNavigator = bottomSheetNavigator,
+                    sheetShape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp),
+                    sheetBackgroundColor = MaterialTheme.colorScheme.primary,
+                ) {
+                    NavHost(navController, Destinations.Home) {
+                        composable(route = Destinations.Home) {
+                            HomeScreen(viewModel) {
+                                viewModel.beerToShow = it
+                                navController.navigate(Destinations.Details)
                             }
-                            // If the bottomSheet is open when going from landscape to portrait the
-                            // app crashes because of this issue: https://issuetracker.google.com/issues/178529942
-                            bottomSheet(route = Destinations.Details) {
-                                if (viewModel.beerToShow != null) {
-                                    BeerDetails(viewModel.beerToShow!!)
-                                }
+                        }
+                        // If the bottomSheet is open when going from landscape to portrait the
+                        // app crashes because of this issue: https://issuetracker.google.com/issues/178529942
+                        bottomSheet(route = Destinations.Details) {
+                            if (viewModel.beerToShow != null) {
+                                BeerDetails(viewModel.beerToShow!!)
                             }
                         }
                     }
