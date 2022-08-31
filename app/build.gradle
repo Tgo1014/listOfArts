@@ -97,7 +97,6 @@ dependencies {
 
     // Accompanist
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
-    implementation "com.google.accompanist:accompanist-insets-ui:$accompanist"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
     implementation "com.google.accompanist:accompanist-navigation-material:$accompanist"
 
