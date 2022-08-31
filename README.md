@@ -1,1 +1,1 @@
-listOfBeers()
+BeerBox
