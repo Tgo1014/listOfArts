@@ -1,5 +1,6 @@
 package tgo1014.beerbox.ui.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,10 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import tgo1014.beerbox.R
 import tgo1014.beerbox.ui.theme.BeerBoxTheme
-import tgo1014.beerbox.ui.theme.TypographyGray
 
 @Composable
 fun SearchBar(
@@ -36,7 +38,7 @@ fun SearchBar(
         value = query,
         onValueChange = { onQueryChanged(it) },
         singleLine = true,
-        placeholder = { Text(stringResource(R.string.search)) },
+        placeholder = { Text(text = stringResource(id = R.string.search)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -52,18 +54,23 @@ fun SearchBar(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            backgroundColor = Color.DarkGray.copy(0.4f),
-            cursorColor = MaterialTheme.colorScheme.secondary,
-            textColor = TypographyGray,
+            cursorColor = MaterialTheme.colorScheme.primary,
         )
     )
 }
 
-@Preview(showBackground = true)
+@Preview(name = "Light")
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun SearchBarPreview() = BeerBoxTheme {
-    var text by remember { mutableStateOf("") }
-    Box(Modifier.padding(8.dp)) {
-        SearchBar(text, { text = it })
+private fun SearchBarPreview(
+    @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
+) {
+    BeerBoxTheme(materialYouColors = materialYouColors) {
+        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+            var text by remember { mutableStateOf("") }
+            Box(Modifier.padding(8.dp)) {
+                SearchBar(text, { text = it })
+            }
+        }
     }
 }

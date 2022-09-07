@@ -21,9 +21,7 @@ fun BeerImage(beer: Beer, modifier: Modifier) {
             .data(beer.imageUrl)
             .crossfade(true)
             .build(),
-        loading = {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.secondary)
-        },
+        loading = { CircularProgressIndicator() },
         error = {
             Text(
                 text = stringResource(R.string.no_image),

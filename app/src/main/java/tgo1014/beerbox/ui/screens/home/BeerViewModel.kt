@@ -89,7 +89,10 @@ class BeerViewModel @Inject constructor(
         when {
             page == 1 -> _state.update { it.copy(beerList = beerList) }
             beerList.isEmpty() -> lastPageReached = true
-            else -> _state.update { it.copy(beerList = state.value.beerList + beerList) }
+            else -> {
+                val newBeerList = (state.value.beerList + beerList).distinctBy { it.id }
+                _state.update { it.copy(beerList = newBeerList) }
+            }
         }
     }
 

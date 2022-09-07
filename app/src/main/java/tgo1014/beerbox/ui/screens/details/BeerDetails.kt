@@ -1,5 +1,6 @@
 package tgo1014.beerbox.ui.screens.details
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,9 +12,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,12 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import tgo1014.beerbox.R
 import tgo1014.beerbox.models.Beer
 import tgo1014.beerbox.ui.composables.BeerImage
+import tgo1014.beerbox.ui.composables.ThemeProvider
 import tgo1014.beerbox.ui.composables.simpleVerticalScrollbar
 import tgo1014.beerbox.ui.theme.BeerBoxTheme
 
@@ -58,9 +63,11 @@ fun BeerDetails(beer: Beer) = Surface {
             Spacer(Modifier.size(12.dp))
             LazyColumn(
                 state = scrollState,
-
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.simpleVerticalScrollbar(scrollState)
+                modifier = Modifier.simpleVerticalScrollbar(
+                    state = scrollState,
+                    color = MaterialTheme.colorScheme.primary.copy(0.2f),
+                )
             ) {
                 item {
                     Text(
@@ -108,8 +115,15 @@ fun BeerDetails(beer: Beer) = Surface {
     }
 }
 
-@Preview
+@Preview(name = "Light")
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun BeerDetailsPreview() = BeerBoxTheme {
-    BeerDetails(beer = Beer(name = "Punk IPA 2007 - 2010", tagline = "This is a test"))
+private fun BeerDetailsPreview(
+    @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
+) {
+    BeerBoxTheme(materialYouColors = materialYouColors) {
+        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+            BeerDetails(beer = Beer(name = "Punk IPA 2007 - 2010", tagline = "This is a test"))
+        }
+    }
 }

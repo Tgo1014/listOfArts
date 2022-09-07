@@ -3,6 +3,7 @@ package tgo1014.beerbox.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.SideEffect
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = false
+            val useDarkIcons = !isSystemInDarkTheme()
             SideEffect {
                 systemUiController.setSystemBarsColor(
                     color = Color.Transparent,

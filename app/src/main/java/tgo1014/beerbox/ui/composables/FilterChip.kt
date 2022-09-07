@@ -1,57 +1,68 @@
 package tgo1014.beerbox.ui.composables
 
-import androidx.compose.foundation.clickable
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import tgo1014.beerbox.ui.theme.BeerBoxTheme
-import tgo1014.beerbox.ui.theme.TypographyGray
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Chip(
+fun PrimaryContainerFilterChip(
     text: String,
-    selected: Boolean,
+    isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    // define properties to the chip
-    // such as color, shape, width
-    Surface(
-        color = when {
-            selected -> MaterialTheme.colorScheme.secondary
-            else -> Color.DarkGray.copy(0.4f)
-        },
-        contentColor = when {
-            selected -> MaterialTheme.colorScheme.onSecondary
-            else -> TypographyGray
-        },
-        shape = CircleShape,
-        modifier = Modifier.clickable { onClick() }
-    ) {
-        // Add text to show the data that we passed
-        Text(
-            text = text,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(vertical = 6.dp, horizontal = 24.dp)
-        )
+    FilterChip(
+        selected = isSelected,
+        onClick = onClick,
+        colors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = MaterialTheme.colorScheme.tertiary,
+            selectedLabelColor = contentColorFor(MaterialTheme.colorScheme.tertiary)
+        ),
+        label = {
+            Text(
+                text = text,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(vertical = 6.dp, horizontal = 24.dp)
+            )
+        }
+    )
+}
+
+@Preview(name = "Light")
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun FilterChipPreview(
+    @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
+) {
+    BeerBoxTheme(materialYouColors = materialYouColors) {
+        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+            PrimaryContainerFilterChip("Blonde", true) {}
+        }
     }
 }
 
-@Preview
+@Preview(name = "Light")
+@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun FilterChipPreview() = BeerBoxTheme {
-    Chip("Blonde", false) {}
-}
-
-@Preview
-@Composable
-fun FilterChipPreviewSelected() = BeerBoxTheme {
-    Chip("Blonde", true) {}
+private fun FilterChipDisabledPreview(
+    @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
+) {
+    BeerBoxTheme(materialYouColors = materialYouColors) {
+        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+            PrimaryContainerFilterChip("Blonde", false) {}
+        }
+    }
 }

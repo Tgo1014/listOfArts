@@ -1,6 +1,7 @@
 package tgo1014.beerbox.ui.composables
 
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.dp
 fun Modifier.simpleVerticalScrollbar(
     state: LazyListState,
     width: Dp = 2.dp,
+    color: Color = Color.White
 ): Modifier {
     return drawWithContent {
         drawContent()
@@ -22,7 +24,7 @@ fun Modifier.simpleVerticalScrollbar(
             val scrollbarOffsetY = firstVisibleElementIndex * elementHeight
             val scrollbarHeight = state.layoutInfo.visibleItemsInfo.size * elementHeight
             drawRect(
-                color = Color.White.copy(alpha = 0.2f),
+                color = color.copy(alpha = 0.3f),
                 topLeft = Offset(this.size.width - width.toPx(), scrollbarOffsetY),
                 size = Size(width.toPx(), scrollbarHeight),
             )
