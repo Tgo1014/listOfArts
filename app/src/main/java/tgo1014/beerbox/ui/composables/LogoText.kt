@@ -5,7 +5,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -15,14 +14,15 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import tgo1014.beerbox.ui.theme.BeerBoxTheme
 
 @Composable
-fun LogoText(color: Color = MaterialTheme.colorScheme.onSecondaryContainer) {
+fun LogoText() {
     val title = buildAnnotatedString {
-        append("Beer")
+        append("listOf")
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-            append("Box")
+            append("Beers")
         }
+        append("()")
     }
-    Text(text = title, color = color)
+    Text(text = title)
 }
 
 @Preview(name = "Light")

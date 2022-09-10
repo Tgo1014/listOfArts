@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = !isSystemInDarkTheme()
+            val useDarkIcons = isSystemInDarkTheme()
             SideEffect {
                 systemUiController.setSystemBarsColor(
                     color = Color.Transparent,

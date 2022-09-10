@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BeerBox</string>
+    <string name="app_name">listOfBeers()</string>
     <string name="before">Before</string>
     <string name="no_beers">No beers to display. Try checking your filter or your internet connection</string>
     <string name="no_image">No Image</string>
