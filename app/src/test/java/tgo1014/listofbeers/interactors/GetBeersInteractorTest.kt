@@ -1,6 +1,6 @@
 package tgo1014.listofbeers.interactors
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Test
@@ -19,7 +19,7 @@ class GetBeersInteractorTest {
 
     @Test
     fun `GIVEN a beer request is made WHEN it's success THEN beer list is returned`() =
-        runBlocking {
+        runTest {
             mockWebServer.enqueue(MockResponse().setBody(listOf(Beer()).toJsonString()))
             val result = interactor(1)
             assert(result.isSuccess)
@@ -27,7 +27,7 @@ class GetBeersInteractorTest {
         }
 
     @Test
-    fun `GIVEN a beer request is made WHEN it fails THEN error is returned`() = runBlocking {
+    fun `GIVEN a beer request is made WHEN it fails THEN error is returned`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(400))
         val result = interactor(1)
         assert(result.isFailure)

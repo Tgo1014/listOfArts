@@ -29,33 +29,53 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import tgo1014.listofbeers.models.Beer
+import tgo1014.listofbeers.models.Filter
 import tgo1014.listofbeers.ui.composables.BeerComposable
 import tgo1014.listofbeers.ui.composables.EmptyState
 import tgo1014.listofbeers.ui.composables.LogoText
 import tgo1014.listofbeers.ui.composables.SearchBar
 import tgo1014.listofbeers.ui.composables.SingleSelectionFilter
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-    ExperimentalLifecycleComposeApi::class,
-    ExperimentalMaterial3Api::class,
-)
+@OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreen(
     viewModel: BeerViewModel,
     onBeerClicked: (Beer) -> Unit,
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val keyboardController = LocalSoftwareKeyboardController.current
+    HomeScreen(
+        state = state,
+        onBeerClicked = {
+            keyboardController?.hide()
+            onBeerClicked(it)
+        },
+        onBottomOfScreenReached = viewModel::onBottomReached,
+        onQueryChanged = viewModel::search,
+        onFilterClicked = viewModel::onFilterClicked
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun HomeScreen(
+    state: HomeState,
+    onBottomOfScreenReached: () -> Unit = {},
+    onBeerClicked: (Beer) -> Unit = {},
+    onQueryChanged: (String) -> Unit = {},
+    onFilterClicked: (Filter) -> Unit = {}
+) {
 
     val lazyState = rememberLazyListState()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val beerList = state.beerList
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -90,7 +110,7 @@ fun HomeScreen(
                         coroutineScope.launch {
                             lazyState.scrollToItem(0)
                         }
-                        viewModel.search(query)
+                        onQueryChanged(query)
                     },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -98,15 +118,15 @@ fun HomeScreen(
             item {
                 SingleSelectionFilter(
                     filters = state.filters,
-                    onClick = { filter -> viewModel.onFilterClicked(filter) },
+                    onClick = { filter -> onFilterClicked(filter) },
                     contentPadding = PaddingValues(horizontal = 16.dp)
                 )
             }
-            if (beerList.isEmpty() && !state.isLoading) {
+            if (state.beerList.isEmpty() && !state.isLoading) {
                 item { EmptyState() }
             }
             itemsIndexed(
-                items = beerList,
+                items = state.beerList,
                 key = { _, beer -> beer.id }
             ) { index, beer ->
                 BeerComposable(
@@ -116,8 +136,8 @@ fun HomeScreen(
                         .padding(16.dp)
                         .animateItemPlacement()
                 )
-                if (index == beerList.lastIndex) {
-                    SideEffect { viewModel.onBottomReached() }
+                if (index == state.beerList.lastIndex) {
+                    SideEffect { onBottomOfScreenReached() }
                 } else {
                     androidx.compose.material3.Divider(Modifier.padding(start = 24.dp))
                 }
@@ -133,6 +153,6 @@ fun HomeScreen(
                 }
             }
         }
-
     }
 }
+

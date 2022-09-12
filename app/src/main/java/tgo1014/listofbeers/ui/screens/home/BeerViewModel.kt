@@ -60,22 +60,22 @@ class BeerViewModel @Inject constructor(
     }
 
     @VisibleForTesting
-    fun fetchBeers(scope: CoroutineScope? = null) = (scope ?: viewModelScope).launch {
+    fun fetchBeers(scope: CoroutineScope? = null) = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
-        val selected = state.value.filters.firstOrNull { it.isSelected }
+        val filters = state.value.filters.firstOrNull { it.isSelected }
         val beerList = getBeersInteractor(
             page = page,
             search = state.value.searchText,
-            yeast = selected?.filter?.yeast
+            yeast = filters?.filter?.yeast
         ).getOrDefault(emptyList())
-        handleSuccessfulResult(beerList)
         _state.update { it.copy(isLoading = false) }
+        handleSuccessfulResult(beerList)
     }
 
     private fun searchInternal() {
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(350)
+            delay(350) // Before performing search, wait a bit if the user is writing
             if (state.value.searchText.isNotBlank()) {
                 fetchBeers(this)
                 return@launch
