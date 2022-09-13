@@ -22,8 +22,8 @@ import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
 fun PrimaryContainerFilterChip(
     text: String,
     isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     FilterChip(
         selected = isSelected,
