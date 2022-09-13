@@ -15,13 +15,14 @@ import tgo1014.listofbeers.R
 import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
 
 @Composable
-fun EmptyState() {
+fun EmptyState(modifier: Modifier = Modifier) {
     Text(
         text = stringResource(R.string.no_beers),
         textAlign = TextAlign.Center,
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .then(modifier)
     )
 }
 

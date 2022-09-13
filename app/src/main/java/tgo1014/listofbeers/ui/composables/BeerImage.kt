@@ -14,7 +14,7 @@ import tgo1014.listofbeers.R
 import tgo1014.listofbeers.models.Beer
 
 @Composable
-fun BeerImage(beer: Beer, modifier: Modifier) {
+fun BeerImage(beer: Beer, modifier: Modifier = Modifier) {
     SubcomposeAsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(beer.imageUrl)

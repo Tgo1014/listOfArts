@@ -1,9 +1,10 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "kotlin-kapt"
     id "org.jetbrains.kotlin.plugin.serialization" version "1.7.10"
-    id 'dagger.hilt.android.plugin'
+    id "dagger.hilt.android.plugin"
+    id "io.gitlab.arturbosch.detekt" version "1.21.0"
 }
 
 android {
@@ -66,6 +67,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_test"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_test"
     implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01"
+    detektPlugins "com.twitter.compose.rules:detekt:0.0.6"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"

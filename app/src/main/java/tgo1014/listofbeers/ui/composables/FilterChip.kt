@@ -22,7 +22,8 @@ import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
 fun PrimaryContainerFilterChip(
     text: String,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     FilterChip(
         selected = isSelected,
@@ -37,7 +38,8 @@ fun PrimaryContainerFilterChip(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(vertical = 6.dp, horizontal = 24.dp)
             )
-        }
+        },
+        modifier = modifier
     )
 }
 

@@ -34,7 +34,7 @@ import tgo1014.listofbeers.ui.composables.simpleVerticalScrollbar
 import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
 
 @Composable
-fun BeerDetails(beer: Beer) = Surface {
+fun BeerDetails(beer: Beer, modifier: Modifier = Modifier) = Surface(modifier) {
     Box {
         val scrollState = rememberLazyListState()
         Icon(
