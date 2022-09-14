@@ -22,7 +22,7 @@ object RestModule {
 
     @Singleton
     @Provides
-    fun providesJson() : Json = Json.Default
+    fun providesJson(): Json = Json.Default
 
     @Singleton
     @Provides

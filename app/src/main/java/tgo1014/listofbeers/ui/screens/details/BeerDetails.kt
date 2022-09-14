@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import tgo1014.listofbeers.R
 import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.ui.composables.BeerImage
