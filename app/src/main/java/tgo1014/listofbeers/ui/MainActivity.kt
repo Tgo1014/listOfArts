@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
                 ModalBottomSheetLayout(
                     bottomSheetNavigator = bottomSheetNavigator,
                     sheetShape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp),
-                    sheetBackgroundColor = MaterialTheme.colorScheme.primary,
+                    sheetBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
                 ) {
                     NavHost(navController, Destinations.Home) {
                         composable(route = Destinations.Home) {
@@ -57,12 +57,8 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(Destinations.Details)
                             }
                         }
-                        // If the bottomSheet is open when going from landscape to portrait the
-                        // app crashes because of this issue: https://issuetracker.google.com/issues/178529942
                         bottomSheet(route = Destinations.Details) {
-                            if (viewModel.beerToShow != null) {
-                                BeerDetails(viewModel.beerToShow!!)
-                            }
+                            viewModel.beerToShow?.let { BeerDetails(it) }
                         }
                     }
                 }
