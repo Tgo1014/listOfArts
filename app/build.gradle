@@ -71,6 +71,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_test"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_test"
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha03'
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+    implementation project(path: ':presentation')
     detektPlugins 'com.twitter.compose.rules:detekt:0.0.26'
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose"
