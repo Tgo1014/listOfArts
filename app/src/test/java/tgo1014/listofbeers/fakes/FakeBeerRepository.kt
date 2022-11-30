@@ -1,7 +1,7 @@
 package tgo1014.listofbeers.fakes
 
 import tgo1014.listofbeers.models.Beer
-import tgo1014.listofbeers.repositories.BeersRepository
+import tgo1014.listofbeers.domain.repositories.BeersRepository
 
 class FakeBeerRepository(var beersToReturn: List<Beer> = emptyList()) : BeersRepository {
     var throwException = false

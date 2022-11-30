@@ -7,7 +7,7 @@ buildscript {
         kotlin              = '1.7.21'
     }
     dependencies {
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.44'
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.44.2" // TODO migrate this file to kts and use from Dependencies
     }
 }
 plugins {

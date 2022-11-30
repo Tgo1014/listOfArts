@@ -6,9 +6,10 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
+import tgo1014.listofbeers.data.repositories.BeersRepositoryImpl
 import tgo1014.listofbeers.getService
 import tgo1014.listofbeers.models.Beer
-import tgo1014.listofbeers.network.PunkApi
+import tgo1014.listofbeers.data.network.PunkApi
 import tgo1014.listofbeers.toJsonString
 
 @OptIn(ExperimentalCoroutinesApi::class)

@@ -1,6 +1,6 @@
 package tgo1014.listofbeers.interactors
 
-import tgo1014.listofbeers.repositories.BeersRepository
+import tgo1014.listofbeers.domain.repositories.BeersRepository
 import javax.inject.Inject
 
 class GetBeersInteractor @Inject constructor(

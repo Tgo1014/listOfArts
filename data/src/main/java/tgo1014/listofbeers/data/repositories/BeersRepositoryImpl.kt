@@ -1,9 +1,11 @@
-package tgo1014.listofbeers.repositories
+package tgo1014.listofbeers.data.repositories
 
 import retrofit2.Response
-import tgo1014.listofbeers.models.Beer
-import tgo1014.listofbeers.network.PunkApi
+import tgo1014.listofbeers.data.network.PunkApi
+import tgo1014.listofbeers.domain.models.BeerDomain
+import tgo1014.listofbeers.domain.repositories.BeersRepository
 import javax.inject.Inject
+
 
 class BeersRepositoryImpl @Inject constructor(
     private val punkApi: PunkApi
@@ -13,7 +15,7 @@ class BeersRepositoryImpl @Inject constructor(
         page: Int,
         search: String?,
         yeast: String?
-    ): List<Beer> {
+    ): List<BeerDomain> {
         val query = if (search.isNullOrBlank()) {
             null
         } else {
@@ -24,7 +26,7 @@ class BeersRepositoryImpl @Inject constructor(
             beerName = query,
             yeast = yeast
         )
-        return response.successOrThrow()
+        return TODO() //response.successOrThrow()
     }
 
     private fun <T> Response<T>.successOrThrow(): T {
