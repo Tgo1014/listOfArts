@@ -1,8 +1,16 @@
+import Dependencies.Versions.accompanist
+import Dependencies.Versions.compose
+import Dependencies.Versions.composeCompiler
+
 object Dependencies {
 
     object Versions {
         val kotlin = "1.7.21"
         val hilt = "2.44.2"
+        val compose = "1.4.0-alpha02"
+        val composeCompiler = "1.4.0-alpha02"
+        val lifecycle = "2.6.0-alpha03"
+        val accompanist = "0.28.0"
     }
 
     object BuildPlugins {
@@ -10,14 +18,38 @@ object Dependencies {
         val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
     }
 
+    object Android {
+        val lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+        val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycle}"
+    }
+
     object Network {
         val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
         val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
     }
 
+    object Compose {
+        val ui = "androidx.compose.ui:ui:$compose"
+        val material = "androidx.compose.material:material:$compose"
+        val material3 = "androidx.compose.material3:material3:1.1.0-alpha02"
+        val toolPreview = "androidx.compose.ui:ui-tooling-preview:$compose"
+        val uiUtil = "androidx.compose.ui:ui-util:$compose"
+        val compiler = "androidx.compose.compiler:compiler:$composeCompiler"
+        val activityCompose = "androidx.activity:activity-compose:1.7.0-alpha02"
+        val coil = "io.coil-kt:coil-compose:2.2.2"
+
+        object Accompanist {
+            val pager = "com.google.accompanist:accompanist-pager:$accompanist"
+            val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+            val navigation = "com.google.accompanist:accompanist-navigation-material:$accompanist"
+        }
+
+    }
+
     object Injection {
         val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         val hiltKapt = "com.google.dagger:hilt-compiler:${Versions.hilt}"
+        val hiltCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 
 }

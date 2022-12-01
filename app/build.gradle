@@ -102,9 +102,6 @@ dependencies {
     // Timber
     implementation "com.jakewharton.timber:timber:5.0.1"
 
-    // Coil Compose
-    implementation 'io.coil-kt:coil-compose:2.2.2'
-
     // Accompanist
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"

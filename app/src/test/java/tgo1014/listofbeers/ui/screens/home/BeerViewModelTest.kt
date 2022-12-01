@@ -12,6 +12,7 @@ import tgo1014.listofbeers.fakes.FakeBeerRepository
 import tgo1014.listofbeers.interactors.GetBeersInteractor
 import tgo1014.listofbeers.models.Beer
 import tgo1014.listofbeers.models.Filter
+import tgo1014.listofbeers.presentation.ui.screens.home.BeerViewModel
 
 @ExperimentalCoroutinesApi
 class BeerViewModelTest {
