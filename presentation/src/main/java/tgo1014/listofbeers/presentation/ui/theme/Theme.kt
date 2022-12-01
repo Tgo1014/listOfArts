@@ -1,4 +1,4 @@
-package tgo1014.listofbeers.ui.theme
+package tgo1014.listofbeers.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

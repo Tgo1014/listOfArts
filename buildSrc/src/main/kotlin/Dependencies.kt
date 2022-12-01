@@ -4,6 +4,9 @@ import Dependencies.Versions.composeCompiler
 
 object Dependencies {
 
+    val compileSdk = 33
+    val minSdk = 21
+
     object Versions {
         val kotlin = "1.7.21"
         val hilt = "2.44.2"
@@ -41,7 +44,8 @@ object Dependencies {
         val ui = "androidx.compose.ui:ui:$compose"
         val material = "androidx.compose.material:material:$compose"
         val material3 = "androidx.compose.material3:material3:1.1.0-alpha02"
-        val toolPreview = "androidx.compose.ui:ui-tooling-preview:$compose"
+        val toolPreview = "androidx.compose.ui:ui-tooling:$compose"
+        val preview = "androidx.compose.ui:ui-tooling-preview:1.3.0"
         val uiUtil = "androidx.compose.ui:ui-util:$compose"
         val compiler = "androidx.compose.compiler:compiler:$composeCompiler"
         val activityCompose = "androidx.activity:activity-compose:1.7.0-alpha02"

@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -7,7 +9,8 @@ plugins {
 
 android {
     namespace = "tgo1014.listofbeers.presentation"
-    compileSdk = 33
+    compileSdk = Dependencies.compileSdk
+    defaultConfig.minSdk = Dependencies.minSdk
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = Dependencies.Versions.composeCompiler
 }
@@ -21,7 +24,8 @@ dependencies {
     implementation(Dependencies.Compose.material3)
     implementation(Dependencies.Compose.compiler)
     implementation(Dependencies.Compose.uiUtil)
-    implementation(Dependencies.Compose.toolPreview)
+    debugImplementation(Dependencies.Compose.toolPreview)
+    implementation(Dependencies.Compose.preview)
     implementation(Dependencies.Compose.coil)
     implementation(Dependencies.Compose.activityCompose)
     implementation(Dependencies.Compose.Accompanist.navigation)

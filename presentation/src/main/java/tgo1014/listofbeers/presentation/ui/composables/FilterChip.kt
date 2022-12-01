@@ -1,6 +1,5 @@
 package tgo1014.listofbeers.presentation.ui.composables
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -12,10 +11,11 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
+import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,28 +43,22 @@ fun PrimaryContainerFilterChip(
     )
 }
 
-@Preview(name = "Light")
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@DefaultPreview
 @Composable
 private fun FilterChipPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) {
-    ListOfBeersTheme(materialYouColors = materialYouColors) {
-        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-            PrimaryContainerFilterChip("Blonde", true) {}
-        }
+) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+    Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+        PrimaryContainerFilterChip("Blonde", true) {}
     }
 }
 
-@Preview(name = "Light")
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@DefaultPreview
 @Composable
 private fun FilterChipDisabledPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) {
-    ListOfBeersTheme(materialYouColors = materialYouColors) {
-        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-            PrimaryContainerFilterChip("Blonde", false) {}
-        }
+) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+    Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+        PrimaryContainerFilterChip("Blonde", false) {}
     }
 }

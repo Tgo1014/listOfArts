@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = Dependencies.compileSdk
     namespace = "tgo1014.listofbeers"
     defaultConfig {
         applicationId = "tgo1014.beerbox"
-        minSdk = 23
+        minSdk = Dependencies.minSdk
         targetSdk = 33
         versionCode = 1
         versionName = "0.1.0"

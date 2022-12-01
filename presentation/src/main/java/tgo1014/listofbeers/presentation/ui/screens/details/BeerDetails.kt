@@ -1,6 +1,5 @@
 package tgo1014.listofbeers.presentation.ui.screens.details
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,16 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.ui.composables.BeerImage
-import tgo1014.listofbeers.presentation.ui.composables.ThemeProvider
+import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.composables.simpleVerticalScrollbar
-import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
 fun BeerDetails(
@@ -153,21 +152,18 @@ fun BeerDetails(
     }
 }
 
-@Preview(name = "Light")
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@DefaultPreview
 @Composable
 private fun BeerDetailsPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) {
-    ListOfBeersTheme(materialYouColors = materialYouColors) {
-        Surface(color = MaterialTheme.colorScheme.primaryContainer) {
-            BeerDetails(
-                beer = BeerUi(
-                    name = "Punk IPA 2007 - 2010",
-                    tagline = "This is a test",
-                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
-                )
+) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        BeerDetails(
+            beer = BeerUi(
+                name = "Punk IPA 2007 - 2010",
+                tagline = "This is a test",
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
             )
-        }
+        )
     }
 }

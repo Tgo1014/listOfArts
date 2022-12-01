@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import tgo1014.listofbeers.presentation.ui.screens.details.BeerDetails
 import tgo1014.listofbeers.presentation.ui.screens.home.BeerViewModel
 import tgo1014.listofbeers.presentation.ui.screens.home.HomeScreen
-import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @ExperimentalMaterialNavigationApi
 @AndroidEntryPoint

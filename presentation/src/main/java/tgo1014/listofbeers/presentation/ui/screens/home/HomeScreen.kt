@@ -38,12 +38,12 @@ import kotlinx.coroutines.launch
 import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.ui.composables.BeerComposable
-import tgo1014.listofbeers.presentation.ui.composables.DefaultPreview
+import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.EmptyState
 import tgo1014.listofbeers.presentation.ui.composables.LogoText
 import tgo1014.listofbeers.presentation.ui.composables.SearchBar
 import tgo1014.listofbeers.presentation.ui.composables.SingleSelectionFilter
-import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalComposeUiApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package tgo1014.listofbeers.ui.theme
+package tgo1014.listofbeers.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 

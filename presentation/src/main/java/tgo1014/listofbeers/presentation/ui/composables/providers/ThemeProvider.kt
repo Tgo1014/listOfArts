@@ -1,4 +1,4 @@
-package tgo1014.listofbeers.presentation.ui.composables
+package tgo1014.listofbeers.presentation.ui.composables.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 

@@ -1,6 +1,5 @@
 package tgo1014.listofbeers.presentation.ui.composables
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyRow
@@ -9,13 +8,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.models.FilterState
 import tgo1014.listofbeers.presentation.models.translation
-import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
+import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
 fun SingleSelectionFilter(
@@ -37,16 +37,13 @@ fun SingleSelectionFilter(
     }
 }
 
-@Preview(name = "Light")
-@Preview(name = "Dark", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@DefaultPreview
 @Composable
 private fun SingleSelectionFilterPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) {
-    ListOfBeersTheme(materialYouColors = materialYouColors) {
-        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-            val items = listOf(FilterState(Filter.BLONDE, false), FilterState(Filter.LAGER, true))
-            SingleSelectionFilter(filters = items, onClick = {})
-        }
+) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+    Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+        val items = listOf(FilterState(Filter.BLONDE, false), FilterState(Filter.LAGER, true))
+        SingleSelectionFilter(filters = items, onClick = {})
     }
 }

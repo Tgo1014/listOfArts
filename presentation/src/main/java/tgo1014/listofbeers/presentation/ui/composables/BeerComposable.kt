@@ -19,7 +19,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import tgo1014.listofbeers.presentation.models.BeerUi
-import tgo1014.listofbeers.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
+import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
 fun BeerComposable(
@@ -73,10 +75,8 @@ private val PreviewBeer = BeerUi(
 @Composable
 private fun BeerComposablePreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) {
-    ListOfBeersTheme(materialYouColors = materialYouColors) {
-        Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-            BeerComposable(PreviewBeer)
-        }
+) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+    Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+        BeerComposable(PreviewBeer)
     }
 }
