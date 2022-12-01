@@ -11,6 +11,9 @@ object Dependencies {
         val composeCompiler = "1.4.0-alpha02"
         val lifecycle = "2.6.0-alpha03"
         val accompanist = "0.28.0"
+        val androidPlugins = "7.3.1"
+        val detekt = "1.22.0"
+        val spotless = "6.12.0"
     }
 
     object BuildPlugins {
@@ -23,10 +26,15 @@ object Dependencies {
         val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.lifecycle}"
     }
 
+    object Detekt {
+        val twitter = "com.twitter.compose.rules:detekt:0.0.26"
+    }
+
     object Network {
         val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
         val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
         val kotlinxSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+        val interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
     }
 
     object Compose {
@@ -60,4 +68,5 @@ object Dependencies {
         val mockWebServer = "com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10"
     }
 
+    val timber = "com.jakewharton.timber:timber:5.0.1"
 }
