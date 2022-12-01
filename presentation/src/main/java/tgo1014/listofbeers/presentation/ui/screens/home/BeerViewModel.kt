@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import tgo1014.listofbeers.domain.usecases.GetBeersUseCase
 import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.models.Filter
-import tgo1014.listofbeers.presentation.models.mappers.toBeerUi
+import tgo1014.listofbeers.presentation.models.mappers.toUi
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,7 +69,7 @@ class BeerViewModel @Inject constructor(
             search = state.value.searchText,
             yeast = filters?.filter?.yeast
         ).getOrDefault(emptyList())
-            .map { it.toBeerUi() }
+            .map { it.toUi() }
         _state.update { it.copy(isLoading = false) }
         handleSuccessfulResult(beerList)
     }

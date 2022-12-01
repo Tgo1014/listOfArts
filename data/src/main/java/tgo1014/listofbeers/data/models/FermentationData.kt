@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FermentationData(
     @SerialName("temp")
-    val temp: TempDataX? = TempDataX()
+    val temp: TempData? = TempData()
 )

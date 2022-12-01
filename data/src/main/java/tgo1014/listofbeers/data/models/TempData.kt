@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TempData(
     @SerialName("value")
-    val value: Int? = null,
+    val value: Double? = null,
     @SerialName("unit")
     val unit: String? = null
 )

@@ -1,6 +1,6 @@
 package tgo1014.listofbeers.domain.models
 
 data class TempDomain(
-    val value: Int? = null,
+    val value: Double? = null,
     val unit: String? = null
 )
