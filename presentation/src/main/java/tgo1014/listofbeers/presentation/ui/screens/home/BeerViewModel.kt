@@ -1,10 +1,8 @@
 package tgo1014.listofbeers.presentation.ui.screens.home
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,52 +23,55 @@ class BeerViewModel @Inject constructor(
     private var searchJob: Job? = null
     private var page = 1
     private var lastPageReached = false
-    var beerToShow: BeerUi? = null
+
+    var beerToShow: BeerUi? = null // TODO move this
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
+
+    private var isLoading: Boolean
+        get() = _state.value.isLoading
+        set(value) = _state.update { it.copy(isLoading = value) }
 
     init {
         fetchBeers()
     }
 
     fun search(query: String) {
-        resetToFirstPage()
+        resetState()
         _state.update { it.copy(searchText = query) }
         searchInternal()
     }
 
     fun onFilterClicked(filter: Filter) {
-        val updatedFilters = state.value.filters.map {
-            if (it.filter == filter) {
-                it.copy(isSelected = !it.isSelected)
+        val updatedFilters = state.value.filters.map { filterState ->
+            if (filterState.filter == filter) {
+                filterState.copy(isSelected = !filterState.isSelected)
             } else {
-                it.copy(isSelected = false)
+                filterState.copy(isSelected = false)
             }
         }
         _state.update { it.copy(filters = updatedFilters) }
-        resetToFirstPage()
+        resetState()
         fetchBeers()
     }
 
     fun onBottomReached() {
-        if (!state.value.isLoading && !lastPageReached) {
+        if (!isLoading && !lastPageReached) {
             page += 1
             fetchBeers()
         }
     }
 
-    @VisibleForTesting
-    fun fetchBeers(scope: CoroutineScope? = null) = viewModelScope.launch {
-        _state.update { it.copy(isLoading = true) }
+    fun fetchBeers() = viewModelScope.launch {
+        isLoading = true
         val filters = state.value.filters.firstOrNull { it.isSelected }
         val beerList = getBeersInteractor(
             page = page,
             search = state.value.searchText,
             yeast = filters?.filter?.yeast
-        ).getOrDefault(emptyList())
-            .map { it.toUi() }
-        _state.update { it.copy(isLoading = false) }
+        ).getOrDefault(emptyList()).map { it.toUi() }
+        isLoading = false
         handleSuccessfulResult(beerList)
     }
 
@@ -79,7 +80,7 @@ class BeerViewModel @Inject constructor(
         searchJob = viewModelScope.launch {
             delay(350) // Before performing search, wait a bit if the user is writing
             if (state.value.searchText.isNotBlank()) {
-                fetchBeers(this)
+                fetchBeers()
                 return@launch
             }
             searchJob?.cancel()
@@ -87,9 +88,9 @@ class BeerViewModel @Inject constructor(
         }
     }
 
-    private fun handleSuccessfulResult(beerList: List<BeerUi>) {
+    private fun handleSuccessfulResult(beerList: List<BeerUi>) = viewModelScope.launch {
         when {
-            page == 1 -> _state.update { it.copy(beerList = beerList) }
+            page == 1 -> _state.emit(state.value.copy(beerList = beerList))
             beerList.isEmpty() -> lastPageReached = true
             else -> {
                 val newBeerList = (state.value.beerList + beerList).distinctBy { it.id }
@@ -98,7 +99,7 @@ class BeerViewModel @Inject constructor(
         }
     }
 
-    private fun resetToFirstPage() {
+    private fun resetState() {
         lastPageReached = false
         page = 1
     }

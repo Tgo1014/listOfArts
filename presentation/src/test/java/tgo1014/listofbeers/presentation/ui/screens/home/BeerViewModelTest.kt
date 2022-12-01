@@ -1,54 +1,51 @@
-package tgo1014.listofbeers.ui.screens.home
+package tgo1014.listofbeers.presentation.ui.screens.home
 
 import app.cash.turbine.test
 import app.cash.turbine.testIn
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import tgo1014.listofbeers.ViewModelMainCoroutineRule
-import tgo1014.listofbeers.fakes.FakeBeerRepository
-import tgo1014.listofbeers.interactors.GetBeersInteractor
-import tgo1014.listofbeers.models.Beer
-import tgo1014.listofbeers.models.Filter
-import tgo1014.listofbeers.presentation.ui.screens.home.BeerViewModel
+import tgo1014.listofbeers.domain.models.BeerDomain
+import tgo1014.listofbeers.presentation.fakes.FakeGetBeersUseCase
+import tgo1014.listofbeers.presentation.models.Filter
+import tgo1014.listofbeers.presentation.models.mappers.toUi
+import tgo1014.listofbeers.presentation.utils.ViewModelMainCoroutineRule
 
-@ExperimentalCoroutinesApi
+
 class BeerViewModelTest {
 
     @get:Rule
     var coroutinesRule = ViewModelMainCoroutineRule()
 
-    private lateinit var fakeBeerRepository: FakeBeerRepository
+    private lateinit var getBeersUseCase: FakeGetBeersUseCase
     private lateinit var viewModel: BeerViewModel
 
-    private val testBeer1 = Beer(id = 1, name = "Test beer 1")
-    private val testBeer2 = Beer(id = 2, name = "Test beer 2")
+    private val testBeer1 = BeerDomain(id = 1, name = "Test beer 1")
+    private val testBeer2 = BeerDomain(id = 2, name = "Test beer 2")
 
     @Before
     fun setup() {
-        fakeBeerRepository = FakeBeerRepository()
-        val interactor = GetBeersInteractor(fakeBeerRepository)
-        viewModel = BeerViewModel(interactor)
+        getBeersUseCase = FakeGetBeersUseCase()
+        viewModel = BeerViewModel(getBeersUseCase)
     }
 
     @Test
     fun `GIVEN user scrolled WHEN reached the bottom THEN fetch next page`() = runTest {
         val stateFlow = viewModel.state.testIn(this)
         assert(stateFlow.awaitItem().beerList.isEmpty()) // Init state, empty
-        fakeBeerRepository.beersToReturn = listOf(testBeer1)
+        getBeersUseCase.beersToReturn = listOf(testBeer1)
         viewModel.fetchBeers()
         var beerList = stateFlow.awaitItem().beerList
         assert(beerList.size == 1)
-        assert(beerList.find { it.name == testBeer1.name } != null)
-        assert(beerList.find { it.name == testBeer2.name } == null)
-        fakeBeerRepository.beersToReturn = listOf(testBeer2)
+        assert(beerList.contains(testBeer1.toUi()))
+        assert(!beerList.contains(testBeer2.toUi()))
+        getBeersUseCase.beersToReturn = listOf(testBeer2)
         viewModel.onBottomReached()
         beerList = stateFlow.awaitItem().beerList
         assert(beerList.size == 2)
-        assert(beerList.find { it.name == testBeer1.name } != null)
-        assert(beerList.find { it.name == testBeer2.name } != null)
+        assert(beerList.contains(testBeer1.toUi()))
+        assert(beerList.contains(testBeer2.toUi()))
         stateFlow.ensureAllEventsConsumed()
         stateFlow.cancel()
     }
@@ -59,15 +56,15 @@ class BeerViewModelTest {
             val filter = Filter.LAGER
             val stateFlow = viewModel.state.testIn(this)
             assert(stateFlow.awaitItem().beerList.isEmpty()) // Init state, empty
-            fakeBeerRepository.beersToReturn = listOf(testBeer1)
+            getBeersUseCase.beersToReturn = listOf(testBeer1)
             viewModel.fetchBeers()
             var beerList = stateFlow.awaitItem().beerList
             assert(beerList.size == 1)
             assert(beerList.find { it.name == testBeer1.name } != null)
             assert(beerList.find { it.name == testBeer2.name } == null)
-            fakeBeerRepository.beersToReturn = listOf(testBeer2)
+            getBeersUseCase.beersToReturn = listOf(testBeer2)
             viewModel.onFilterClicked(filter)
-            val state = stateFlow.awaitItem()
+            val state = stateFlow.expectMostRecentItem()
             assert(state.filters.any { it.filter == filter })
             beerList = state.beerList
             assert(beerList.size == 1)

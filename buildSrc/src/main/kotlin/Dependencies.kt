@@ -26,6 +26,7 @@ object Dependencies {
     object Network {
         val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
         val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+        val kotlinxSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     }
 
     object Compose {
@@ -50,6 +51,13 @@ object Dependencies {
         val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         val hiltKapt = "com.google.dagger:hilt-compiler:${Versions.hilt}"
         val hiltCompose = "androidx.hilt:hilt-navigation-compose:1.0.0"
+    }
+
+    object Test {
+        val jUnit = "junit:junit:4.13.2"
+        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+        val turbine = "app.cash.turbine:turbine:0.12.1"
+        val mockWebServer = "com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10"
     }
 
 }

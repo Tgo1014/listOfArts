@@ -1,4 +1,4 @@
-package tgo1014.listofbeers.data
+package tgo1014.listofbeers.data.extensions
 
 import retrofit2.Response
 

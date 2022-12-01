@@ -29,4 +29,11 @@ dependencies {
     implementation(Dependencies.Injection.hilt)
     implementation(Dependencies.Injection.hiltCompose)
     kapt(Dependencies.Injection.hiltKapt)
+    testImplementation(Dependencies.Test.jUnit)
+    testImplementation(Dependencies.Test.coroutines)
+    testImplementation(Dependencies.Test.turbine)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions.freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
 }
