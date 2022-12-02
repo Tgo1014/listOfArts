@@ -21,6 +21,6 @@ class BeersRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getBeerById(id: Int): BeerDomain {
-        return punkApi.getBeerById(id).successOrThrow().toDomain()
+        return punkApi.getBeerById(id).successOrThrow().first().toDomain()
     }
 }

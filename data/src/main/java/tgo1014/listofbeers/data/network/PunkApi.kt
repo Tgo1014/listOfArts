@@ -16,6 +16,6 @@ interface PunkApi {
     ): Response<List<BeerData>>
 
     @GET("beers/{id}")
-    suspend fun getBeerById(@Path("id") id: Int): Response<BeerData>
+    suspend fun getBeerById(@Path("id") id: Int): Response<List<BeerData>>
 
 }

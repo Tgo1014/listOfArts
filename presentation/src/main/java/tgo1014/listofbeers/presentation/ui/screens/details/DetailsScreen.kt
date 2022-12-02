@@ -2,12 +2,15 @@ package tgo1014.listofbeers.presentation.ui.screens.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
@@ -15,11 +18,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,20 +50,19 @@ import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 @Composable
 fun DetailsScreen(
     beerId: Int,
-    detailsViewModel: DetailsViewModel = hiltViewModel()
+    viewModel: DetailsViewModel = hiltViewModel()
 ) {
-    val state by detailsViewModel.state.collectAsStateWithLifecycle()
-    detailsViewModel.getBeerById(beerId)
-    DetailsScreen(state)
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(viewModel) { viewModel.getBeerById(beerId) }
+    DetailsScreen(state = state, onRetryClicked = { viewModel.getBeerById(beerId) })
 }
 
 @Composable
 private fun DetailsScreen(
     state: DetailsState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onRetryClicked: () -> Unit = {},
 ) = Box(modifier) {
-    val scrollState = rememberLazyListState()
-    val layoutDirection = LocalLayoutDirection.current
     Icon(
         painter = painterResource(id = R.drawable.ic_bookmark),
         contentDescription = null,
@@ -67,11 +72,67 @@ private fun DetailsScreen(
             .width(45.dp)
             .padding(end = 16.dp)
     )
-    if (state.beer == null) {
-        Text("_TODO_")
-        return@Box
+    when (state) {
+        DetailsState.Error -> DetailScreenError(onRetryClicked)
+        DetailsState.Loading -> DetailScreenLoading()
+        is DetailsState.Success -> DetailScreenContent(beer = state.beer)
     }
-    val beer = state.beer
+}
+
+@Composable
+private fun DetailScreenLoading() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailScreenLoadingPreview() = ListOfBeersTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailScreenLoading()
+    }
+}
+
+@Composable
+private fun DetailScreenError(
+    onRetryClicked: () -> Unit = {}
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Failed to load beer")
+            Button(onClick = onRetryClicked) {
+                Text("Try Again")
+            }
+        }
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailScreenErrorPreview() = ListOfBeersTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailScreenError()
+    }
+}
+
+@Composable
+private fun DetailScreenContent(beer: BeerUi) {
+    val scrollState = rememberLazyListState()
+    val layoutDirection = LocalLayoutDirection.current
     Row {
         Box(
             modifier = Modifier
@@ -179,7 +240,7 @@ private fun DetailsScreenPreview(
 ) = ListOfBeersTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
         DetailsScreen(
-            DetailsState(
+            DetailsState.Success(
                 beer = BeerUi(
                     name = "Punk IPA 2007 - 2010",
                     tagline = "This is a test",

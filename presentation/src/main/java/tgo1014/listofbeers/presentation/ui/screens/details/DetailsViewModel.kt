@@ -16,20 +16,14 @@ class DetailsViewModel @Inject constructor(
     private val getBeerByIdUseCase: GetBeerByIdUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(DetailsState())
+    private val _state: MutableStateFlow<DetailsState> = MutableStateFlow(DetailsState.Loading)
     val state = _state.asStateFlow()
 
-    private var isLoading: Boolean
-        get() = _state.value.isLoading
-        set(value) = _state.update { it.copy(isLoading = value) }
-
     fun getBeerById(id: Int) = viewModelScope.launch {
-        isLoading = true
+        _state.update { DetailsState.Loading }
         getBeerByIdUseCase(id)
-            .onSuccess { beer ->
-                _state.update { it.copy(beer = beer.toUi()) }
-            }
-        isLoading = false
+            .onSuccess { beer -> _state.update { DetailsState.Success(beer.toUi()) } }
+            .onFailure { _state.update { DetailsState.Error } }
     }
 
 }
