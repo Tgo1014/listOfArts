@@ -13,7 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.create
 import tgo1014.listofbeers.BuildConfig
-import tgo1014.listofbeers.network.PunkApi
+import tgo1014.listofbeers.data.network.PunkApi
 import javax.inject.Singleton
 
 @Module

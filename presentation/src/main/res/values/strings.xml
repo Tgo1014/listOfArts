@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">listOfBeers()</string>
+    <string name="before">Before</string>
+    <string name="no_beers">No beers to display. Try checking your filter or your internet connection</string>
+    <string name="no_image">No Image</string>
+    <string name="first_brewed">First Brewed:</string>
+    <string name="description">Description</string>
+    <string name="food_pairing">Food Pairing</string>
+    <string name="brewer_tips">Brewer Tips</string>
+    <string name="more_info">MORE INFO</string>
+    <string name="search">Search</string>
+    <string name="offer_title">Weekend Offers</string>
+    <string name="offer_description">Free shopping on orders over 60€</string>
+    <string name="blonde">Blonde</string>
+    <string name="lager">Lager</string>
+    <string name="malt">Malt</string>
+    <string name="ale">Ale</string>
+</resources>
