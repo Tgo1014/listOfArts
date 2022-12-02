@@ -13,13 +13,13 @@ import tgo1014.listofbeers.presentation.models.mappers.toUi
 import tgo1014.listofbeers.presentation.utils.ViewModelMainCoroutineRule
 
 
-class BeerViewModelTest {
+class HomeViewModelTest {
 
     @get:Rule
     var coroutinesRule = ViewModelMainCoroutineRule()
 
     private lateinit var getBeersUseCase: FakeGetBeersUseCase
-    private lateinit var viewModel: BeerViewModel
+    private lateinit var viewModel: HomeViewModel
 
     private val testBeer1 = BeerDomain(id = 1, name = "Test beer 1")
     private val testBeer2 = BeerDomain(id = 2, name = "Test beer 2")
@@ -27,7 +27,7 @@ class BeerViewModelTest {
     @Before
     fun setup() {
         getBeersUseCase = FakeGetBeersUseCase()
-        viewModel = BeerViewModel(getBeersUseCase)
+        viewModel = HomeViewModel(getBeersUseCase)
     }
 
     @Test

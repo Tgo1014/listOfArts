@@ -20,4 +20,7 @@ class BeersRepositoryImpl @Inject constructor(
         return response.successOrThrow().map { it.toDomain() }
     }
 
+    override suspend fun getBeerById(id: Int): BeerDomain {
+        return punkApi.getBeerById(id).successOrThrow().toDomain()
+    }
 }

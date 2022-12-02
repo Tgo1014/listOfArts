@@ -1,0 +1,17 @@
+package tgo1014.listofbeers.presentation.ui.navigation
+
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
+sealed class Destinations(val route: String) {
+
+    object Home : Destinations("Home")
+    object Details : Destinations("details/{id}") {
+        const val id = "id"
+        val args = listOf(navArgument(id) { type = NavType.IntType })
+    }
+
+    companion object {
+        fun toDetails(id: Int) = Details.route.replace("{${Details.id}}", id.toString())
+    }
+}

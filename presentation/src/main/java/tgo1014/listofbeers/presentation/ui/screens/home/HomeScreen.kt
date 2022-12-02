@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 @OptIn(ExperimentalLifecycleComposeApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreen(
-    viewModel: BeerViewModel,
+    viewModel: HomeViewModel = hiltViewModel(),
     onBeerClicked: (BeerUi) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

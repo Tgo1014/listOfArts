@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -28,6 +29,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.ui.composables.BeerImage
@@ -36,9 +40,20 @@ import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.composables.simpleVerticalScrollbar
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun BeerDetails(
-    beer: BeerUi,
+fun DetailsScreen(
+    beerId: Int,
+    detailsViewModel: DetailsViewModel = hiltViewModel()
+) {
+    val state by detailsViewModel.state.collectAsStateWithLifecycle()
+    detailsViewModel.getBeerById(beerId)
+    DetailsScreen(state)
+}
+
+@Composable
+private fun DetailsScreen(
+    state: DetailsState,
     modifier: Modifier = Modifier
 ) = Box(modifier) {
     val scrollState = rememberLazyListState()
@@ -52,6 +67,11 @@ fun BeerDetails(
             .width(45.dp)
             .padding(end = 16.dp)
     )
+    if (state.beer == null) {
+        Text("_TODO_")
+        return@Box
+    }
+    val beer = state.beer
     Row {
         Box(
             modifier = Modifier
@@ -154,15 +174,17 @@ fun BeerDetails(
 
 @DefaultPreview
 @Composable
-private fun BeerDetailsPreview(
+private fun DetailsScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfBeersTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
-        BeerDetails(
-            beer = BeerUi(
-                name = "Punk IPA 2007 - 2010",
-                tagline = "This is a test",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
+        DetailsScreen(
+            DetailsState(
+                beer = BeerUi(
+                    name = "Punk IPA 2007 - 2010",
+                    tagline = "This is a test",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
+                )
             )
         )
     }

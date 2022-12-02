@@ -16,15 +16,13 @@ import tgo1014.listofbeers.presentation.models.mappers.toUi
 import javax.inject.Inject
 
 @HiltViewModel
-class BeerViewModel @Inject constructor(
-    private val getBeersInteractor: GetBeersUseCase,
+class HomeViewModel @Inject constructor(
+    private val getBeersUseCase: GetBeersUseCase,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
     private var page = 1
     private var lastPageReached = false
-
-    var beerToShow: BeerUi? = null // TODO move this
 
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
@@ -66,7 +64,7 @@ class BeerViewModel @Inject constructor(
     fun fetchBeers() = viewModelScope.launch {
         isLoading = true
         val filters = state.value.filters.firstOrNull { it.isSelected }
-        val beerList = getBeersInteractor(
+        val beerList = getBeersUseCase(
             page = page,
             search = state.value.searchText,
             yeast = filters?.filter?.yeast
