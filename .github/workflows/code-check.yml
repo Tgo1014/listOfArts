@@ -24,30 +24,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: Actions-R-Us/actions-tagger@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
-        with:
-          publish_latest_tag: 'true'
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
 
-      - name: Spotless Check
-        run:  ./gradlew spotlessCheck
-        continue-on-error: false
-
-      - name: Unit Test
-        run:  ./gradlew test
-        continue-on-error: true # IMPORTANT: allow pipeline to continue to Android Test Report step
-
-      - name: Android Test Report Action
-        uses: asadmansr/android-test-report-action@v1.2.0
-        if: ${{ always() }}
+      - name: Build project
+        run: ./gradlew spotlessCheck assembleDebug --stacktrace
 
       - name: ktlint
         uses: ScaCap/action-ktlint@master
@@ -55,3 +41,11 @@ jobs:
           android: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
+
+      - name: Unit Test
+        run: ./gradlew test
+        continue-on-error: true # IMPORTANT: allow pipeline to continue to Android Test Report step
+
+      - name: Android Test Report Action
+        uses: asadmansr/android-test-report-action@v1.2.0
+        if: ${{ always() }}
