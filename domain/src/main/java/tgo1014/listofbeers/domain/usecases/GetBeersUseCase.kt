@@ -6,6 +6,6 @@ interface GetBeersUseCase {
     suspend operator fun invoke(
         page: Int,
         search: String? = null,
-        yeast: String? = null
+        yeast: String? = null,
     ): Result<List<BeerDomain>>
 }

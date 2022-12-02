@@ -21,5 +21,5 @@ data class BeerDomain(
     val ingredients: IngredientsDomain? = IngredientsDomain(),
     val foodPairing: List<String>? = listOf(),
     val brewersTips: String? = "",
-    val contributedBy: String? = ""
+    val contributedBy: String? = "",
 )

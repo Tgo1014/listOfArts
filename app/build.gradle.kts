@@ -4,7 +4,6 @@ plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("io.gitlab.arturbosch.detekt")   version Dependencies.Versions.detekt
-    id("com.diffplug.spotless")         version Dependencies.Versions.spotless
     kotlin("android")
     kotlin("kapt")
 }
@@ -37,12 +36,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-}
-
-spotless {
-    kotlin {
-        ktlint().userData(mapOf("android" to "true"))
-    }
 }
 
 dependencies {

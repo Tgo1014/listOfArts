@@ -6,6 +6,6 @@ interface BeersRepository {
     suspend fun getBeers(
         page: Int,
         search: String? = null,
-        yeast: String? = null
+        yeast: String? = null,
     ): List<BeerDomain>
 }
