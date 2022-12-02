@@ -82,5 +82,3 @@ lint/tmp/
 # lint/reports/
 
 .idea/
-
-gradle/
