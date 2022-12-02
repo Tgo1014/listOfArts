@@ -11,5 +11,4 @@ interface BeersRepository {
     ): List<BeerDomain>
 
     suspend fun getBeerById(id: Int): BeerDomain
-
 }
