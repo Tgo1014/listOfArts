@@ -33,14 +33,13 @@ jobs:
           java-version: 11
 
       - name: Build project
-        run: ./gradlew spotlessCheck assembleDebug --stacktrace
+        run: ./gradlew spotlessCheck
 
-      - name: ktlint
-        uses: ScaCap/action-ktlint@master
+      - name: detekt
+        uses: alaegin/Detekt-Action@v1.22.0-RC3
         with:
-          android: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
+          github_token: ${{ secrets.github_token }}
+          detekt_config: config/detekt/detekt.yml
 
       - name: Unit Test
         run: ./gradlew test

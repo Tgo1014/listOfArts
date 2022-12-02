@@ -3,7 +3,6 @@
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
-    id("io.gitlab.arturbosch.detekt")   version Dependencies.Versions.detekt
     kotlin("android")
     kotlin("kapt")
 }
@@ -49,5 +48,4 @@ dependencies {
     implementation(Dependencies.Network.serialization)
     implementation(Dependencies.Network.interceptor)
     implementation(Dependencies.Network.kotlinxSerializationConverter)
-    detektPlugins(Dependencies.Detekt.twitter)
 }

@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+    id("io.gitlab.arturbosch.detekt") version Dependencies.Versions.detekt
     kotlin("kapt")
 }
 
@@ -36,6 +37,7 @@ dependencies {
     testImplementation(Dependencies.Test.jUnit)
     testImplementation(Dependencies.Test.coroutines)
     testImplementation(Dependencies.Test.turbine)
+    detektPlugins(Dependencies.Detekt.twitter)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
