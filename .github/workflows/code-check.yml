@@ -36,10 +36,7 @@ jobs:
         run: ./gradlew spotlessCheck
 
       - name: detekt
-        uses: alaegin/Detekt-Action@v1.22.0-RC3
-        with:
-          github_token: ${{ secrets.github_token }}
-          detekt_config: config/detekt/detekt.yml
+        run: ./gradlew :presentation:detekt
 
       - name: Unit Test
         run: ./gradlew test
