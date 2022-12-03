@@ -19,4 +19,8 @@ class FakeBeerRepository(
         if (throwException) throw Exception()
         return beersToReturn
     }
+
+    override suspend fun getBeerById(id: Int): BeerDomain {
+        return beersToReturn.first()
+    }
 }

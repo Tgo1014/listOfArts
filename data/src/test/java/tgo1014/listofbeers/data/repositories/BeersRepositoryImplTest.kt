@@ -35,4 +35,17 @@ class BeersRepositoryImplTest {
         beerRepository.getBeers(1)
     }
 
+    @Test
+    fun `GIVEN a request by Id is made WHEN response is successful THEN return one beer`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(responseJson))
+        val result = beerRepository.getBeerById(1)
+        assert(result.name != null)
+    }
+
+    @Test(expected = Exception::class)
+    fun `GIVEN a request by id is made WHEN response is invalid THEN throw exception`() = runTest {
+        mockWebServer.enqueue(MockResponse().setBody(""))
+        beerRepository.getBeerById(1)
+    }
+
 }

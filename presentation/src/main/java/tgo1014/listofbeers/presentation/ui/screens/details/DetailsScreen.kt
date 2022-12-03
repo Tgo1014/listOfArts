@@ -2,12 +2,15 @@ package tgo1014.listofbeers.presentation.ui.screens.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
@@ -15,11 +18,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -28,6 +35,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.ui.composables.BeerImage
@@ -36,13 +46,23 @@ import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.composables.simpleVerticalScrollbar
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun BeerDetails(
-    beer: BeerUi,
-    modifier: Modifier = Modifier
+fun DetailsScreen(
+    beerId: Int,
+    viewModel: DetailsViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(viewModel) { viewModel.getBeerById(beerId) }
+    DetailsScreen(state = state, onRetryClicked = { viewModel.getBeerById(beerId) })
+}
+
+@Composable
+private fun DetailsScreen(
+    state: DetailsState,
+    modifier: Modifier = Modifier,
+    onRetryClicked: () -> Unit = {},
 ) = Box(modifier) {
-    val scrollState = rememberLazyListState()
-    val layoutDirection = LocalLayoutDirection.current
     Icon(
         painter = painterResource(id = R.drawable.ic_bookmark),
         contentDescription = null,
@@ -52,6 +72,67 @@ fun BeerDetails(
             .width(45.dp)
             .padding(end = 16.dp)
     )
+    when (state) {
+        DetailsState.Error -> DetailScreenError(onRetryClicked)
+        DetailsState.Loading -> DetailScreenLoading()
+        is DetailsState.Success -> DetailScreenContent(beer = state.beer)
+    }
+}
+
+@Composable
+private fun DetailScreenLoading() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailScreenLoadingPreview() = ListOfBeersTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailScreenLoading()
+    }
+}
+
+@Composable
+private fun DetailScreenError(
+    onRetryClicked: () -> Unit = {}
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .height(200.dp)
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Failed to load beer")
+            Button(onClick = onRetryClicked) {
+                Text("Try Again")
+            }
+        }
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailScreenErrorPreview() = ListOfBeersTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailScreenError()
+    }
+}
+
+@Composable
+private fun DetailScreenContent(beer: BeerUi) {
+    val scrollState = rememberLazyListState()
+    val layoutDirection = LocalLayoutDirection.current
     Row {
         Box(
             modifier = Modifier
@@ -154,15 +235,17 @@ fun BeerDetails(
 
 @DefaultPreview
 @Composable
-private fun BeerDetailsPreview(
+private fun DetailsScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfBeersTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
-        BeerDetails(
-            beer = BeerUi(
-                name = "Punk IPA 2007 - 2010",
-                tagline = "This is a test",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
+        DetailsScreen(
+            DetailsState.Success(
+                beer = BeerUi(
+                    name = "Punk IPA 2007 - 2010",
+                    tagline = "This is a test",
+                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
+                )
             )
         )
     }
