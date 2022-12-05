@@ -16,7 +16,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "0.1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "tgo1014.listofbeers.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "BASE_URL", "\"https://api.punkapi.com/v2/\"")
     }
@@ -48,4 +48,15 @@ dependencies {
     implementation(Dependencies.Network.serialization)
     implementation(Dependencies.Network.interceptor)
     implementation(Dependencies.Network.kotlinxSerializationConverter)
+    // Testing
+    androidTestImplementation(Dependencies.Test.testRunner)
+    androidTestImplementation(Dependencies.Test.hiltTesting)
+    kaptAndroidTest(Dependencies.Test.hiltTestingKapt)
+    androidTestImplementation(Dependencies.Test.composeJunit)
+    debugImplementation(Dependencies.Test.composeTestManifest)
+    androidTestImplementation(Dependencies.Test.mockWebServer)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions.freeCompilerArgs += Dependencies.optIns
 }

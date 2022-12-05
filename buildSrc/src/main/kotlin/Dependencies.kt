@@ -70,7 +70,15 @@ object Dependencies {
         val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
         val turbine = "app.cash.turbine:turbine:0.12.1"
         val mockWebServer = "com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10"
+        val testRunner = "androidx.test:runner:1.5.1"
+        val jUnitExtensions = "androidx.test.ext:junit-ktx:1.1.4"
+        val espresso = "androidx.test.espresso:espresso-core:3.5.0"
+        val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
+        val hiltTestingKapt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        val composeJunit = "androidx.compose.ui:ui-test-junit4:$compose"
+        val composeTestManifest = "androidx.compose.ui:ui-test-manifest:$compose"
     }
 
     val timber = "com.jakewharton.timber:timber:5.0.1"
+    val optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
 }
