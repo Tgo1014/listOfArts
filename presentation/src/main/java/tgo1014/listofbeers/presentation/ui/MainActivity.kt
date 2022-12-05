@@ -24,7 +24,6 @@ import tgo1014.listofbeers.presentation.ui.screens.details.DetailsScreen
 import tgo1014.listofbeers.presentation.ui.screens.home.HomeScreen
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
-@ExperimentalMaterialNavigationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

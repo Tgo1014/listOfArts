@@ -77,11 +77,9 @@ class HomeViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(350) // Before performing search, wait a bit if the user is writing
-            if (state.value.searchText.isNotBlank()) {
-                fetchBeers()
-                return@launch
+            if (state.value.searchText.isBlank()) {
+                resetState()
             }
-            searchJob?.cancel()
             fetchBeers()
         }
     }
