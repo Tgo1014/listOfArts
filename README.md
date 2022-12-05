@@ -36,8 +36,9 @@ A simple demo app for playing and testing latest Android libraries
 - Material You dynamic color support (Android 12+)
 - Themed/Monochrome Icons (Android 12+)
 - Predictive Back Gesture (Android 13+)
+- Unit tests
+- Instrumentation tests
 
 ## ☑️TODO
-- [ ] Add instrumentation tests
-- [ ] Add different classes for DTO
+- [ ] Add instrumentation tests to Github Checks
 - [ ] Add local cache with Room

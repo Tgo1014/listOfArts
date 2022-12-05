@@ -17,7 +17,11 @@ class FakeBeerRepository(
         this.search = search
         this.yeast = yeast
         if (throwException) throw Exception()
-        return beersToReturn
+        return if (search.isNullOrBlank()) {
+            beersToReturn
+        } else {
+            beersToReturn.filter { it.name?.contains(search) == true }
+        }
     }
 
     override suspend fun getBeerById(id: Int): BeerDomain {

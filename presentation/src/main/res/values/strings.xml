@@ -15,4 +15,5 @@
     <string name="lager">Lager</string>
     <string name="malt">Malt</string>
     <string name="ale">Ale</string>
+    <string name="retry">Retry</string>
 </resources>
