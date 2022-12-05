@@ -8,6 +8,8 @@ import androidx.compose.ui.test.performTextInput
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,16 +52,14 @@ class HomeScreenKtTest {
     fun should_displayErrorMessage_when_noBeersAvailable() {
         val fakeBeerRepository = beerRepository as FakeBeerRepository
         assert(fakeBeerRepository.beersToReturn.isEmpty())
-        composeRule
-            .onNodeWithText(context.getString(R.string.no_beers))
-            .assertExists()
+        composeRule.assertExists(context.getString(R.string.no_beers))
     }
 
     @Test
     fun should_displayBeer_when_beersAvailable() {
         val fakeBeerRepository = beerRepository as FakeBeerRepository
         fakeBeerRepository.beersToReturn = listOf(testBeer1)
-        composeRule.assertDoesNotExist(context.getString(R.string.no_beers))
+        composeRule.assertDoesNotExist(text = context.getString(R.string.no_beers))
         composeRule.assertExists(text = testBeer1.name!!, ignoreCase = true, useUnmergedTree = true)
     }
 
@@ -70,7 +70,7 @@ class HomeScreenKtTest {
         composeRule.assertExists(context.getString(R.string.no_beers))
         fakeBeerRepository.beersToReturn = listOf(testBeer1)
         composeRule
-            .onNodeWithText(context.getString(R.string.retry), ignoreCase = true)
+            .onNodeWithText(text = context.getString(R.string.retry), ignoreCase = true)
             .performClick()
         composeRule.assertExists(text = testBeer1.name!!, ignoreCase = true, useUnmergedTree = true)
     }
@@ -87,9 +87,26 @@ class HomeScreenKtTest {
             .onNodeWithText(text = context.getString(R.string.search))
             .performTextInput(testBeer1.name!!)
         composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
-        composeRule.onNodeWithText(context.getString(R.string.blonde)).performClick()
+        composeRule.onNodeWithText(text = context.getString(R.string.blonde)).performClick()
         composeRule.assertDoesNotExist(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
-        composeRule.assertExists(context.getString(R.string.no_beers))
+        composeRule.assertExists(text = context.getString(R.string.no_beers))
+    }
+
+    @Test
+    fun when_clickingBeer_then_openDetailScreen() {
+        val fakeBeerRepository = beerRepository as FakeBeerRepository
+        val beerList = listOf(testBeer1, testBeer2)
+        fakeBeerRepository.beersToReturn = beerList
+        composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
+        composeRule
+            .onNodeWithText(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
+            .performClick()
+        composeRule.assertExists(text = context.getString(R.string.first_brewed)) // Detail screen
+        composeRule.assertExists(text = testBeer1.name!!)
+        runBlocking(Dispatchers.Main) {
+            composeRule.activity.onBackPressedDispatcher.onBackPressed()
+        }
+        composeRule.assertDoesNotExist(text = context.getString(R.string.first_brewed))
     }
 
 }
