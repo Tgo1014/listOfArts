@@ -11,9 +11,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.create
 import tgo1014.listofbeers.BuildConfig
-import tgo1014.listofbeers.network.PunkApi
 import javax.inject.Singleton
 
 @Module
@@ -51,7 +49,4 @@ object RestModule {
             .build()
     }
 
-    @Singleton
-    @Provides
-    fun providePunkApi(retrofit: Retrofit) = retrofit.create<PunkApi>()
 }
