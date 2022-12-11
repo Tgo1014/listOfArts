@@ -38,10 +38,11 @@ fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     onBeerClicked: (BeerUi) -> Unit,
-) = Column {
+) = Column(
+    modifier = Modifier.background(color = MaterialTheme.colorScheme.secondaryContainer)
+) {
     TopAppBar(
         title = { LogoText() },
-        // scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
             titleContentColor = MaterialTheme.colorScheme.primaryContainer,
