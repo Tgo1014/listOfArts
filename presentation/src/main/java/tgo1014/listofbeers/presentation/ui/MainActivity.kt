@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -13,7 +14,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
@@ -39,6 +40,8 @@ class MainActivity : ComponentActivity() {
                     darkIcons = useDarkIcons
                 )
             }
+            val windowSizeClass = calculateWindowSizeClass(this)
+            val displayFeatures = calculateDisplayFeatures(this)
             ListOfBeersTheme {
                 val bottomSheetNavigator = rememberBottomSheetNavigator()
                 val navController = rememberNavController(bottomSheetNavigator)
@@ -52,7 +55,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = Destinations.Home.route
                     ) {
                         composable(route = Destinations.Home.route) {
-                            HomeScreen { beer ->
+                            HomeScreen(
+                                windowSizeClass = windowSizeClass,
+                                displayFeatures = displayFeatures,
+                            ) { beer ->
                                 navController.navigate(Destinations.toDetails(beer.id))
                             }
                         }

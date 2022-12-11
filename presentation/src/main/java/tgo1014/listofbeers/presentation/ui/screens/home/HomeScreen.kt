@@ -1,162 +1,101 @@
 package tgo1014.listofbeers.presentation.ui.screens.home
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.launch
+import androidx.window.layout.DisplayFeature
+import androidx.window.layout.FoldingFeature
+import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
+import com.google.accompanist.adaptive.TwoPane
 import tgo1014.listofbeers.presentation.models.BeerUi
-import tgo1014.listofbeers.presentation.models.Filter
-import tgo1014.listofbeers.presentation.ui.composables.BeerComposable
-import tgo1014.listofbeers.presentation.ui.composables.EmptyState
-import tgo1014.listofbeers.presentation.ui.composables.LogoText
-import tgo1014.listofbeers.presentation.ui.composables.SearchBar
-import tgo1014.listofbeers.presentation.ui.composables.SingleSelectionFilter
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.previews.DevicePreviews
+import tgo1014.listofbeers.presentation.ui.screens.details.DetailsScreen
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
+    windowSizeClass: WindowSizeClass,
+    displayFeatures: List<DisplayFeature>,
     onBeerClicked: (BeerUi) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
-    HomeScreen(
-        state = state,
-        onBeerClicked = {
-            keyboardController?.hide()
-            onBeerClicked(it)
-        },
-        onBottomOfScreenReached = viewModel::onBottomReached,
-        onQueryChanged = viewModel::search,
-        onFilterClicked = viewModel::onFilterClicked,
-        onRetryClicked = { viewModel.fetchBeers() }
-    )
-}
 
-@Composable
-private fun HomeScreen(
-    state: HomeState,
-    onBottomOfScreenReached: () -> Unit = {},
-    onBeerClicked: (BeerUi) -> Unit = {},
-    onQueryChanged: (String) -> Unit = {},
-    onFilterClicked: (Filter) -> Unit = {},
-    onRetryClicked: () -> Unit = {}
-) {
+    val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
 
-    val lazyState = rememberLazyGridState()
-    val coroutineScope = rememberCoroutineScope()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                title = { LogoText() },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primaryContainer,
-                )
-            )
-        }
+    // Use a two pane layout if there is a fold impacting layout (meaning it is separating
+    // or non-flat) or if we have a large enough width to show both.
+    if (
+        windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded/* ||
+        isBookPosture(foldingFeature) ||
+        isTableTopPosture(foldingFeature) ||
+        isSeparatingPosture(foldingFeature)*/
     ) {
-        LazyVerticalGrid(
-            state = lazyState,
-            contentPadding = WindowInsets.navigationBars
-                .add(WindowInsets(top = 16.dp))
-                .add(WindowInsets(top = it.calculateTopPadding())) // TopAppBar
-                .asPaddingValues(),
-            columns = GridCells.Adaptive(minSize = 300.dp),
-            modifier = Modifier.imePadding()
-        ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                SearchBar(
-                    query = state.searchText,
-                    onQueryChanged = { query ->
-                        coroutineScope.launch {
-                            lazyState.scrollToItem(0)
-                        }
-                        onQueryChanged(query)
-                    },
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                SingleSelectionFilter(
-                    filters = state.filters,
-                    onClick = { filter -> onFilterClicked(filter) },
-                    contentPadding = PaddingValues(horizontal = 16.dp)
-                )
-            }
-            if (state.beerList.isEmpty() && !state.isLoading) {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    EmptyState(onRetryClicked = onRetryClicked)
-                }
-            }
-            itemsIndexed(
-                items = state.beerList,
-                key = { _, beer -> beer.id }
-            ) { index, beer ->
-                BeerComposable(
-                    beer = beer,
-                    modifier = Modifier
-                        .clickable { onBeerClicked(beer) }
-                        .padding(16.dp)
-                        .animateItemPlacement()
-                )
-                if (index == state.beerList.lastIndex) {
-                    SideEffect { onBottomOfScreenReached() }
-                } else {
-                    Divider(Modifier.padding(start = 24.dp))
-                }
-            }
-            if (state.isLoading) {
-                item {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        CircularProgressIndicator(modifier = Modifier.size(40.dp))
-                    }
-                }
-            }
-        }
+        // Determine if we are going to be using a vertical strategy (as if laying out
+        // both sides in a column). We want to do so if we are in a tabletop posture,
+        // or we have an impactful horizontal fold. Otherwise, we'll use a horizontal strategy.
+//        val usingVerticalStrategy =
+//            isTableTopPosture(foldingFeature) ||
+//                (
+//                    isSeparatingPosture(foldingFeature) &&
+//                        foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL
+//                    )
+//
+//        if (usingVerticalStrategy) {
+        var beerId by remember { mutableStateOf(-1) }
+        TwoPane(
+            first = { HomeScreenSinglePane { beerId = it.id } },
+            second = { DetailsScreen(beerId = beerId) },
+            strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),
+            displayFeatures = displayFeatures,
+        )
+//        } else {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+////                    .verticalGradientScrim(
+////                        color = MaterialTheme.colors.primary.copy(alpha = 0.50f),
+////                        startYPercentage = 1f,
+////                        endYPercentage = 0f
+////                    )
+//                    //.systemBarsPadding()
+//                    .padding(horizontal = 8.dp)
+//            ) {
+//                // TopAppBar(onBackPress = onBackPress)
+//                TwoPane(
+//                    first = {
+//                        HomeScreenSinglePane(
+//                            state = state,
+//                            onBeerClicked = {
+//                                keyboardController?.hide()
+//                                onBeerClicked(it)
+//                            },
+//                            onBottomOfScreenReached = viewModel::onBottomReached,
+//                            onQueryChanged = viewModel::search,
+//                            onFilterClicked = viewModel::onFilterClicked,
+//                            onRetryClicked = { viewModel.fetchBeers() }
+//                        )
+//                    },
+//                    second = {
+//                       Box(Modifier.fillMaxSize().background(Color.Red))
+//                    },
+//                    strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f),
+//                    displayFeatures = displayFeatures
+//                )
+//            }
+//        }
+    } else {
+        HomeScreenSinglePane(onBeerClicked = onBeerClicked)
     }
 }
 
@@ -170,7 +109,7 @@ private val PreviewBeer = BeerUi(
 @DefaultPreview
 @Composable
 private fun HomeScreenPreviewEmpty() = ListOfBeersTheme {
-    HomeScreen(state = HomeState())
+    HomeScreenSinglePane() {}
 }
 
 @DefaultPreview
@@ -178,5 +117,8 @@ private fun HomeScreenPreviewEmpty() = ListOfBeersTheme {
 @Composable
 private fun HomeScreenPreview() = ListOfBeersTheme {
     val beerList = List(3) { PreviewBeer.copy(id = it) }
-    HomeScreen(state = HomeState(isLoading = true, beerList = beerList))
+    BoxWithConstraints {
+        HomeScreenSinglePane() {}
+    }
+
 }

@@ -50,11 +50,13 @@ object Dependencies {
         val compiler = "androidx.compose.compiler:compiler:$composeCompiler"
         val activityCompose = "androidx.activity:activity-compose:1.7.0-alpha02"
         val coil = "io.coil-kt:coil-compose:2.2.2"
+        val windowSizeM3 = "androidx.compose.material3:material3-window-size-class:1.1.0-alpha03"
 
         object Accompanist {
             val pager = "com.google.accompanist:accompanist-pager:$accompanist"
             val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
             val navigation = "com.google.accompanist:accompanist-navigation-material:$accompanist"
+            val twoPane = "com.google.accompanist:accompanist-adaptive:$accompanist"
         }
 
     }
@@ -85,5 +87,6 @@ object Dependencies {
         "androidx.lifecycle.compose.ExperimentalLifecycleComposeApi," +
         "androidx.compose.ui.ExperimentalComposeUiApi," +
         "androidx.compose.material3.ExperimentalMaterial3Api," +
-        "androidx.compose.foundation.ExperimentalFoundationApi"
+        "androidx.compose.foundation.ExperimentalFoundationApi," +
+        "androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi"
 }

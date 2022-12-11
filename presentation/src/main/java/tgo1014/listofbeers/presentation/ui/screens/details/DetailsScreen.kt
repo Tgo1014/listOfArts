@@ -53,7 +53,7 @@ fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(viewModel) { viewModel.getBeerById(beerId) }
+    LaunchedEffect(beerId) { viewModel.getBeerById(beerId) }
     DetailsScreen(state = state, onRetryClicked = { viewModel.getBeerById(beerId) })
 }
 
