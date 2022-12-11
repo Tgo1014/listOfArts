@@ -3,8 +3,12 @@ package tgo1014.listofbeers.presentation.ui.screens.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -21,6 +25,7 @@ import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.VerticalTwoPaneStrategy
 import tgo1014.listofbeers.presentation.models.BeerUi
+import tgo1014.listofbeers.presentation.ui.composables.LogoText
 import tgo1014.listofbeers.presentation.ui.composables.previews.DevicePreviews
 import tgo1014.listofbeers.presentation.ui.composables.utils.isBookPosture
 import tgo1014.listofbeers.presentation.ui.composables.utils.isSeparatingPosture
@@ -33,7 +38,15 @@ fun HomeScreen(
     windowSizeClass: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     onBeerClicked: (BeerUi) -> Unit,
-) {
+) = Column {
+    TopAppBar(
+        title = { LogoText() },
+        // scrollBehavior = scrollBehavior,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primaryContainer,
+        )
+    )
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
     // Use a two pane layout if there is a fold impacting layout (meaning it is separating
     // or non-flat) or if we have a large enough width to show both.
