@@ -39,7 +39,7 @@ fun HomeScreen(
     displayFeatures: List<DisplayFeature>,
     onBeerClicked: (BeerUi) -> Unit,
 ) = Column(
-    modifier = Modifier.background(color = MaterialTheme.colorScheme.secondaryContainer)
+    modifier = Modifier.background(color = MaterialTheme.colorScheme.secondaryContainer).fillMaxSize()
 ) {
     TopAppBar(
         title = { LogoText() },
