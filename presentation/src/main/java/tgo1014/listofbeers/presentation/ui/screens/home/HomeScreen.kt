@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
@@ -73,7 +76,7 @@ private fun HomeScreen(
     onRetryClicked: () -> Unit = {}
 ) {
 
-    val lazyState = rememberLazyListState()
+    val lazyState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -93,15 +96,16 @@ private fun HomeScreen(
             )
         }
     ) {
-        LazyColumn(
+        LazyVerticalGrid(
             state = lazyState,
             contentPadding = WindowInsets.navigationBars
                 .add(WindowInsets(top = 16.dp))
                 .add(WindowInsets(top = it.calculateTopPadding())) // TopAppBar
                 .asPaddingValues(),
+            columns = GridCells.Adaptive(minSize = 300.dp),
             modifier = Modifier.imePadding()
         ) {
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 SearchBar(
                     query = state.searchText,
                     onQueryChanged = { query ->
@@ -113,7 +117,7 @@ private fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            item {
+            item(span = { GridItemSpan(maxLineSpan) }) {
                 SingleSelectionFilter(
                     filters = state.filters,
                     onClick = { filter -> onFilterClicked(filter) },
@@ -121,7 +125,9 @@ private fun HomeScreen(
                 )
             }
             if (state.beerList.isEmpty() && !state.isLoading) {
-                item { EmptyState(onRetryClicked = onRetryClicked) }
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    EmptyState(onRetryClicked = onRetryClicked)
+                }
             }
             itemsIndexed(
                 items = state.beerList,
@@ -137,14 +143,14 @@ private fun HomeScreen(
                 if (index == state.beerList.lastIndex) {
                     SideEffect { onBottomOfScreenReached() }
                 } else {
-                    androidx.compose.material3.Divider(Modifier.padding(start = 24.dp))
+                    Divider(Modifier.padding(start = 24.dp))
                 }
             }
             if (state.isLoading) {
                 item {
                     Box(
                         contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         CircularProgressIndicator(modifier = Modifier.size(40.dp))
                     }
@@ -154,8 +160,23 @@ private fun HomeScreen(
     }
 }
 
+private val PreviewBeer = BeerUi(
+    name = "Punk IPA 2007 - 2010",
+    imageUrl = "https://images.punkapi.com/v2/192.png",
+    tagline = "Post Modern Classic. Spiky. Tropical. Hoppy.",
+    description = "Our flagship beer that kick started the craft beer revolution. This is James and Martin's original take on an American IPA, subverted with punchy New Zealand hops. Layered with new world hops to create an all-out riot of grapefruit, pineapple and lychee before a spiky, mouth-puckering bitter finish."
+)
+
 @DefaultPreview
 @Composable
-private fun HomeScreenPreview() = ListOfBeersTheme {
+private fun HomeScreenPreviewEmpty() = ListOfBeersTheme {
     HomeScreen(state = HomeState())
+}
+
+@DefaultPreview
+@DevicePreviews
+@Composable
+private fun HomeScreenPreview() = ListOfBeersTheme {
+    val beerList = List(3) { PreviewBeer.copy(id = it) }
+    HomeScreen(state = HomeState(isLoading = true, beerList = beerList))
 }
