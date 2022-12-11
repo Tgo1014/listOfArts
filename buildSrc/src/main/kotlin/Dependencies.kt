@@ -80,5 +80,10 @@ object Dependencies {
     }
 
     val timber = "com.jakewharton.timber:timber:5.0.1"
-    val optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+    val optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi," +
+        "com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi," +
+        "androidx.lifecycle.compose.ExperimentalLifecycleComposeApi," +
+        "androidx.compose.ui.ExperimentalComposeUiApi," +
+        "androidx.compose.material3.ExperimentalMaterial3Api," +
+        "androidx.compose.foundation.ExperimentalFoundationApi"
 }
