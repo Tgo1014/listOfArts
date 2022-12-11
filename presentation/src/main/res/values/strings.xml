@@ -16,4 +16,7 @@
     <string name="malt">Malt</string>
     <string name="ale">Ale</string>
     <string name="retry">Retry</string>
+    <string name="failed_to_load_beer">Failed to load beer</string>
+    <string name="try_again">Try Again</string>
+    <string name="select_a_beer_to_see_it_details">Select a beer to see its details</string>
 </resources>

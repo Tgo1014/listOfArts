@@ -20,6 +20,10 @@ class DetailsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     fun getBeerById(id: Int) = viewModelScope.launch {
+        if (id == -1) {
+            _state.update { DetailsState.NoBeerSelected }
+            return@launch
+        }
         _state.update { DetailsState.Loading }
         getBeerByIdUseCase(id)
             .onSuccess { beer -> _state.update { DetailsState.Success(beer.toUi()) } }

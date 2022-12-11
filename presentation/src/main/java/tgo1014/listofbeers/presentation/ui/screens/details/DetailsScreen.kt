@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -63,19 +64,22 @@ private fun DetailsScreen(
     modifier: Modifier = Modifier,
     onRetryClicked: () -> Unit = {},
 ) = Box(modifier) {
-    Icon(
-        painter = painterResource(id = R.drawable.ic_bookmark),
-        contentDescription = null,
-        tint = MaterialTheme.colorScheme.tertiary,
-        modifier = Modifier
-            .align(Alignment.TopEnd)
-            .width(45.dp)
-            .padding(end = 16.dp)
-    )
     when (state) {
         DetailsState.Error -> DetailScreenError(onRetryClicked)
         DetailsState.Loading -> DetailScreenLoading()
+        DetailsState.NoBeerSelected -> DetailEmpty()
         is DetailsState.Success -> DetailScreenContent(beer = state.beer)
+    }
+    if (state  is DetailsState.Success) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_bookmark),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.tertiary,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .width(45.dp)
+                .padding(end = 16.dp)
+        )
     }
 }
 
@@ -100,6 +104,30 @@ private fun DetailScreenLoadingPreview() = ListOfBeersTheme {
 }
 
 @Composable
+private fun DetailEmpty() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = stringResource(R.string.select_a_beer_to_see_it_details))
+        }
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailEmptyPreview() = ListOfBeersTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailEmpty()
+    }
+}
+
+
+@Composable
 private fun DetailScreenError(
     onRetryClicked: () -> Unit = {}
 ) {
@@ -113,9 +141,9 @@ private fun DetailScreenError(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Failed to load beer")
+            Text(text = stringResource(R.string.failed_to_load_beer))
             Button(onClick = onRetryClicked) {
-                Text("Try Again")
+                Text(text = stringResource(R.string.try_again))
             }
         }
     }
