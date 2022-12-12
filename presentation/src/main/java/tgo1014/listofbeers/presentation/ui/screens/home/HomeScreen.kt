@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.DpSize
 import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
@@ -26,6 +27,7 @@ import com.google.accompanist.adaptive.TwoPane
 import com.google.accompanist.adaptive.VerticalTwoPaneStrategy
 import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.ui.composables.LogoText
+import tgo1014.listofbeers.presentation.ui.composables.TestTag
 import tgo1014.listofbeers.presentation.ui.composables.previews.DevicePreviews
 import tgo1014.listofbeers.presentation.ui.composables.utils.isBookPosture
 import tgo1014.listofbeers.presentation.ui.composables.utils.isSeparatingPosture
@@ -70,7 +72,12 @@ fun HomeScreen(
         if (usingVerticalStrategy) {
             // For vertical lets keep the details at the top so the main list is easier to scroll
             TwoPane(
-                first = { DetailsScreen(beerId = beerId) },
+                first = {
+                    DetailsScreen(
+                        beerId = beerId,
+                        modifier = Modifier.testTag(TestTag.secondScreen)
+                    )
+                },
                 second = { HomeScreenSinglePane { beerId = it.id } },
                 strategy = VerticalTwoPaneStrategy(0.5f),
                 displayFeatures = displayFeatures,
@@ -78,7 +85,12 @@ fun HomeScreen(
         } else {
             TwoPane(
                 first = { HomeScreenSinglePane { beerId = it.id } },
-                second = { DetailsScreen(beerId = beerId) },
+                second = {
+                    DetailsScreen(
+                        beerId = beerId,
+                        modifier = Modifier.testTag(TestTag.secondScreen)
+                    )
+                },
                 strategy = HorizontalTwoPaneStrategy(0.5f),
                 displayFeatures = displayFeatures,
             )

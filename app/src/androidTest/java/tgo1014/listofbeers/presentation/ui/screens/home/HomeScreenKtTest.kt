@@ -1,10 +1,13 @@
 package tgo1014.listofbeers.presentation.ui.screens.home
 
 import android.content.Context
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.lifecycle.Lifecycle
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -18,8 +21,10 @@ import tgo1014.listofbeers.domain.repositories.BeersRepository
 import tgo1014.listofbeers.fakes.FakeBeerRepository
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.ui.MainActivity
+import tgo1014.listofbeers.presentation.ui.composables.TestTag
 import tgo1014.listofbeers.utils.assertDoesNotExist
 import tgo1014.listofbeers.utils.assertExists
+import tgo1014.listofbeers.utils.hasAnyWithTestTag
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -93,10 +98,14 @@ class HomeScreenKtTest {
     }
 
     @Test
-    fun when_clickingBeer_then_openDetailScreen() {
+    fun when_clickingBeerOnNonFoldable_then_openDetailScreen() {
         val fakeBeerRepository = beerRepository as FakeBeerRepository
         val beerList = listOf(testBeer1, testBeer2)
         fakeBeerRepository.beersToReturn = beerList
+        if (composeRule.hasAnyWithTestTag(TestTag.secondScreen)) {
+            // If it's a foldable, return
+            return
+        }
         composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
         composeRule
             .onNodeWithText(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
@@ -107,6 +116,30 @@ class HomeScreenKtTest {
             composeRule.activity.onBackPressedDispatcher.onBackPressed()
         }
         composeRule.assertDoesNotExist(text = context.getString(R.string.first_brewed))
+        // Make sure back press didn't leave the app
+        assert(composeRule.activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+    }
+
+    @Test
+    fun when_clickingBeerOnFoldable_then_openDetailScreen() {
+        val fakeBeerRepository = beerRepository as FakeBeerRepository
+        val beerList = listOf(testBeer1, testBeer2)
+        fakeBeerRepository.beersToReturn = beerList
+        if (!composeRule.hasAnyWithTestTag(TestTag.secondScreen)) {
+            // If it's a non foldable, return
+            return
+        }
+        composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
+        composeRule
+            .onNodeWithText(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
+            .performClick()
+        composeRule.assertExists(text = context.getString(R.string.first_brewed)) // Detail screen
+        composeRule.assertExists(text = testBeer1.name!!)
+        runBlocking(Dispatchers.Main) {
+            composeRule.activity.onBackPressedDispatcher.onBackPressed()
+        }
+        // Make sure back press leave the app
+        assert(composeRule.activity.lifecycle.currentState.isAtLeast(Lifecycle.State.DESTROYED))
     }
 
 }

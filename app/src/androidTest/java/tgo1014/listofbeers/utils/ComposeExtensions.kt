@@ -2,8 +2,14 @@ package tgo1014.listofbeers.utils
 
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onNodeWithText
+import tgo1014.listofbeers.presentation.ui.composables.TestTag
+
+fun ComposeContentTestRule.hasAnyWithTestTag(testTag: String): Boolean {
+    return this.onAllNodes(hasTestTag(testTag)).fetchSemanticsNodes().isNotEmpty()
+}
 
 // https://medium.com/androiddevelopers/alternatives-to-idling-resources-in-compose-tests-8ae71f9fc473
 fun ComposeContentTestRule.waitUntilNodeCount(
