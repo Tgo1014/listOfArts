@@ -58,9 +58,8 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 windowSizeClass = windowSizeClass,
                                 displayFeatures = displayFeatures,
-                            ) { beer ->
-                                navController.navigate(Destinations.toDetails(beer.id))
-                            }
+                                onBeerClicked = { beer -> navController.navigate(Destinations.toDetails(beer.id)) }
+                            )
                         }
                         bottomSheet(
                             route = Destinations.Details.route,
