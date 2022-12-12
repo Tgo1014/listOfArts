@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -41,62 +42,61 @@ fun HomeScreen(
     displayFeatures: List<DisplayFeature>,
     onBeerClicked: (BeerUi) -> Unit,
     modifier: Modifier = Modifier
-) = Column(
-    modifier = Modifier
-        .background(color = MaterialTheme.colorScheme.secondaryContainer)
+) = Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+    Column(modifier = Modifier
         .fillMaxSize()
-        .then(modifier)
-) {
-    TopAppBar(
-        title = { LogoText() },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primaryContainer,
+        .then(modifier)) {
+        TopAppBar(
+            title = { LogoText() },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primaryContainer,
+            )
         )
-    )
-    val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-    // Use a two pane layout if there is a fold impacting layout (meaning it is separating
-    // or non-flat) or if we have a large enough width to show both.
-    if (
-        windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded ||
-        isBookPosture(foldingFeature) ||
-        isTableTopPosture(foldingFeature) ||
-        isSeparatingPosture(foldingFeature)
-    ) {
-        // Determine if we are going to be using a vertical strategy (as if laying out
-        // both sides in a column). We want to do so if we are in a tabletop posture,
-        // or we have an impactful horizontal fold. Otherwise, we'll use a horizontal strategy.
-        val usingVerticalStrategy = isTableTopPosture(foldingFeature) ||
-            (isSeparatingPosture(foldingFeature) && foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL)
-        var beerId by remember { mutableStateOf(-1) }
-        if (usingVerticalStrategy) {
-            // For vertical lets keep the details at the top so the main list is easier to scroll
-            TwoPane(
-                first = {
-                    DetailsScreen(
-                        beerId = beerId,
-                        modifier = Modifier.testTag(TestTag.secondScreen)
-                    )
-                },
-                second = { HomeScreenSinglePane { beerId = it.id } },
-                strategy = VerticalTwoPaneStrategy(0.5f),
-                displayFeatures = displayFeatures,
-            )
+        val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
+        // Use a two pane layout if there is a fold impacting layout (meaning it is separating
+        // or non-flat) or if we have a large enough width to show both.
+        if (
+            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded ||
+            isBookPosture(foldingFeature) ||
+            isTableTopPosture(foldingFeature) ||
+            isSeparatingPosture(foldingFeature)
+        ) {
+            // Determine if we are going to be using a vertical strategy (as if laying out
+            // both sides in a column). We want to do so if we are in a tabletop posture,
+            // or we have an impactful horizontal fold. Otherwise, we'll use a horizontal strategy.
+            val usingVerticalStrategy = isTableTopPosture(foldingFeature) ||
+                (isSeparatingPosture(foldingFeature) && foldingFeature.orientation == FoldingFeature.Orientation.HORIZONTAL)
+            var beerId by remember { mutableStateOf(-1) }
+            if (usingVerticalStrategy) {
+                // For vertical lets keep the details at the top so the main list is easier to scroll
+                TwoPane(
+                    first = {
+                        DetailsScreen(
+                            beerId = beerId,
+                            modifier = Modifier.testTag(TestTag.secondScreen)
+                        )
+                    },
+                    second = { HomeScreenSinglePane { beerId = it.id } },
+                    strategy = VerticalTwoPaneStrategy(0.5f),
+                    displayFeatures = displayFeatures,
+                )
+            } else {
+                TwoPane(
+                    first = { HomeScreenSinglePane { beerId = it.id } },
+                    second = {
+                        DetailsScreen(
+                            beerId = beerId,
+                            modifier = Modifier.testTag(TestTag.secondScreen)
+                        )
+                    },
+                    strategy = HorizontalTwoPaneStrategy(0.5f),
+                    displayFeatures = displayFeatures,
+                )
+            }
         } else {
-            TwoPane(
-                first = { HomeScreenSinglePane { beerId = it.id } },
-                second = {
-                    DetailsScreen(
-                        beerId = beerId,
-                        modifier = Modifier.testTag(TestTag.secondScreen)
-                    )
-                },
-                strategy = HorizontalTwoPaneStrategy(0.5f),
-                displayFeatures = displayFeatures,
-            )
+            HomeScreenSinglePane(onBeerClicked = onBeerClicked)
         }
-    } else {
-        HomeScreenSinglePane(onBeerClicked = onBeerClicked)
     }
 }
 
