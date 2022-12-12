@@ -106,6 +106,7 @@ class HomeScreenKtTest {
             // If it's a foldable, return
             return
         }
+        composeRule.assertDoesNotExist(text = context.getString(R.string.first_brewed))
         composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
         composeRule
             .onNodeWithText(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
@@ -129,12 +130,15 @@ class HomeScreenKtTest {
             // If it's a non foldable, return
             return
         }
+        composeRule.assertDoesNotExist(text = context.getString(R.string.first_brewed))
+        composeRule.assertExists(text = context.getString(R.string.select_a_beer_to_see_it_details))
         composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
         composeRule
             .onNodeWithText(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
             .performClick()
         composeRule.assertExists(text = context.getString(R.string.first_brewed)) // Detail screen
         composeRule.assertExists(text = testBeer1.name!!)
+        composeRule.assertDoesNotExist(text = context.getString(R.string.select_a_beer_to_see_it_details))
         runBlocking(Dispatchers.Main) {
             composeRule.activity.onBackPressedDispatcher.onBackPressed()
         }
