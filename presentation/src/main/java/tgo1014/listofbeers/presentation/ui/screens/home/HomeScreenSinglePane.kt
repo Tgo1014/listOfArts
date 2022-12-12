@@ -2,6 +2,7 @@ package tgo1014.listofbeers.presentation.ui.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
@@ -18,6 +19,8 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -72,7 +75,7 @@ private fun HomeScreenSinglePane(
     val coroutineScope = rememberCoroutineScope()
     LazyVerticalGrid(
         state = lazyState,
-        contentPadding =  WindowInsets.navigationBars
+        contentPadding = WindowInsets.navigationBars
             .add(WindowInsets(top = 16.dp))
             .asPaddingValues(),
         columns = GridCells.Adaptive(minSize = 300.dp),
@@ -106,17 +109,19 @@ private fun HomeScreenSinglePane(
             items = state.beerList,
             key = { _, beer -> beer.id }
         ) { index, beer ->
-            BeerComposable(
-                beer = beer,
-                modifier = Modifier
-                    .clickable { onBeerClicked(beer) }
-                    .padding(16.dp)
-                    .animateItemPlacement()
-            )
-            if (index == state.beerList.lastIndex) {
-                SideEffect { onBottomOfScreenReached() }
-            } else {
-                Divider(Modifier.padding(start = 24.dp))
+            Column {
+                BeerComposable(
+                    beer = beer,
+                    modifier = Modifier
+                        .clickable { onBeerClicked(beer) }
+                        .padding(16.dp)
+                        .animateItemPlacement()
+                )
+                if (index == state.beerList.lastIndex) {
+                    SideEffect { onBottomOfScreenReached() }
+                } else {
+                    Divider(Modifier.padding(start = 16.dp))
+                }
             }
         }
         if (state.isLoading) {
@@ -142,7 +147,7 @@ private val PreviewBeer = BeerUi(
 @DefaultPreview
 @Composable
 private fun HomeScreenPreviewEmpty() = ListOfBeersTheme {
-    HomeScreenSinglePane(state = HomeState())
+    Surface { HomeScreenSinglePane(state = HomeState()) }
 }
 
 @DefaultPreview
@@ -150,5 +155,5 @@ private fun HomeScreenPreviewEmpty() = ListOfBeersTheme {
 @Composable
 private fun HomeScreenPreview() = ListOfBeersTheme {
     val beerList = List(3) { PreviewBeer.copy(id = it) }
-    HomeScreenSinglePane(state = HomeState(isLoading = true, beerList = beerList))
+    Surface { HomeScreenSinglePane(state = HomeState(isLoading = true, beerList = beerList)) }
 }
