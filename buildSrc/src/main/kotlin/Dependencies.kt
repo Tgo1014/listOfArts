@@ -1,6 +1,7 @@
 import Dependencies.Versions.accompanist
 import Dependencies.Versions.compose
 import Dependencies.Versions.composeCompiler
+import Dependencies.Versions.coroutines
 
 object Dependencies {
 
@@ -9,6 +10,7 @@ object Dependencies {
 
     object Versions {
         val kotlin = "1.7.21"
+        val coroutines = "1.6.4"
         val hilt = "2.44.2"
         val compose = "1.4.0-alpha02"
         val composeCompiler = "1.4.0-alpha02"
@@ -67,7 +69,7 @@ object Dependencies {
 
     object Test {
         val jUnit = "junit:junit:4.13.2"
-        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+        val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         val turbine = "app.cash.turbine:turbine:0.12.1"
         val mockWebServer = "com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10"
         val testRunner = "androidx.test:runner:1.5.1"
@@ -79,6 +81,7 @@ object Dependencies {
         val composeTestManifest = "androidx.compose.ui:ui-test-manifest:$compose"
     }
 
+    val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     val timber = "com.jakewharton.timber:timber:5.0.1"
     val optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
 }

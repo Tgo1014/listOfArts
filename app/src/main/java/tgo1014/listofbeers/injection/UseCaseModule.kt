@@ -1,22 +1,28 @@
 package tgo1014.listofbeers.injection
 
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import tgo1014.listofbeers.data.usecases.GetBeerByIdUseCaseImpl
-import tgo1014.listofbeers.data.usecases.GetBeersUseCaseImpl
+import tgo1014.listofbeers.domain.CoroutineProvider
+import tgo1014.listofbeers.domain.repositories.BeersRepository
 import tgo1014.listofbeers.domain.usecases.GetBeerByIdUseCase
 import tgo1014.listofbeers.domain.usecases.GetBeersUseCase
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class UseCaseModule {
+class UseCaseModule {
 
-    @Binds
-    abstract fun bindGetBeersUseCase(useCase: GetBeersUseCaseImpl): GetBeersUseCase
+    @Provides
+    fun bindGetBeersUseCase(
+        beersRepository: BeersRepository,
+        coroutineProvider: CoroutineProvider,
+    ) = GetBeersUseCase(beersRepository, coroutineProvider)
 
-    @Binds
-    abstract fun bindGetBeerByIdUseCase(useCase: GetBeerByIdUseCaseImpl): GetBeerByIdUseCase
+    @Provides
+    fun bindGetBeerByIdUseCase(
+        beersRepository: BeersRepository,
+        coroutineProvider: CoroutineProvider,
+    ) = GetBeerByIdUseCase(beersRepository, coroutineProvider)
 
 }
