@@ -35,7 +35,7 @@ dependencies {
     implementation(Dependencies.Injection.hiltCompose)
     kapt(Dependencies.Injection.hiltKapt)
     testImplementation(Dependencies.Test.jUnit)
-    testImplementation(Dependencies.Test.coroutines)
+    testImplementation(Dependencies.Test.coroutinesTest)
     testImplementation(Dependencies.Test.turbine)
     detektPlugins(Dependencies.Detekt.twitter)
 }

@@ -1,9 +1,8 @@
-package tgo1014.listofbeers.data.usecases
+package tgo1014.listofbeers.domain.usecases
 
 import kotlinx.coroutines.withContext
 import tgo1014.listofbeers.domain.CoroutineProvider
 import tgo1014.listofbeers.domain.repositories.BeersRepository
-import tgo1014.listofbeers.domain.usecases.GetBeerByIdUseCase
 import javax.inject.Inject
 
 class GetBeerByIdUseCaseImpl @Inject constructor(
@@ -14,5 +13,4 @@ class GetBeerByIdUseCaseImpl @Inject constructor(
     override suspend operator fun invoke(id: Int) = withContext(coroutineProvider.io) {
         runCatching { beersRepository.getBeerById(id) }
     }
-
 }

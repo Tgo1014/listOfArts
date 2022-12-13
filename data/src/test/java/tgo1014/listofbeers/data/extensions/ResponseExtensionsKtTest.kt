@@ -9,7 +9,8 @@ class ResponseExtensionsKtTest {
     @Test
     fun `GIVEN a success response WHEN body is not null THEN success`() {
         val response = Response.success("")
-        response.successOrThrow()
+        val data = response.successOrThrow()
+        assert(data == "")
     }
 
     @Test(expected = Exception::class)

@@ -1,10 +1,9 @@
-package tgo1014.listofbeers.data.usecases
+package tgo1014.listofbeers.domain.usecases
 
 import kotlinx.coroutines.withContext
 import tgo1014.listofbeers.domain.CoroutineProvider
 import tgo1014.listofbeers.domain.models.BeerDomain
 import tgo1014.listofbeers.domain.repositories.BeersRepository
-import tgo1014.listofbeers.domain.usecases.GetBeersUseCase
 import javax.inject.Inject
 
 class GetBeersUseCaseImpl @Inject constructor(
@@ -26,5 +25,4 @@ class GetBeersUseCaseImpl @Inject constructor(
             beersRepository.getBeers(page = page, search = query, yeast = yeast)
         }
     }
-
 }

@@ -4,11 +4,12 @@ buildscript {
     }
 }
 plugins {
+    kotlin("jvm") version Dependencies.Versions.kotlin apply false
+    kotlin("android") version Dependencies.Versions.kotlin apply false
     id("com.android.application") version Dependencies.Versions.androidPlugins apply false
     id("com.android.library") version Dependencies.Versions.androidPlugins apply false
-    id("org.jetbrains.kotlin.jvm") version Dependencies.Versions.kotlin apply false
-    id("org.jetbrains.kotlin.android") version Dependencies.Versions.kotlin apply false
     id("com.diffplug.spotless") version Dependencies.Versions.spotless apply false
+
 }
 subprojects {
     apply(plugin = "com.diffplug.spotless")

@@ -18,7 +18,7 @@ dependencies {
     implementation(Dependencies.Injection.hilt)
     kapt(Dependencies.Injection.hiltKapt)
     testImplementation(Dependencies.Test.jUnit)
-    testImplementation(Dependencies.Test.coroutines)
+    testImplementation(Dependencies.Test.coroutinesTest)
     testImplementation(Dependencies.Test.mockWebServer)
     testImplementation(Dependencies.Network.kotlinxSerializationConverter)
 }
