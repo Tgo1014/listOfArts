@@ -53,5 +53,4 @@ class GetBeersUseCaseImplTest {
         usecase(page = 1, search = input)
         assert(fakeBeerRepository.search == null)
     }
-
 }

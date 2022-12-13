@@ -37,5 +37,4 @@ class GetBeerByIdUseCaseImplTest {
         val result = usecase(1)
         assert(result.isFailure)
     }
-
 }
