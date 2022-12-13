@@ -10,6 +10,7 @@ java {
 
 dependencies {
     implementation(Dependencies.coroutines)
+    implementation(Dependencies.Injection.javax)
     testImplementation(kotlin("test"))
     testImplementation(Dependencies.Test.coroutinesTest)
 }

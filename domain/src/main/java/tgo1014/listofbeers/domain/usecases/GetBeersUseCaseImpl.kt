@@ -4,8 +4,9 @@ import kotlinx.coroutines.withContext
 import tgo1014.listofbeers.domain.CoroutineProvider
 import tgo1014.listofbeers.domain.models.BeerDomain
 import tgo1014.listofbeers.domain.repositories.BeersRepository
+import javax.inject.Inject
 
-class GetBeersUseCaseImpl constructor(
+class GetBeersUseCaseImpl @Inject constructor(
     private val beersRepository: BeersRepository,
     private val coroutineProvider: CoroutineProvider,
 ) : GetBeersUseCase {
@@ -24,5 +25,4 @@ class GetBeersUseCaseImpl constructor(
             beersRepository.getBeers(page = page, search = query, yeast = yeast)
         }
     }
-
 }
