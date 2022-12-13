@@ -10,4 +10,10 @@ java {
 
 dependencies {
     implementation(Dependencies.coroutines)
+    testImplementation(kotlin("test"))
+    testImplementation(Dependencies.Test.coroutinesTest)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
