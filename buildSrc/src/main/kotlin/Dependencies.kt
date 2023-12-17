@@ -5,18 +5,18 @@ import Dependencies.Versions.coroutines
 
 object Dependencies {
 
-    val compileSdk = 33
+    val compileSdk = 34
     val minSdk = 21
 
     object Versions {
-        val kotlin = "1.7.21"
-        val coroutines = "1.6.4"
-        val hilt = "2.44.2"
-        val compose = "1.4.0-alpha02"
-        val composeCompiler = "1.4.0-alpha02"
+        val kotlin = "1.9.21"
+        val coroutines = "1.7.3"
+        val hilt = "2.49"
+        val compose = "1.6.0-beta03"
+        val composeCompiler = "1.5.6"
         val lifecycle = "2.6.0-alpha03"
-        val accompanist = "0.28.0"
-        val androidPlugins = "7.3.1"
+        val accompanist = "0.33.2-alpha"
+        val androidPlugins = "8.2.0"
         val detekt = "1.22.0"
         val spotless = "6.12.0"
     }
@@ -37,21 +37,21 @@ object Dependencies {
 
     object Network {
         val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
-        val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-        val kotlinxSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
-        val interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10"
+        val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
+        val kotlinxSerializationConverter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
+        val interceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
     }
 
     object Compose {
         val ui = "androidx.compose.ui:ui:$compose"
         val material = "androidx.compose.material:material:$compose"
-        val material3 = "androidx.compose.material3:material3:1.1.0-alpha02"
+        val material3 = "androidx.compose.material3:material3:1.2.0-alpha12"
         val toolPreview = "androidx.compose.ui:ui-tooling:$compose"
-        val preview = "androidx.compose.ui:ui-tooling-preview:1.3.0"
+        val preview = "androidx.compose.ui:ui-tooling-preview:1.6.0-beta02"
         val uiUtil = "androidx.compose.ui:ui-util:$compose"
         val compiler = "androidx.compose.compiler:compiler:$composeCompiler"
-        val activityCompose = "androidx.activity:activity-compose:1.7.0-alpha02"
-        val coil = "io.coil-kt:coil-compose:2.2.2"
+        val activityCompose = "androidx.activity:activity-compose:1.9.0-alpha01"
+        val coil = "io.coil-kt:coil-compose:2.5.0"
 
         object Accompanist {
             val pager = "com.google.accompanist:accompanist-pager:$accompanist"

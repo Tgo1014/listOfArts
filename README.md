@@ -6,9 +6,9 @@
 A simple demo app for playing and testing latest Android libraries
 
 ## 👁️Previews
-<p align="center">  
-<img src="imgs/home.png" width="30%"/>  
-<img src="imgs/details.png" width="30%"/>  
+<p align="center">
+<img src="imgs/home.png" width="30%"/>
+<img src="imgs/details.png" width="30%"/>
 </p>
 
 ## 🛠 Tech

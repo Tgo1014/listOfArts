@@ -9,7 +9,6 @@ plugins {
     id("com.android.application") version Dependencies.Versions.androidPlugins apply false
     id("com.android.library") version Dependencies.Versions.androidPlugins apply false
     id("com.diffplug.spotless") version Dependencies.Versions.spotless apply false
-
 }
 subprojects {
     apply(plugin = "com.diffplug.spotless")
@@ -28,5 +27,5 @@ subprojects {
     }
 }
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }

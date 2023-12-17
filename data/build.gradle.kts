@@ -7,8 +7,13 @@ plugins {
 
 android {
     namespace = "tgo1014.listofbeers.data"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
 }
 
 dependencies {

@@ -13,12 +13,15 @@ android {
     defaultConfig {
         applicationId = "tgo1014.beerbox"
         minSdk = Dependencies.minSdk
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "tgo1014.listofbeers.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "BASE_URL", "\"https://api.punkapi.com/v2/\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
     buildTypes {
         getByName("release") {
@@ -31,10 +34,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
 }
 
 dependencies {

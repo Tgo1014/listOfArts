@@ -36,7 +36,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.models.BeerUi
@@ -46,7 +45,6 @@ import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.composables.simpleVerticalScrollbar
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun DetailsScreen(
     beerId: Int,
