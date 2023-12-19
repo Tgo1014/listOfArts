@@ -1,19 +1,19 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("com.android.application")
-    id("dagger.hilt.android.plugin")
-    kotlin("android")
-    kotlin("kapt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
-    compileSdk = Dependencies.compileSdk
+    compileSdk = libs.versions.sdk.compile.get().toInt()
     namespace = "tgo1014.listofbeers"
     defaultConfig {
         applicationId = "tgo1014.beerbox"
-        minSdk = Dependencies.minSdk
-        targetSdk = 34
+        minSdk = libs.versions.sdk.min.get().toInt()
+        targetSdk = libs.versions.sdk.target.get().toInt()
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "tgo1014.listofbeers.HiltTestRunner"
@@ -44,22 +44,22 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
-    implementation(Dependencies.Injection.hilt)
-    kapt(Dependencies.Injection.hiltKapt)
-    implementation(Dependencies.timber)
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.serialization)
-    implementation(Dependencies.Network.interceptor)
-    implementation(Dependencies.Network.kotlinxSerializationConverter)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.timber)
+    implementation(libs.retrofit)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.logging.interceptor)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
     // Testing
-    androidTestImplementation(Dependencies.Test.testRunner)
-    androidTestImplementation(Dependencies.Test.hiltTesting)
-    kaptAndroidTest(Dependencies.Test.hiltTestingKapt)
-    androidTestImplementation(Dependencies.Test.composeJunit)
-    debugImplementation(Dependencies.Test.composeTestManifest)
-    androidTestImplementation(Dependencies.Test.mockWebServer)
+    androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.mockwebserver)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += Dependencies.optIns
+    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
 }

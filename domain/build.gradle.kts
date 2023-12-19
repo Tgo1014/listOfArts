@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    kotlin("jvm") version Dependencies.Versions.kotlin
+    alias(libs.plugins.kotlin.jvm)
 }
 
 java {
@@ -9,10 +9,10 @@ java {
 }
 
 dependencies {
-    implementation(Dependencies.coroutines)
-    implementation(Dependencies.Injection.javax)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.javax.inject)
     testImplementation(kotlin("test"))
-    testImplementation(Dependencies.Test.coroutinesTest)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 tasks.test {
@@ -20,5 +20,5 @@ tasks.test {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += Dependencies.optIns
+    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
 }
