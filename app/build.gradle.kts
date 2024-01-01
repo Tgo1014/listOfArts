@@ -52,7 +52,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     // Testing
-    androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.androidx.core)
+    testImplementation(libs.androidx.core)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
     androidTestImplementation(libs.ui.test.junit4)

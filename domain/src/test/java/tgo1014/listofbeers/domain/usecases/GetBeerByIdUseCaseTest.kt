@@ -7,8 +7,10 @@ import tgo1014.listofbeers.domain.fakes.FakeBeerRepository
 import tgo1014.listofbeers.domain.fakes.FakeCoroutineProvider
 import tgo1014.listofbeers.domain.models.BeerDomain
 import kotlin.test.BeforeTest
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
-class GetBeerByIdUseCaseImplTest {
+class GetBeerByIdUseCaseTest {
 
     private lateinit var fakeBeerRepository: FakeBeerRepository
     private lateinit var usecase: GetBeerByIdUseCase
@@ -19,7 +21,10 @@ class GetBeerByIdUseCaseImplTest {
     @BeforeTest
     fun setup() {
         fakeBeerRepository = FakeBeerRepository()
-        usecase = GetBeerByIdUseCaseImpl(fakeBeerRepository, fakeCoroutineProvider)
+        usecase = GetBeerByIdUseCase(
+            beersRepository = fakeBeerRepository,
+            coroutineProvider = fakeCoroutineProvider
+        )
     }
 
     @Test
@@ -27,14 +32,14 @@ class GetBeerByIdUseCaseImplTest {
         testScope.runTest {
             fakeBeerRepository.beersToReturn = listOf(BeerDomain())
             val result = usecase(1)
-            assert(result.getOrNull() != null)
-            assert(result.isSuccess)
+            assertNotNull(result.getOrNull())
+            assertTrue(result.isSuccess)
         }
 
     @Test
     fun `GIVEN a beer request is made WHEN it fails THEN error is returned`() = testScope.runTest {
         fakeBeerRepository.throwException = true
         val result = usecase(1)
-        assert(result.isFailure)
+        assertTrue(result.isFailure)
     }
 }

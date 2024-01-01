@@ -5,7 +5,7 @@ activityCompose = "1.9.0-alpha01"
 accompanistNavigationMaterial = "0.33.2-alpha"
 coilCompose = "2.5.0"
 compose = "1.6.0-beta03"
-compose-compiler = "1.5.6"
+compose-compiler = "1.5.7"
 detekt = "1.23.4"
 hilt = "2.49"
 hiltNavigationCompose = "1.1.0"
@@ -18,14 +18,15 @@ kotlinxSerializationJson = "1.6.2"
 lifecycleViewmodelKtx = "2.6.2"
 loggingInterceptor = "5.0.0-alpha.11"
 material3 = "1.2.0-beta01"
+mockitoKotlin = "5.2.1"
 mockwebserver = "5.0.0-alpha.10"
 retrofit = "2.9.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
-runner = "1.6.0-alpha05"
+runner = "1.5.2"
 spotless = "6.12.0"
 timber = "5.0.1"
 turbine = "0.12.1"
-optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
+optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi,androidx.compose.ui.test.ExperimentalTestApi"
 sdk-compile = "34"
 sdk-target = "34"
 sdk-min = "21"
@@ -56,13 +57,14 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleViewmodelKtx" }
 lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
-runner = { module = "androidx.test:runner", version.ref = "runner" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
+androidx-core = { group = "androidx.test", name = "runner", version.ref = "runner" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

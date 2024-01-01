@@ -29,7 +29,7 @@ dependencies {
     ksp(libs.hilt.compiler)
     debugImplementation(libs.ui.test.junit4)
     testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.mockwebserver)
+    testImplementation(libs.mockwebserver)
     testImplementation(libs.retrofit2.kotlinx.serialization.converter)
 }
 
