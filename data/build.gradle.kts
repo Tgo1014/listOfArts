@@ -1,28 +1,38 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("plugin.serialization") version Dependencies.Versions.kotlin
-    kotlin("kapt")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
     namespace = "tgo1014.listofbeers.data"
-    compileSdk = 33
-    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    compileSdk = libs.versions.sdk.compile.get().toInt()
+    defaultConfig {
+        minSdk = libs.versions.sdk.min.get().toInt()
+        testOptions.targetSdk = libs.versions.sdk.target.get().toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
 }
 
 dependencies {
     implementation(project(":domain"))
-    implementation(Dependencies.Network.retrofit)
-    implementation(Dependencies.Network.serialization)
-    implementation(Dependencies.Injection.hilt)
-    kapt(Dependencies.Injection.hiltKapt)
-    testImplementation(Dependencies.Test.jUnit)
-    testImplementation(Dependencies.Test.coroutinesTest)
-    testImplementation(Dependencies.Test.mockWebServer)
-    testImplementation(Dependencies.Network.kotlinxSerializationConverter)
+    implementation(libs.retrofit)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    debugImplementation(libs.ui.test.junit4)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.retrofit2.kotlinx.serialization.converter)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += Dependencies.optIns
+    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
 }

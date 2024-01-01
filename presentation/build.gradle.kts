@@ -1,45 +1,51 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("io.gitlab.arturbosch.detekt") version Dependencies.Versions.detekt
-    kotlin("kapt")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.detekt)
 }
 
 android {
     namespace = "tgo1014.listofbeers.presentation"
-    compileSdk = Dependencies.compileSdk
-    defaultConfig.minSdk = Dependencies.minSdk
+    compileSdk = libs.versions.sdk.compile.get().toInt()
+    defaultConfig.minSdk = libs.versions.sdk.min.get().toInt()
     buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = Dependencies.Versions.composeCompiler
+    composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
 }
 
 dependencies {
     implementation(project(":domain"))
-    implementation(Dependencies.Android.lifecycle)
-    implementation(Dependencies.Android.lifecycleRuntime)
-    implementation(Dependencies.Compose.ui)
-    implementation(Dependencies.Compose.material)
-    implementation(Dependencies.Compose.material3)
-    implementation(Dependencies.Compose.compiler)
-    implementation(Dependencies.Compose.uiUtil)
-    debugImplementation(Dependencies.Compose.toolPreview)
-    implementation(Dependencies.Compose.preview)
-    implementation(Dependencies.Compose.coil)
-    implementation(Dependencies.Compose.activityCompose)
-    implementation(Dependencies.Compose.Accompanist.navigation)
-    implementation(Dependencies.Compose.Accompanist.systemUiController)
-    implementation(Dependencies.Injection.hilt)
-    implementation(Dependencies.Injection.hiltCompose)
-    kapt(Dependencies.Injection.hiltKapt)
-    testImplementation(Dependencies.Test.jUnit)
-    testImplementation(Dependencies.Test.coroutinesTest)
-    testImplementation(Dependencies.Test.turbine)
-    detektPlugins(Dependencies.Detekt.twitter)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compiler)
+    implementation(libs.androidx.ui.util)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.accompanist.navigation.material)
+    implementation(libs.google.accompanist.systemuicontroller)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockito.kotlin)
+    detektPlugins(libs.detekt)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += Dependencies.optIns
+    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
 }
