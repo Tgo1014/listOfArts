@@ -1,18 +1,20 @@
-buildscript {
-    dependencies {
-        classpath(Dependencies.BuildPlugins.hilt)
-    }
-}
+import com.diffplug.gradle.spotless.SpotlessExtension
+
 plugins {
-    id("com.android.application") version Dependencies.Versions.androidPlugins apply false
-    id("com.android.library") version Dependencies.Versions.androidPlugins apply false
-    id("org.jetbrains.kotlin.jvm") version Dependencies.Versions.kotlin apply false
-    id("org.jetbrains.kotlin.android") version Dependencies.Versions.kotlin apply false
-    id("com.diffplug.spotless") version Dependencies.Versions.spotless apply false
+    alias(libs.plugins.android.application).apply(false)
+    alias(libs.plugins.android.library).apply(false)
+    alias(libs.plugins.kotlin.android).apply(false)
+    alias(libs.plugins.kotlin.jvm).apply(false)
+    alias(libs.plugins.kotlin.serialization).apply(false)
+    alias(libs.plugins.ksp).apply(false)
+    alias(libs.plugins.hilt).apply(false)
+    alias(libs.plugins.detekt).apply(false)
+    alias(libs.plugins.spotless).apply(false)
 }
+
 subprojects {
-    apply(plugin = "com.diffplug.spotless")
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+    apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
+    configure<SpotlessExtension> {
         kotlin {
             ktlint()
                 .setUseExperimental(true)
@@ -26,6 +28,7 @@ subprojects {
         }
     }
 }
+
 tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }

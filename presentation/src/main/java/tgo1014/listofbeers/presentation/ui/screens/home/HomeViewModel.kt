@@ -31,10 +31,6 @@ class HomeViewModel @Inject constructor(
         get() = _state.value.isLoading
         set(value) = _state.update { it.copy(isLoading = value) }
 
-    init {
-        fetchBeers()
-    }
-
     fun search(query: String) {
         resetState()
         _state.update { it.copy(searchText = query) }

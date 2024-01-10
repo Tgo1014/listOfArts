@@ -14,7 +14,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun bindGetBeersUseCase(): CoroutineProvider {
+    fun providesCoroutineProvider(): CoroutineProvider {
         return object : CoroutineProvider {
             override val main = Dispatchers.Main
             override val io = Dispatchers.IO
