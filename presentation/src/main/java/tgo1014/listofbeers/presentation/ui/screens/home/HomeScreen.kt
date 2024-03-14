@@ -92,10 +92,10 @@ private fun HomeScreen(
             TopAppBar(
                 title = { LogoText() },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primaryContainer,
-                )
+//                colors = TopAppBarDefaults.topAppBarColors(
+//                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+//                    titleContentColor = MaterialTheme.colorScheme.primaryContainer,
+//                )
             )
         }
     ) {

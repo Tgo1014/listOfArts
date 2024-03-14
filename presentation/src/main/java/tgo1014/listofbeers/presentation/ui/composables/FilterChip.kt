@@ -17,7 +17,6 @@ import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrimaryContainerFilterChip(
     text: String,

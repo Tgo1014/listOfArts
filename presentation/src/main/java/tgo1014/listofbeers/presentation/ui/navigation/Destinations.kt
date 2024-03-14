@@ -5,8 +5,8 @@ import androidx.navigation.navArgument
 
 sealed class Destinations(val route: String) {
 
-    object Home : Destinations("Home")
-    object Details : Destinations("details/{id}") {
+    data object Home : Destinations("Home")
+    data object Details : Destinations("details/{id}") {
         const val id = "id"
         val args = listOf(navArgument(id) { type = NavType.IntType })
     }

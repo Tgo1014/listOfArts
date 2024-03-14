@@ -42,18 +42,18 @@ fun BeerComposable(
         Spacer(modifier = Modifier.width(8.dp))
         Column(verticalArrangement = Arrangement.Center) {
             Text(
-                text = beer.name.orEmpty().uppercase(),
+                text = beer.name.uppercase(),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = beer.tagline.orEmpty(),
+                text = beer.tagline,
                 style = MaterialTheme.typography.labelSmall
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = beer.description.orEmpty(),
+                text = beer.description,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Justify,

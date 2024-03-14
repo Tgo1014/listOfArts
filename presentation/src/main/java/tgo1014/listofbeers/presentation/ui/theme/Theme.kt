@@ -10,35 +10,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-//    primary = GreenishBlue,
-//    secondary = Yellow,
-//    onSecondary = Color.Black,
-//    onPrimary = TypographyGray,
-//    surface = GreenishBlue,
-//    onSurface = TypographyGray,
-//    background = GreenishBlue,
-//    onBackground = TypographyGray
-)
-
-private val LightColorScheme = lightColorScheme(
-//    primary = GreenishBlue,
-//    secondary = Yellow,
-//    onSecondary = Color.Black,
-//    onPrimary = TypographyGray,
-//    surface = GreenishBlue,
-//    onSurface = TypographyGray,
-//    background = GreenishBlue,
-//    onBackground = TypographyGray
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
-)
+private val DarkColorScheme = darkColorScheme()
+private val LightColorScheme = lightColorScheme()
 
 @Composable
 fun ListOfBeersTheme(

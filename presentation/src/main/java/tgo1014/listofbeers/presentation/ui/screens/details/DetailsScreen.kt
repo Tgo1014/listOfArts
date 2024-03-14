@@ -42,7 +42,6 @@ import tgo1014.listofbeers.presentation.models.BeerUi
 import tgo1014.listofbeers.presentation.ui.composables.BeerImage
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.composables.simpleVerticalScrollbar
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
@@ -162,12 +161,7 @@ private fun DetailScreenContent(beer: BeerUi) {
                     .calculateEndPadding(layoutDirection)
                     .coerceAtLeast(16.dp)
             ),
-            modifier = Modifier
-                .weight(1f)
-                .simpleVerticalScrollbar(
-                    state = scrollState,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(0.5f),
-                )
+            modifier = Modifier.weight(1f)
         ) {
             item {
                 Text(

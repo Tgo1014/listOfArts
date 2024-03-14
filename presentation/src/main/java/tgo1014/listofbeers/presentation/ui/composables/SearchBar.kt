@@ -2,17 +2,18 @@ package tgo1014.listofbeers.presentation.ui.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,13 +29,14 @@ import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
+
 @Composable
 fun SearchBar(
     query: String,
     onQueryChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    TextField(
+    OutlinedTextField(
         value = query,
         onValueChange = { onQueryChanged(it) },
         singleLine = true,
@@ -45,17 +47,25 @@ fun SearchBar(
                 contentDescription = null
             )
         },
+        trailingIcon = {
+            if (query.isBlank()) return@OutlinedTextField
+            IconButton(onClick = { onQueryChanged("") }) {
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = null
+                )
+            }
+        },
         shape = RoundedCornerShape(8.dp),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = TextFieldDefaults.colors().focusedIndicatorColor.copy(0.5f),
+            unfocusedIndicatorColor = TextFieldDefaults.colors().unfocusedIndicatorColor.copy(0.5f),
+            cursorColor = MaterialTheme.colorScheme.primary,
+            unfocusedContainerColor = Color.Transparent,
+        ),
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
             .then(modifier),
-        colors = TextFieldDefaults.textFieldColors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            cursorColor = MaterialTheme.colorScheme.primary,
-        )
     )
 }
 
@@ -65,8 +75,8 @@ private fun SearchBarPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfBeersTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-        var text by remember { mutableStateOf("") }
-        Box(Modifier.padding(8.dp)) {
+        var text by remember { mutableStateOf("123") }
+        Box(Modifier.padding(16.dp)) {
             SearchBar(text, { text = it })
         }
     }
