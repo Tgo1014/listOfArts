@@ -39,7 +39,7 @@ class HomeViewModelTest {
     @Test
     fun `GIVEN user scrolled WHEN reached the bottom THEN fetch next page`() = runTest {
         val stateFlow = viewModel.state.testIn(this)
-        assert(stateFlow.awaitItem().beerList.isEmpty()) // Init state, empty
+        assert(stateFlow.awaitItem().itemList.isEmpty()) // Init state, empty
         wheneverBlocking {
             getBeersUseCase(
                 anyOrNull(),
@@ -49,7 +49,7 @@ class HomeViewModelTest {
         } doReturn Result.success(listOf(testBeer1))
 
         viewModel.fetchBeers()
-        var beerList = stateFlow.awaitItem().beerList
+        var beerList = stateFlow.awaitItem().itemList
         assert(beerList.size == 1)
         assert(beerList.contains(testBeer1.toUi()))
         assert(!beerList.contains(testBeer2.toUi()))
@@ -62,7 +62,7 @@ class HomeViewModelTest {
             )
         } doReturn Result.success(listOf(testBeer2))
         viewModel.onBottomReached()
-        beerList = stateFlow.awaitItem().beerList
+        beerList = stateFlow.awaitItem().itemList
         assert(beerList.size == 2)
         assert(beerList.contains(testBeer1.toUi()))
         assert(beerList.contains(testBeer2.toUi()))
@@ -76,7 +76,7 @@ class HomeViewModelTest {
         runTest {
             val filter = Filter.LAGER
             val stateFlow = viewModel.state.testIn(this)
-            assert(stateFlow.awaitItem().beerList.isEmpty()) // Init state, empty
+            assert(stateFlow.awaitItem().itemList.isEmpty()) // Init state, empty
             wheneverBlocking {
                 getBeersUseCase(
                     anyOrNull(),
@@ -86,7 +86,7 @@ class HomeViewModelTest {
             } doReturn Result.success(listOf(testBeer1))
 
             viewModel.fetchBeers()
-            var beerList = stateFlow.awaitItem().beerList
+            var beerList = stateFlow.awaitItem().itemList
             assert(beerList.size == 1)
             assert(beerList.find { it.name == testBeer1.name } != null)
             assert(beerList.find { it.name == testBeer2.name } == null)
@@ -101,7 +101,7 @@ class HomeViewModelTest {
             viewModel.onFilterClicked(filter)
             val state = stateFlow.expectMostRecentItem()
             assert(state.filters.any { it.filter == filter })
-            beerList = state.beerList
+            beerList = state.itemList
             assert(beerList.size == 1)
             assert(beerList.find { it.name == testBeer1.name } == null)
             assert(beerList.find { it.name == testBeer2.name } != null)

@@ -16,14 +16,20 @@ class BeersRepositoryImpl @Inject constructor(
     override suspend fun getBeers(page: Int, search: String?, yeast: String?): List<BeerDomain> {
         val response = rijksmMuseumApi.getCollections(page, search)
         return response.successOrThrow().artObjects.orEmpty().map {
-            BeerDomain(id = it.id , name = it.title.orEmpty(), imageUrl = it.webImage?.url)
+            BeerDomain(
+                id = it.id,
+                name = it.title.orEmpty(),
+                imageUrl = it.webImage?.url,
+                imageHeight = it.webImage?.height ?: 0,
+                imageWidth = it.webImage?.width ?: 0
+            )
         }
 //        val response = punkApi.getBeers(
 //            page = page,
 //            beerName = search,
 //            yeast = yeast
 //        )
-       // return response.successOrThrow().map { it.toDomain() }
+        // return response.successOrThrow().map { it.toDomain() }
     }
 
     override suspend fun getBeerById(id: Int): BeerDomain {

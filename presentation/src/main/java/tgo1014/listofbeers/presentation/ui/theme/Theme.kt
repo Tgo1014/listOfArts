@@ -28,6 +28,7 @@ fun ListOfBeersTheme(
         else -> LightColorScheme
     }
     MaterialTheme(
+        shapes = Shapes,
         colorScheme = colorScheme,
         typography = Typography,
         content = content

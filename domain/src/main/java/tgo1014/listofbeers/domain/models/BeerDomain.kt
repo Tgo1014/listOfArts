@@ -22,4 +22,6 @@ data class BeerDomain(
     val foodPairing: List<String>? = listOf(),
     val brewersTips: String? = "",
     val contributedBy: String? = "",
+    val imageHeight: Int = 0,
+    val imageWidth: Int = 0,
 )

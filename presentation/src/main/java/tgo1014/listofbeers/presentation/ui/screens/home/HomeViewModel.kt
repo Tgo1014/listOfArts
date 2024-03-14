@@ -82,11 +82,11 @@ class HomeViewModel @Inject constructor(
 
     private fun handleSuccessfulResult(beerList: List<BeerUi>) = viewModelScope.launch {
         when {
-            page == 1 -> _state.emit(state.value.copy(beerList = beerList))
+            page == 1 -> _state.emit(state.value.copy(itemList = beerList))
             beerList.isEmpty() -> lastPageReached = true
             else -> {
-                val newBeerList = (state.value.beerList + beerList).distinctBy { it.id }
-                _state.update { it.copy(beerList = newBeerList) }
+                val newBeerList = (state.value.itemList + beerList).distinctBy { it.id }
+                _state.update { it.copy(itemList = newBeerList) }
             }
         }
     }

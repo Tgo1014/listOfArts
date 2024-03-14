@@ -12,4 +12,6 @@ fun BeerDomain.toUi() = BeerUi(
     foodParingList = this.foodPairing.orEmpty(),
     brewersTips = this.brewersTips.orEmpty(),
     imageUrl = this.imageUrl.orEmpty(),
+    imageWidth = this.imageWidth,
+    imageHeight = this.imageHeight,
 )

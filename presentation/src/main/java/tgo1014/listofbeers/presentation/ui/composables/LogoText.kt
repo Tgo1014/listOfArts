@@ -5,8 +5,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -15,15 +18,25 @@ import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
-fun LogoText(modifier: Modifier = Modifier) {
+fun LogoText(
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.Unspecified,
+) {
     val title = buildAnnotatedString {
         append("listOf")
         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-            append("Beers")
+            append("Arts")
         }
         append("()")
     }
-    Text(text = title, modifier = modifier)
+    Text(
+        text = title,
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineLarge,
+        color = textColor,
+        fontStyle = FontStyle.Italic,
+        fontFamily = FontFamily.Serif
+    )
 }
 
 @DefaultPreview

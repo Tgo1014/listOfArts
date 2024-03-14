@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import coil.Coil
+import coil.ImageLoader
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
@@ -30,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val useDarkIcons = isSystemInDarkTheme()
+            val useDarkIcons = !isSystemInDarkTheme()
             DisposableEffect(useDarkIcons) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(

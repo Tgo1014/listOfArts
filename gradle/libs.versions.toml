@@ -5,6 +5,7 @@ accompanistNavigationMaterial = "0.34.0"
 coilCompose = "2.6.0"
 compose = "1.7.0-alpha04"
 compose-compiler = "1.5.10"
+composeShimmer = "1.2.0"
 detekt = "1.23.4"
 hilt = "2.51"
 hiltNavigationCompose = "1.2.0"
@@ -42,6 +43,7 @@ androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+compose-shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "composeShimmer" }
 detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
