@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(
         val beerList = getBeersUseCase(
             page = page,
             search = state.value.searchText,
-            yeast = filters?.filter?.yeast
+            yeast = filters?.filter?.description
         ).getOrDefault(emptyList()).map { it.toUi() }
         isLoading = false
         handleSuccessfulResult(beerList)

@@ -11,9 +11,9 @@ interface RijksmMuseumApi {
     suspend fun getCollections(
         @Query("p") page: Int,
         @Query("q") query: String? = null,
+        @Query("type") type: String?,
         @Query("ps") resultPerPage: Int = 100,
         @Query("imgonly") onlyWithImage: Boolean = true,
-        @Query("type") type: String = "painting",
         @Query("toppieces") onlyTopPieces: Boolean = true,
         //@Query("s") sortBy: String = "relevance",
         @Query("key") key: String = "yvmj95Jo", // TODO move to a interceptor

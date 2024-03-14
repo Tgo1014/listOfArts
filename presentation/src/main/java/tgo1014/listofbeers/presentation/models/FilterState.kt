@@ -5,6 +5,8 @@ data class FilterState(
     val isSelected: Boolean
 ) {
     companion object {
-        val Empty = Filter.entries.map { FilterState(it, false) }
+        val Default = Filter.entries.map {
+            FilterState(it, it == Filter.PAINTING)
+        }
     }
 }

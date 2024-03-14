@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
@@ -35,7 +36,7 @@ fun PrimaryContainerFilterChip(
             Text(
                 text = text,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 6.dp, horizontal = 24.dp)
+                modifier = Modifier.padding(vertical = 6.dp)
             )
         },
         modifier = modifier
@@ -48,7 +49,7 @@ private fun FilterChipPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfBeersTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-        PrimaryContainerFilterChip("Blonde", true) {}
+        PrimaryContainerFilterChip(Filter.PHOTOGRAPH.description, true) {}
     }
 }
 
@@ -58,6 +59,6 @@ private fun FilterChipDisabledPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfBeersTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-        PrimaryContainerFilterChip("Blonde", false) {}
+            PrimaryContainerFilterChip(Filter.PHOTOGRAPH.description, false) {}
     }
 }

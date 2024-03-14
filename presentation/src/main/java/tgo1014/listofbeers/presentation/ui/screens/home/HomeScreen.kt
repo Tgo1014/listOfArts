@@ -48,6 +48,7 @@ import tgo1014.listofbeers.presentation.ui.composables.LogoText
 import tgo1014.listofbeers.presentation.ui.composables.PrimaryContainerFilterChip
 import tgo1014.listofbeers.presentation.ui.composables.SearchFab
 import tgo1014.listofbeers.presentation.ui.composables.SearchFabState
+import tgo1014.listofbeers.presentation.ui.composables.SingleSelectionFilter
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
@@ -129,6 +130,13 @@ private fun HomeScreen(
                                 .padding(top = 16.dp, start = 16.dp, bottom = 8.dp)
                         )
                     }
+                }
+                item(span = StaggeredGridItemSpan.FullLine) {
+                    SingleSelectionFilter(
+                        filters = state.filters,
+                        onClick = { filter -> onFilterClicked(filter) },
+                        contentPadding = PaddingValues(horizontal = 8.dp)
+                    )
                 }
                 if (state.itemList.isEmpty() && !state.isLoading) {
                     item(span = StaggeredGridItemSpan.FullLine) {

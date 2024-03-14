@@ -13,8 +13,8 @@ class BeersRepositoryImpl @Inject constructor(
     private val rijksmMuseumApi: RijksmMuseumApi,
 ) : BeersRepository {
 
-    override suspend fun getBeers(page: Int, search: String?, yeast: String?): List<BeerDomain> {
-        val response = rijksmMuseumApi.getCollections(page, search)
+    override suspend fun getBeers(page: Int, search: String?, type: String?): List<BeerDomain> {
+        val response = rijksmMuseumApi.getCollections(page = page, query = search, type = type)
         return response.successOrThrow().artObjects.orEmpty().map {
             BeerDomain(
                 id = it.id,

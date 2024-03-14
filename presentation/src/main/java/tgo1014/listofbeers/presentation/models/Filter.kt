@@ -4,17 +4,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import tgo1014.listofbeers.presentation.R
 
-enum class Filter(val yeast: String) {
-    BLONDE("blonde"),
-    LAGER("lager"),
-    MALT("malt"),
-    ALE("ale");
+enum class Filter(val description: String) {
+    PAINTING("painting"),
+    PRINT("print"),
+    PHOTOGRAPH("photograph"),
+    DRAWING("drawing"),
+    PHOTOMECHANICAL_PRINT("photomechanical print"),
+    CARTE_DE_VISITE("carte-de-visite"),
+    STEREOGRAPH("stereograph"),
+    LETTER("letter"),
+    HISTORY_MEDAL("history medal"),
+    COIN("coin"),
 }
 
 @Composable
 fun Filter.translation(): String = when (this) {
-    Filter.BLONDE -> stringResource(R.string.blonde)
-    Filter.LAGER -> stringResource(R.string.lager)
-    Filter.MALT -> stringResource(R.string.malt)
-    Filter.ALE -> stringResource(R.string.ale)
+    // TODO stringResource(R.string.blonde)
+    Filter.PAINTING -> this.description
+    Filter.PRINT -> this.description
+    Filter.PHOTOGRAPH -> this.description
+    Filter.DRAWING -> this.description
+    Filter.PHOTOMECHANICAL_PRINT -> this.description
+    Filter.CARTE_DE_VISITE -> this.description
+    Filter.STEREOGRAPH -> this.description
+    Filter.LETTER -> this.description
+    Filter.HISTORY_MEDAL -> this.description
+    Filter.COIN -> this.description
 }

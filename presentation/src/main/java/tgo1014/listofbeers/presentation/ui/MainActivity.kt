@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val useDarkIcons = !isSystemInDarkTheme()
+            val useDarkIcons = isSystemInDarkTheme()
             DisposableEffect(useDarkIcons) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
