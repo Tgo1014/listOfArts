@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import tgo1014.listofbeers.domain.usecases.GetBeerByIdUseCase
+import tgo1014.listofbeers.domain.usecases.GetArtObjectByIdUseCase
 import tgo1014.listofbeers.presentation.models.mappers.toUi
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    private val getBeerByIdUseCase: GetBeerByIdUseCase,
+    private val getArtObjectByIdUseCase: GetArtObjectByIdUseCase,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<DetailsState> = MutableStateFlow(DetailsState.Loading)
@@ -21,8 +21,8 @@ class DetailsViewModel @Inject constructor(
 
     fun getBeerById(id: Int) = viewModelScope.launch {
         _state.update { DetailsState.Loading }
-        getBeerByIdUseCase(id)
-            .onSuccess { beer -> _state.update { DetailsState.Success(beer.toUi()) } }
+        getArtObjectByIdUseCase(id)
+            //.onSuccess { beer -> _state.update { DetailsState.Success(beer.toUi()) } }
             .onFailure { _state.update { DetailsState.Error } }
     }
 

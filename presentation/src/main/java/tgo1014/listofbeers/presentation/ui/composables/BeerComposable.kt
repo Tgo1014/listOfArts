@@ -18,14 +18,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import tgo1014.listofbeers.presentation.models.BeerUi
+import tgo1014.listofbeers.presentation.models.ArtObjectUi
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
 fun BeerComposable(
-    beer: BeerUi,
+    beer: ArtObjectUi,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -33,42 +33,40 @@ fun BeerComposable(
             .fillMaxWidth()
             .then(modifier)
     ) {
-        BeerImage(
-            beer = beer,
-            modifier = Modifier
-                .height(100.dp)
-                .width(40.dp)
-        )
+//        BeerImage(
+//            beer = beer,
+//            modifier = Modifier
+//                .height(100.dp)
+//                .width(40.dp)
+//        )
         Spacer(modifier = Modifier.width(8.dp))
         Column(verticalArrangement = Arrangement.Center) {
             Text(
-                text = beer.name.uppercase(),
+                text = beer.title.uppercase(),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
-            Text(
-                text = beer.tagline,
-                style = MaterialTheme.typography.labelSmall
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = beer.description,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Justify,
-                lineHeight = 16.sp,
-                style = MaterialTheme.typography.bodyMedium,
-            )
+//            Text(
+//                text = beer.tagline,
+//                style = MaterialTheme.typography.labelSmall
+//            )
+//            Spacer(modifier = Modifier.height(4.dp))
+//            Text(
+//                text = beer.description,
+//                maxLines = 3,
+//                overflow = TextOverflow.Ellipsis,
+//                textAlign = TextAlign.Justify,
+//                lineHeight = 16.sp,
+//                style = MaterialTheme.typography.bodyMedium,
+//            )
         }
     }
 }
 
-private val PreviewBeer = BeerUi(
-    name = "Punk IPA 2007 - 2010",
+private val PreviewBeer = ArtObjectUi(
+    title = "Punk IPA 2007 - 2010",
     imageUrl = "https://images.punkapi.com/v2/192.png",
-    tagline = "Post Modern Classic. Spiky. Tropical. Hoppy.",
-    description = "Our flagship beer that kick started the craft beer revolution. This is James and Martin's original take on an American IPA, subverted with punchy New Zealand hops. Layered with new world hops to create an all-out riot of grapefruit, pineapple and lychee before a spiky, mouth-puckering bitter finish."
 )
 
 @DefaultPreview

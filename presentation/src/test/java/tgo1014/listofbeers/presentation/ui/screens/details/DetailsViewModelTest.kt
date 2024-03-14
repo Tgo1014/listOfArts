@@ -9,8 +9,7 @@ import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.wheneverBlocking
-import tgo1014.listofbeers.domain.models.BeerDomain
-import tgo1014.listofbeers.domain.usecases.GetBeerByIdUseCase
+import tgo1014.listofbeers.domain.usecases.GetArtObjectByIdUseCase
 import tgo1014.listofbeers.presentation.utils.ViewModelMainCoroutineRule
 
 class DetailsViewModelTest {
@@ -18,19 +17,19 @@ class DetailsViewModelTest {
     @get:Rule
     var coroutinesRule = ViewModelMainCoroutineRule()
 
-    private var getBeerByIdUseCase = mock<GetBeerByIdUseCase>()
+    private var getArtObjectByIdUseCase = mock<GetArtObjectByIdUseCase>()
     private lateinit var viewModel: DetailsViewModel
 
     private val testBeer = BeerDomain(id = 1, name = "Test beer 1")
 
     @Before
     fun setup() {
-        viewModel = DetailsViewModel(getBeerByIdUseCase)
+        viewModel = DetailsViewModel(getArtObjectByIdUseCase)
     }
 
     @Test
     fun `GIVEN beer requested WHEN success THEN state updates`() = runTest {
-        wheneverBlocking { getBeerByIdUseCase(any()) } doReturn Result.success(testBeer)
+        wheneverBlocking { getArtObjectByIdUseCase(any()) } doReturn Result.success(testBeer)
         val stateFlow = viewModel.state.testIn(this)
         assert(stateFlow.awaitItem() is DetailsState.Loading)
 
@@ -46,11 +45,11 @@ class DetailsViewModelTest {
         val stateFlow = viewModel.state.testIn(this)
         assert(stateFlow.awaitItem() is DetailsState.Loading)
 
-        wheneverBlocking { getBeerByIdUseCase(any()) } doReturn Result.failure(Exception())
+        wheneverBlocking { getArtObjectByIdUseCase(any()) } doReturn Result.failure(Exception())
         viewModel.getBeerById(testBeer.id!!)
         assert(stateFlow.awaitItem() is DetailsState.Error)
 
-        wheneverBlocking { getBeerByIdUseCase(any()) } doReturn Result.success(testBeer)
+        wheneverBlocking { getArtObjectByIdUseCase(any()) } doReturn Result.success(testBeer)
         viewModel.getBeerById(testBeer.id!!)
         val state = stateFlow.awaitItem()
         assert(state is DetailsState.Success)

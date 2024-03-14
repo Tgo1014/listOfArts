@@ -12,16 +12,16 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -31,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -41,11 +40,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import tgo1014.listofbeers.presentation.models.BeerUi
+import tgo1014.listofbeers.presentation.models.ArtObjectUi
 import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.ui.composables.EmptyState
 import tgo1014.listofbeers.presentation.ui.composables.LogoText
-import tgo1014.listofbeers.presentation.ui.composables.PrimaryContainerFilterChip
 import tgo1014.listofbeers.presentation.ui.composables.SearchFab
 import tgo1014.listofbeers.presentation.ui.composables.SearchFabState
 import tgo1014.listofbeers.presentation.ui.composables.SingleSelectionFilter
@@ -56,12 +54,12 @@ import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onBeerClicked: (BeerUi) -> Unit,
+    onBeerClicked: (ArtObjectUi) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(Unit) {
-        viewModel.fetchBeers()
+        viewModel.fetchArtObjects()
     }
     HomeScreen(
         state = state,
@@ -72,7 +70,7 @@ fun HomeScreen(
         onBottomOfScreenReached = viewModel::onBottomReached,
         onQueryChanged = viewModel::search,
         onFilterClicked = viewModel::onFilterClicked,
-        onRetryClicked = { viewModel.fetchBeers() }
+        onRetryClicked = { viewModel.fetchArtObjects() }
     )
 }
 
@@ -81,7 +79,7 @@ fun HomeScreen(
 private fun HomeScreen(
     state: HomeState,
     onBottomOfScreenReached: () -> Unit = {},
-    onBeerClicked: (BeerUi) -> Unit = {},
+    onBeerClicked: (ArtObjectUi) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onFilterClicked: (Filter) -> Unit = {},
     onRetryClicked: () -> Unit = {}
@@ -104,7 +102,7 @@ private fun HomeScreen(
                 onButtonClicked = {
                     fabState = if (fabState == SearchFabState.FAB) SearchFabState.SEARCH else SearchFabState.FAB
                 },
-                modifier = Modifier.imePadding()
+                modifier = Modifier.imePadding().navigationBarsPadding()
             )
         },
         content = {
@@ -147,14 +145,6 @@ private fun HomeScreen(
                     items = state.itemList,
                     key = { _, item -> item.id }
                 ) { index, item ->
-                    val ratio = remember {
-                        val height = item.imageHeight
-                        var r = 1f
-                        if (height > 0) {
-                            r = item.imageWidth.toFloat() / height
-                        }
-                        r
-                    }
                     val bgColor = MaterialTheme.colorScheme.background
                     SubcomposeAsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -167,13 +157,13 @@ private fun HomeScreen(
                             Box(
                                 modifier = Modifier
                                     .background(bgColor)
-                                    .aspectRatio(ratio)
+                                    .aspectRatio(item.safeAspectRatio)
                             )
                         },
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(bgColor)
-                            .aspectRatio(ratio)
+                            .aspectRatio(item.safeAspectRatio)
                             .animateItemPlacement()
                             .animateContentSize(),
                     )

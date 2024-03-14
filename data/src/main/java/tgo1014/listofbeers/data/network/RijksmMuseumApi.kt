@@ -3,7 +3,7 @@ package tgo1014.listofbeers.data.network
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import tgo1014.listofbeers.data.models.museum.GetCollectionsResponse
+import tgo1014.listofbeers.data.models.GetCollectionsResponse
 
 interface RijksmMuseumApi {
 

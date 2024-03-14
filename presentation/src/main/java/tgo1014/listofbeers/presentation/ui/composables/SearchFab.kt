@@ -58,6 +58,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -66,6 +67,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.previews.isPreviewMode
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
@@ -192,7 +194,7 @@ fun SearchFab(
                                 singleLine = singleLine,
                                 visualTransformation = VisualTransformation.None,
                                 interactionSource = interactionSource,
-                                label = { Text(text = "TODO") },
+                                label = { Text(text = stringResource(id = R.string.search)) },
                                 trailingIcon = {
                                     IconButton(
                                         onClick = {

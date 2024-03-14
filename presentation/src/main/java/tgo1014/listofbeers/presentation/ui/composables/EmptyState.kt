@@ -25,7 +25,7 @@ fun EmptyState(
     horizontalAlignment = Alignment.CenterHorizontally
 ) {
     Text(
-        text = stringResource(R.string.no_beers),
+        text = stringResource(R.string.no_items),
         textAlign = TextAlign.Center,
         modifier = Modifier
             .fillMaxWidth()

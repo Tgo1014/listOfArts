@@ -10,8 +10,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.wheneverBlocking
-import tgo1014.listofbeers.domain.models.BeerDomain
-import tgo1014.listofbeers.domain.usecases.GetBeersUseCase
+import tgo1014.listofbeers.domain.usecases.GetArtObjectsUseCase
 import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.models.mappers.toUi
 import tgo1014.listofbeers.presentation.utils.ViewModelMainCoroutineRule
@@ -22,7 +21,7 @@ class HomeViewModelTest {
     @get:Rule
     var coroutinesRule = ViewModelMainCoroutineRule()
 
-    private var getBeersUseCase = mock<GetBeersUseCase>()
+    private var getArtObjectsUseCase = mock<GetArtObjectsUseCase>()
     private lateinit var viewModel: HomeViewModel
 
     private val testBeer1 = BeerDomain(id = 1, name = "Test beer 1")
@@ -31,9 +30,9 @@ class HomeViewModelTest {
     @Before
     fun setup() {
         wheneverBlocking {
-            getBeersUseCase(anyOrNull(), anyOrNull(), anyOrNull())
+            getArtObjectsUseCase(anyOrNull(), anyOrNull(), anyOrNull())
         } doReturn Result.success(listOf(testBeer1))
-        viewModel = HomeViewModel(getBeersUseCase)
+        viewModel = HomeViewModel(getArtObjectsUseCase)
     }
 
     @Test
@@ -41,21 +40,21 @@ class HomeViewModelTest {
         val stateFlow = viewModel.state.testIn(this)
         assert(stateFlow.awaitItem().itemList.isEmpty()) // Init state, empty
         wheneverBlocking {
-            getBeersUseCase(
+            getArtObjectsUseCase(
                 anyOrNull(),
                 anyOrNull(),
                 anyOrNull()
             )
         } doReturn Result.success(listOf(testBeer1))
 
-        viewModel.fetchBeers()
+        viewModel.fetchArtObjects()
         var beerList = stateFlow.awaitItem().itemList
         assert(beerList.size == 1)
         assert(beerList.contains(testBeer1.toUi()))
         assert(!beerList.contains(testBeer2.toUi()))
 
         wheneverBlocking {
-            getBeersUseCase(
+            getArtObjectsUseCase(
                 anyOrNull(),
                 anyOrNull(),
                 anyOrNull()
@@ -78,21 +77,21 @@ class HomeViewModelTest {
             val stateFlow = viewModel.state.testIn(this)
             assert(stateFlow.awaitItem().itemList.isEmpty()) // Init state, empty
             wheneverBlocking {
-                getBeersUseCase(
+                getArtObjectsUseCase(
                     anyOrNull(),
                     anyOrNull(),
                     anyOrNull()
                 )
             } doReturn Result.success(listOf(testBeer1))
 
-            viewModel.fetchBeers()
+            viewModel.fetchArtObjects()
             var beerList = stateFlow.awaitItem().itemList
             assert(beerList.size == 1)
-            assert(beerList.find { it.name == testBeer1.name } != null)
-            assert(beerList.find { it.name == testBeer2.name } == null)
+            assert(beerList.find { it.title == testBeer1.name } != null)
+            assert(beerList.find { it.title == testBeer2.name } == null)
 
             wheneverBlocking {
-                getBeersUseCase(
+                getArtObjectsUseCase(
                     anyOrNull(),
                     anyOrNull(),
                     anyOrNull()
@@ -103,8 +102,8 @@ class HomeViewModelTest {
             assert(state.filters.any { it.filter == filter })
             beerList = state.itemList
             assert(beerList.size == 1)
-            assert(beerList.find { it.name == testBeer1.name } == null)
-            assert(beerList.find { it.name == testBeer2.name } != null)
+            assert(beerList.find { it.title == testBeer1.name } == null)
+            assert(beerList.find { it.title == testBeer2.name } != null)
 
             stateFlow.ensureAllEventsConsumed()
             stateFlow.cancel()

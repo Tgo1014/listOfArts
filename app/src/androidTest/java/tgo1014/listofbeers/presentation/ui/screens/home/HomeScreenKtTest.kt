@@ -13,8 +13,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import tgo1014.listofbeers.domain.models.BeerDomain
-import tgo1014.listofbeers.domain.repositories.BeersRepository
+import tgo1014.listofbeers.domain.repositories.ArtRepository
 import tgo1014.listofbeers.fakes.FakeBeerRepository
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.ui.MainActivity
@@ -32,7 +31,7 @@ class HomeScreenKtTest {
     val composeRule = createAndroidComposeRule<MainActivity>()
 
     @Inject
-    lateinit var beerRepository: BeersRepository
+    lateinit var beerRepository: ArtRepository
 
     @Inject
     @ApplicationContext
@@ -52,14 +51,14 @@ class HomeScreenKtTest {
     fun should_displayErrorMessage_when_noBeersAvailable() {
         val fakeBeerRepository = beerRepository as FakeBeerRepository
         assert(fakeBeerRepository.beersToReturn.isEmpty())
-        composeRule.assertExists(context.getString(R.string.no_beers))
+        composeRule.assertExists(context.getString(R.string.no_items))
     }
 
     @Test
     fun should_displayBeer_when_beersAvailable() {
         val fakeBeerRepository = beerRepository as FakeBeerRepository
         fakeBeerRepository.beersToReturn = listOf(testBeer1)
-        composeRule.assertDoesNotExist(text = context.getString(R.string.no_beers))
+        composeRule.assertDoesNotExist(text = context.getString(R.string.no_items))
         composeRule.assertExists(text = testBeer1.name!!, ignoreCase = true, useUnmergedTree = true)
     }
 
@@ -67,7 +66,7 @@ class HomeScreenKtTest {
     fun given_emptyList_should_displayBeer_when_pressingRetryButton() {
         val fakeBeerRepository = beerRepository as FakeBeerRepository
         assert(fakeBeerRepository.beersToReturn.isEmpty())
-        composeRule.assertExists(context.getString(R.string.no_beers))
+        composeRule.assertExists(context.getString(R.string.no_items))
         fakeBeerRepository.beersToReturn = listOf(testBeer1)
         composeRule
             .onNodeWithText(text = context.getString(R.string.retry), ignoreCase = true)
@@ -89,7 +88,7 @@ class HomeScreenKtTest {
         composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
         composeRule.onNodeWithText(text = context.getString(R.string.blonde)).performClick()
         composeRule.assertDoesNotExist(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
-        composeRule.assertExists(text = context.getString(R.string.no_beers))
+        composeRule.assertExists(text = context.getString(R.string.no_items))
     }
 
     @Test

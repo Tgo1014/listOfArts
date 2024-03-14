@@ -25,21 +25,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tgo1014.listofbeers.presentation.R
-import tgo1014.listofbeers.presentation.models.BeerUi
-import tgo1014.listofbeers.presentation.ui.composables.BeerImage
+import tgo1014.listofbeers.presentation.models.ArtObjectUi
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
@@ -127,7 +124,7 @@ private fun DetailScreenErrorPreview() = ListOfBeersTheme {
 }
 
 @Composable
-private fun DetailScreenContent(beer: BeerUi) {
+private fun DetailScreenContent(beer: ArtObjectUi) {
     val scrollState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
     Row {
@@ -141,13 +138,13 @@ private fun DetailScreenContent(beer: BeerUi) {
                     )
                 )
         ) {
-            BeerImage(
-                beer = beer,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(start = 16.dp)
-                    .widthIn(max = 100.dp)
-            )
+//            BeerImage(
+//                beer = beer,
+//                modifier = Modifier
+//                    .align(Alignment.Center)
+//                    .padding(start = 16.dp)
+//                    .widthIn(max = 100.dp)
+//            )
         }
         Spacer(modifier = Modifier.size(16.dp))
         LazyColumn(
@@ -163,64 +160,64 @@ private fun DetailScreenContent(beer: BeerUi) {
             ),
             modifier = Modifier.weight(1f)
         ) {
-            item {
-                Text(
-                    text = beer.name,
-                    style = MaterialTheme.typography.displayMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                Text(
-                    text = beer.tagline,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.first_brewed),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                Text(
-                    text = beer.firstBrewed,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.description),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                Text(
-                    text = beer.description,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.food_pairing),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                beer.foodParingList.forEach {
-                    Text(
-                        text = " • $it",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.brewer_tips),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                Text(
-                    text = beer.brewersTips,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+//            item {
+//                Text(
+//                    text = beer.title,
+//                    style = MaterialTheme.typography.displayMedium,
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer
+//                )
+//                Text(
+//                    text = beer.tagline,
+//                    style = MaterialTheme.typography.headlineSmall,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
+//            }
+//            item {
+//                Text(
+//                    text = stringResource(R.string.first_brewed),
+//                    style = MaterialTheme.typography.titleLarge,
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer
+//                )
+//                Text(
+//                    text = beer.firstBrewed,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
+//            }
+//            item {
+//                Text(
+//                    text = stringResource(R.string.description),
+//                    style = MaterialTheme.typography.titleLarge,
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer
+//                )
+//                Text(
+//                    text = beer.description,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
+//            }
+//            item {
+//                Text(
+//                    text = stringResource(R.string.food_pairing),
+//                    style = MaterialTheme.typography.titleLarge,
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer
+//                )
+//                beer.foodParingList.forEach {
+//                    Text(
+//                        text = " • $it",
+//                        color = MaterialTheme.colorScheme.onSurfaceVariant
+//                    )
+//                }
+//            }
+//            item {
+//                Text(
+//                    text = stringResource(R.string.brewer_tips),
+//                    style = MaterialTheme.typography.titleLarge,
+//                    color = MaterialTheme.colorScheme.onPrimaryContainer
+//                )
+//                Text(
+//                    text = beer.brewersTips,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
+//            }
         }
     }
 }
@@ -233,10 +230,8 @@ private fun DetailsScreenPreview(
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
         DetailsScreen(
             DetailsState.Success(
-                beer = BeerUi(
-                    name = "Punk IPA 2007 - 2010",
-                    tagline = "This is a test",
-                    description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur mollis magna urna, eu tincidunt leo sagittis ut. Pellentesque tempus nulla ac elit pharetra, eu facilisis quam blandit. Morbi vehicula neque mauris, ut tincidunt lacus ultrices eu. Nam laoreet, purus ac tempus maximus, ante ligula scelerisque lacus, sed gravida nulla enim id erat."
+                beer = ArtObjectUi(
+                    title = "Punk IPA 2007 - 2010",
                 )
             )
         )

@@ -7,7 +7,6 @@ import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockWebServer
-import tgo1014.listofbeers.data.network.PunkApi
 import tgo1014.listofbeers.utils.getService
 import javax.inject.Singleton
 

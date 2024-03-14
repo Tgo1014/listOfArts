@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import tgo1014.listofbeers.domain.repositories.BeersRepository
+import tgo1014.listofbeers.domain.repositories.ArtRepository
 import tgo1014.listofbeers.fakes.FakeBeerRepository
 import javax.inject.Singleton
 
@@ -17,6 +17,6 @@ object StorageModuleTest {
 
     @Singleton
     @Provides
-    fun providesFakeBeerRepository(): BeersRepository = FakeBeerRepository()
+    fun providesFakeBeerRepository(): ArtRepository = FakeBeerRepository()
 
 }

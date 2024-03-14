@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import tgo1014.listofbeers.domain.usecases.GetBeersUseCase
-import tgo1014.listofbeers.presentation.models.BeerUi
+import tgo1014.listofbeers.domain.usecases.GetArtObjectsUseCase
+import tgo1014.listofbeers.presentation.models.ArtObjectUi
 import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.models.mappers.toUi
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getBeersUseCase: GetBeersUseCase,
+    private val getArtObjectsUseCase: GetArtObjectsUseCase,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
@@ -47,26 +47,26 @@ class HomeViewModel @Inject constructor(
         }
         _state.update { it.copy(filters = updatedFilters) }
         resetState()
-        fetchBeers()
+        fetchArtObjects()
     }
 
     fun onBottomReached() {
         if (!isLoading && !lastPageReached) {
             page += 1
-            fetchBeers()
+            fetchArtObjects()
         }
     }
 
-    fun fetchBeers() = viewModelScope.launch {
+    fun fetchArtObjects() = viewModelScope.launch {
         isLoading = true
-        val filters = state.value.filters.firstOrNull { it.isSelected }
-        val beerList = getBeersUseCase(
+        val selectedFilter = state.value.filters.firstOrNull { it.isSelected }?.filter
+        val artObjectsList = getArtObjectsUseCase(
             page = page,
-            search = state.value.searchText,
-            yeast = filters?.filter?.description
+            query = state.value.searchText,
+            type = selectedFilter?.description
         ).getOrDefault(emptyList()).map { it.toUi() }
         isLoading = false
-        handleSuccessfulResult(beerList)
+        handleSuccessfulResult(artObjectsList)
     }
 
     private fun searchInternal() {
@@ -76,17 +76,17 @@ class HomeViewModel @Inject constructor(
             if (state.value.searchText.isBlank()) {
                 resetState()
             }
-            fetchBeers()
+            fetchArtObjects()
         }
     }
 
-    private fun handleSuccessfulResult(beerList: List<BeerUi>) = viewModelScope.launch {
+    private fun handleSuccessfulResult(artObjectsList: List<ArtObjectUi>) = viewModelScope.launch {
         when {
-            page == 1 -> _state.emit(state.value.copy(itemList = beerList))
-            beerList.isEmpty() -> lastPageReached = true
+            page == 1 -> _state.emit(state.value.copy(itemList = artObjectsList))
+            artObjectsList.isEmpty() -> lastPageReached = true
             else -> {
-                val newBeerList = (state.value.itemList + beerList).distinctBy { it.id }
-                _state.update { it.copy(itemList = newBeerList) }
+                val newArtObjectsList = (state.value.itemList + artObjectsList).distinctBy { it.id }
+                _state.update { it.copy(itemList = newArtObjectsList) }
             }
         }
     }
