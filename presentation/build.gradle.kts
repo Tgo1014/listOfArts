@@ -35,7 +35,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.accompanist.navigation.material)
-    implementation(libs.google.accompanist.systemuicontroller)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)

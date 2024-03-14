@@ -46,12 +46,12 @@ import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
 
 @Composable
 fun DetailsScreen(
-    beerId: Int,
+    id: String,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(viewModel) { viewModel.getBeerById(beerId) }
-    DetailsScreen(state = state, onRetryClicked = { viewModel.getBeerById(beerId) })
+//    LaunchedEffect(viewModel) { viewModel.getBeerById(id) }
+//    DetailsScreen(state = state, onRetryClicked = { viewModel.getBeerById(id) })
 }
 
 @Composable

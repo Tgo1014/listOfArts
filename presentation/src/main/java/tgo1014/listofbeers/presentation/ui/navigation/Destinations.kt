@@ -12,6 +12,6 @@ sealed class Destinations(val route: String) {
     }
 
     companion object {
-        fun toDetails(id: Int) = Details.route.replace("{${Details.id}}", id.toString())
+        fun toDetails(id: String) = Details.route.replace("{${Details.id}}", id)
     }
 }

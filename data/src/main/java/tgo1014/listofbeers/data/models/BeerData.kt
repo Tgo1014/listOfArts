@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BeerData(
     @SerialName("id")
-    val id: Int? = 0,
+    val id: String? = "",
     @SerialName("name")
     val name: String? = "",
     @SerialName("tagline")

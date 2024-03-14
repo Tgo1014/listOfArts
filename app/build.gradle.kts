@@ -18,7 +18,7 @@ android {
         versionName = "0.1.0"
         testInstrumentationRunner = "tgo1014.listofbeers.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField("String", "BASE_URL", "\"https://api.punkapi.com/v2/\"")
+        buildConfigField("String", "BASE_URL", "\"https://www.rijksmuseum.nl/api/en/\"")
     }
     buildFeatures {
         buildConfig = true

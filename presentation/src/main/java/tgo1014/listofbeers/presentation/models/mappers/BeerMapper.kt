@@ -4,7 +4,7 @@ import tgo1014.listofbeers.domain.models.BeerDomain
 import tgo1014.listofbeers.presentation.models.BeerUi
 
 fun BeerDomain.toUi() = BeerUi(
-    id = this.id ?: -1,
+    id = this.id.orEmpty(),
     name = this.name.orEmpty(),
     tagline = this.tagline.orEmpty(),
     firstBrewed = this.firstBrewed.orEmpty(),
