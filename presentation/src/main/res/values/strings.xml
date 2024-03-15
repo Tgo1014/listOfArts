@@ -5,4 +5,5 @@
     <string name="retry">retry</string>
     <string name="failed_to_load">Failed to load details</string>
     <string name="by">by %s</string>
+    <string name="pinch_to_zoom">Pinch to Zoom</string>
 </resources>

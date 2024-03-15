@@ -37,13 +37,15 @@ dependencies {
     implementation(libs.accompanist.navigation.material)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.compose.shimmer)
+    implementation(libs.zoomimage.compose.coil)
+    implementation(libs.androidx.material.icons.extended)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.mockito.kotlin)
     detektPlugins(libs.detekt)
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

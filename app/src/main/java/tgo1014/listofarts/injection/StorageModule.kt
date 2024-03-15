@@ -14,6 +14,6 @@ abstract class StorageModule {
 
     @Singleton
     @Binds
-    abstract fun providesBeersRepository(beersRepositoryImpl: ArtRepositoryImpl): ArtRepository
+    abstract fun providesArtsRepository(artRepositoryImpl: ArtRepositoryImpl): ArtRepository
 
 }
