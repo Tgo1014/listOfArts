@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 
 @Composable
@@ -73,7 +73,7 @@ fun SearchBar(
 @Composable
 private fun SearchBarPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
         var text by remember { mutableStateOf("123") }
         Box(Modifier.padding(16.dp)) {

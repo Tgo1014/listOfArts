@@ -33,7 +33,7 @@ class DetailsViewModelTest {
         val stateFlow = viewModel.state.testIn(this)
         assert(stateFlow.awaitItem() is DetailsState.Loading)
 
-        viewModel.getBeerById(1)
+        viewModel.getArtObjectById(1)
         assert(stateFlow.awaitItem() is DetailsState.Success)
 
         stateFlow.ensureAllEventsConsumed()
@@ -46,14 +46,14 @@ class DetailsViewModelTest {
         assert(stateFlow.awaitItem() is DetailsState.Loading)
 
         wheneverBlocking { getArtObjectByIdUseCase(any()) } doReturn Result.failure(Exception())
-        viewModel.getBeerById(testBeer.id!!)
+        viewModel.getArtObjectById(testBeer.id!!)
         assert(stateFlow.awaitItem() is DetailsState.Error)
 
         wheneverBlocking { getArtObjectByIdUseCase(any()) } doReturn Result.success(testBeer)
-        viewModel.getBeerById(testBeer.id!!)
+        viewModel.getArtObjectById(testBeer.id!!)
         val state = stateFlow.awaitItem()
         assert(state is DetailsState.Success)
-        assert((state as DetailsState.Success).beer.id == testBeer.id)
+        assert((state as DetailsState.Success).item.id == testBeer.id)
         stateFlow.ensureAllEventsConsumed()
         stateFlow.cancel()
     }

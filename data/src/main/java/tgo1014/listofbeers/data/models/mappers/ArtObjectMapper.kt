@@ -10,4 +10,11 @@ fun ArtObjectResponse.toDomain() = ArtObjectDomain(
     longTitle = this.longTitle.orEmpty(),
     objectNumber = this.objectNumber.orEmpty(),
     webImage = this.webImage?.toDomain() ?: WebImageDomain(),
+    plaqueDescriptionEnglish = if (!this.plaqueDescriptionEnglish.isNullOrBlank()) {
+        this.plaqueDescriptionEnglish
+    } else {
+        this.label?.description.orEmpty()
+    },
+    principalMaker = this.principalMaker.orEmpty(),
+    materialsList = materials.orEmpty()
 )

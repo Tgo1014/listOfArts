@@ -12,5 +12,8 @@ data class ArtObjectDomain(
     val permitDownload: Boolean = false,
     val webImage: WebImageDomain = WebImageDomain(),
     val headerImage: HeaderImageDomain = HeaderImageDomain(),
-    val productionPlaces: List<String> = listOf()
+    val productionPlaces: List<String> = listOf(),
+    val plaqueDescriptionEnglish: String = "",
+    val principalMaker: String = "",
+    val materialsList: List<String> = emptyList(),
 )

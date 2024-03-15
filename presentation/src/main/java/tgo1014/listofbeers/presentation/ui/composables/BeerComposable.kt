@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,15 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import tgo1014.listofbeers.presentation.models.ArtObjectUi
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
 fun BeerComposable(
@@ -73,7 +69,7 @@ private val PreviewBeer = ArtObjectUi(
 @Composable
 private fun BeerComposablePreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
         BeerComposable(PreviewBeer)
     }

@@ -1,45 +1,50 @@
 package tgo1014.listofbeers.presentation.ui.screens.details
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.models.ArtObjectUi
+import tgo1014.listofbeers.presentation.ui.composables.PrimaryContainerFilterChip
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
 fun DetailsScreen(
@@ -47,8 +52,8 @@ fun DetailsScreen(
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-//    LaunchedEffect(viewModel) { viewModel.getBeerById(id) }
-//    DetailsScreen(state = state, onRetryClicked = { viewModel.getBeerById(id) })
+    LaunchedEffect(viewModel) { viewModel.getArtObjectById(id) }
+    DetailsScreen(state = state, onRetryClicked = { viewModel.getArtObjectById(id) })
 }
 
 @Composable
@@ -57,19 +62,10 @@ private fun DetailsScreen(
     modifier: Modifier = Modifier,
     onRetryClicked: () -> Unit = {},
 ) = Box(modifier) {
-    Icon(
-        painter = painterResource(id = R.drawable.ic_bookmark),
-        contentDescription = null,
-        tint = MaterialTheme.colorScheme.tertiary,
-        modifier = Modifier
-            .align(Alignment.TopEnd)
-            .width(45.dp)
-            .padding(end = 16.dp)
-    )
     when (state) {
         DetailsState.Error -> DetailScreenError(onRetryClicked)
         DetailsState.Loading -> DetailScreenLoading()
-        is DetailsState.Success -> DetailScreenContent(beer = state.beer)
+        is DetailsState.Success -> DetailScreenContent(item = state.item)
     }
 }
 
@@ -82,14 +78,6 @@ private fun DetailScreenLoading() {
             .fillMaxWidth()
     ) {
         CircularProgressIndicator()
-    }
-}
-
-@DefaultPreview
-@Composable
-private fun DetailScreenLoadingPreview() = ListOfBeersTheme {
-    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
-        DetailScreenLoading()
     }
 }
 
@@ -107,117 +95,90 @@ private fun DetailScreenError(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Failed to load beer")
-            Button(onClick = onRetryClicked) {
-                Text("Try Again")
+            Text(text = stringResource(R.string.failed_to_load))
+            Button(onClick = onRetryClicked, shape = MaterialTheme.shapes.small) {
+                Text(stringResource(id = R.string.retry))
             }
         }
     }
 }
 
-@DefaultPreview
 @Composable
-private fun DetailScreenErrorPreview() = ListOfBeersTheme {
-    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
-        DetailScreenError()
-    }
-}
-
-@Composable
-private fun DetailScreenContent(beer: ArtObjectUi) {
+private fun DetailScreenContent(item: ArtObjectUi) {
     val scrollState = rememberLazyListState()
-    val layoutDirection = LocalLayoutDirection.current
-    Row {
-        Box(
-            modifier = Modifier
-                .padding(
-                    PaddingValues(
-                        top = WindowInsets.safeContent
-                            .asPaddingValues()
-                            .calculateTopPadding(),
+    LazyColumn(
+        state = scrollState,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        item {
+            val bgColor = MaterialTheme.colorScheme.background
+            SubcomposeAsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.imageUrl)
+                    .crossfade(300)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                loading = {
+                    Box(
+                        modifier = Modifier
+                            .background(bgColor)
+                            .aspectRatio(item.safeAspectRatio)
                     )
-                )
-        ) {
-//            BeerImage(
-//                beer = beer,
-//                modifier = Modifier
-//                    .align(Alignment.Center)
-//                    .padding(start = 16.dp)
-//                    .widthIn(max = 100.dp)
-//            )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(bgColor)
+                    .aspectRatio(item.safeAspectRatio)
+            )
         }
-        Spacer(modifier = Modifier.size(16.dp))
-        LazyColumn(
-            state = scrollState,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(
-                top = WindowInsets.safeContent.asPaddingValues().calculateTopPadding(),
-                bottom = WindowInsets.safeContent.asPaddingValues().calculateBottomPadding(),
-                end = WindowInsets.safeContent
-                    .asPaddingValues()
-                    .calculateEndPadding(layoutDirection)
-                    .coerceAtLeast(16.dp)
-            ),
-            modifier = Modifier.weight(1f)
-        ) {
-//            item {
-//                Text(
-//                    text = beer.title,
-//                    style = MaterialTheme.typography.displayMedium,
-//                    color = MaterialTheme.colorScheme.onPrimaryContainer
-//                )
-//                Text(
-//                    text = beer.tagline,
-//                    style = MaterialTheme.typography.headlineSmall,
-//                    color = MaterialTheme.colorScheme.onSurfaceVariant
-//                )
-//            }
-//            item {
-//                Text(
-//                    text = stringResource(R.string.first_brewed),
-//                    style = MaterialTheme.typography.titleLarge,
-//                    color = MaterialTheme.colorScheme.onPrimaryContainer
-//                )
-//                Text(
-//                    text = beer.firstBrewed,
-//                    color = MaterialTheme.colorScheme.onSurfaceVariant
-//                )
-//            }
-//            item {
-//                Text(
-//                    text = stringResource(R.string.description),
-//                    style = MaterialTheme.typography.titleLarge,
-//                    color = MaterialTheme.colorScheme.onPrimaryContainer
-//                )
-//                Text(
-//                    text = beer.description,
-//                    color = MaterialTheme.colorScheme.onSurfaceVariant
-//                )
-//            }
-//            item {
-//                Text(
-//                    text = stringResource(R.string.food_pairing),
-//                    style = MaterialTheme.typography.titleLarge,
-//                    color = MaterialTheme.colorScheme.onPrimaryContainer
-//                )
-//                beer.foodParingList.forEach {
-//                    Text(
-//                        text = " • $it",
-//                        color = MaterialTheme.colorScheme.onSurfaceVariant
-//                    )
-//                }
-//            }
-//            item {
-//                Text(
-//                    text = stringResource(R.string.brewer_tips),
-//                    style = MaterialTheme.typography.titleLarge,
-//                    color = MaterialTheme.colorScheme.onPrimaryContainer
-//                )
-//                Text(
-//                    text = beer.brewersTips,
-//                    color = MaterialTheme.colorScheme.onSurfaceVariant
-//                )
-//            }
+        item {
+            Column(Modifier.padding(horizontal = 8.dp)) {
+                Text(
+                    text = item.title,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontFamily = FontFamily.Serif,
+                )
+                Text(
+                    text = stringResource(R.string.by).format(item.principalMaker),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontSize = 18.sp,
+                    fontStyle = FontStyle.Italic,
+                    fontFamily = FontFamily.Serif,
+                )
+            }
+        }
+        item {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 8.dp)
+            ) {
+                item.materialsList.forEach {
+                    PrimaryContainerFilterChip(
+                        text = it,
+                        isSelected = false,
+                    )
+                }
+            }
+        }
+        if (item.description.isNotBlank()) {
+            item {
+                Text(
+                    text = item.description,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontFamily = FontFamily.Serif,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .padding(bottom = 8.dp),
+                )
+            }
         }
     }
 }
@@ -226,14 +187,30 @@ private fun DetailScreenContent(beer: ArtObjectUi) {
 @Composable
 private fun DetailsScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
         DetailsScreen(
             DetailsState.Success(
-                beer = ArtObjectUi(
-                    title = "Punk IPA 2007 - 2010",
+                item = ArtObjectUi(
+                    title = "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
                 )
             )
         )
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailScreenLoadingPreview() = ListOfArtsTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailScreenLoading()
+    }
+}
+
+@DefaultPreview
+@Composable
+private fun DetailScreenErrorPreview() = ListOfArtsTheme {
+    Surface(color = MaterialTheme.colorScheme.primaryContainer) {
+        DetailScreenError()
     }
 }

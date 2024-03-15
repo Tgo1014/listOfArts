@@ -22,4 +22,11 @@ class ArtRepositoryImpl @Inject constructor(
             .orEmpty()
             .map { it.toDomain() }
     }
+
+    override suspend fun getArtById(id: String): ArtObjectDomain {
+        return rijksmMuseumApi.getObjectDetails(id)
+            .successOrThrow()
+            .artObject
+            ?.toDomain()!!
+    }
 }

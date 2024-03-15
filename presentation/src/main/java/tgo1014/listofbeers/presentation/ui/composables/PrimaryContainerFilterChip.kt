@@ -1,7 +1,6 @@
 package tgo1014.listofbeers.presentation.ui.composables
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import tgo1014.listofbeers.presentation.models.Filter
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
 fun PrimaryContainerFilterChip(
@@ -47,7 +46,7 @@ fun PrimaryContainerFilterChip(
 @Composable
 private fun FilterChipPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
         PrimaryContainerFilterChip(Filter.PHOTOGRAPH.description, true) {}
     }
@@ -57,7 +56,7 @@ private fun FilterChipPreview(
 @Composable
 private fun FilterChipDisabledPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
             PrimaryContainerFilterChip(Filter.PHOTOGRAPH.description, false) {}
     }

@@ -7,15 +7,11 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import coil.Coil
-import coil.ImageLoader
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
@@ -23,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import tgo1014.listofbeers.presentation.ui.navigation.Destinations
 import tgo1014.listofbeers.presentation.ui.screens.details.DetailsScreen
 import tgo1014.listofbeers.presentation.ui.screens.home.HomeScreen
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -46,12 +42,11 @@ class MainActivity : ComponentActivity() {
                 )
                 onDispose {}
             }
-            ListOfBeersTheme {
+            ListOfArtsTheme {
                 val bottomSheetNavigator = rememberBottomSheetNavigator()
                 val navController = rememberNavController(bottomSheetNavigator)
                 ModalBottomSheetLayout(
                     bottomSheetNavigator = bottomSheetNavigator,
-                    sheetShape = RoundedCornerShape(topEnd = 24.dp, topStart = 24.dp),
                     sheetBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
                 ) {
                     NavHost(
@@ -59,16 +54,16 @@ class MainActivity : ComponentActivity() {
                         startDestination = Destinations.Home.route
                     ) {
                         composable(route = Destinations.Home.route) {
-                            HomeScreen { beer ->
-                                navController.navigate(Destinations.toDetails(beer.id))
+                            HomeScreen { item ->
+                                navController.navigate(Destinations.toDetails(item.id))
                             }
                         }
                         bottomSheet(
                             route = Destinations.Details.route,
                             arguments = Destinations.Details.args
                         ) { navEntry ->
-                            val beerId = navEntry.arguments?.getString(Destinations.Details.id)!!
-                            DetailsScreen(id = beerId)
+                            val itemId = navEntry.arguments?.getString(Destinations.Details.id)!!
+                            DetailsScreen(id = itemId)
                         }
                     }
                 }

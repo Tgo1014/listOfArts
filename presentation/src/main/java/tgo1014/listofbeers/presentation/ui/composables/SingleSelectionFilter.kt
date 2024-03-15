@@ -15,7 +15,7 @@ import tgo1014.listofbeers.presentation.models.FilterState
 import tgo1014.listofbeers.presentation.models.translation
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
 fun SingleSelectionFilter(
@@ -41,7 +41,7 @@ fun SingleSelectionFilter(
 @Composable
 private fun SingleSelectionFilterPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
         val items = listOf(FilterState(Filter.PAINTING, false), FilterState(Filter.PHOTOGRAPH, true))
         SingleSelectionFilter(filters = items, onClick = {})

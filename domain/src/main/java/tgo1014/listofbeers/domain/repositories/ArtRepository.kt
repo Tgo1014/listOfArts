@@ -10,4 +10,8 @@ interface ArtRepository {
         type: String? = null,
     ): List<ArtObjectDomain>
 
+    suspend fun getArtById(
+        id: String
+    ): ArtObjectDomain
+
 }

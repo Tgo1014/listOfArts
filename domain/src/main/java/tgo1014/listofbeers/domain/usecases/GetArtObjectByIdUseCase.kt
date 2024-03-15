@@ -10,9 +10,9 @@ class GetArtObjectByIdUseCase @Inject constructor(
     private val coroutineProvider: CoroutineProvider,
 ) {
 
-    suspend operator fun invoke(id: Int) = runCatching {
+    suspend operator fun invoke(id: String) = runCatching {
         withContext(coroutineProvider.io) {
-            artRepository.getArt(id)
+            artRepository.getArtById(id.replace("en-", ""))
         }
     }
 

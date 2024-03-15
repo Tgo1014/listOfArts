@@ -14,7 +14,7 @@ private val DarkColorScheme = darkColorScheme()
 private val LightColorScheme = lightColorScheme()
 
 @Composable
-fun ListOfBeersTheme(
+fun ListOfArtsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     materialYouColors: Boolean = true,
     content: @Composable () -> Unit,

@@ -3,4 +3,6 @@
     <string name="no_items">No items to display. Try checking your filter or your internet connection.</string>
     <string name="search">search</string>
     <string name="retry">retry</string>
+    <string name="failed_to_load">Failed to load details</string>
+    <string name="by">by %s</string>
 </resources>

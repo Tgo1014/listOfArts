@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
 fun EmptyState(
@@ -39,6 +39,6 @@ fun EmptyState(
 
 @DefaultPreview
 @Composable
-private fun EmptyStatePreview() = ListOfBeersTheme {
+private fun EmptyStatePreview() = ListOfArtsTheme {
     Surface { EmptyState() }
 }

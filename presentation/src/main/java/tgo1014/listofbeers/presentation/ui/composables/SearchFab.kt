@@ -24,24 +24,18 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TextFieldDefaults.TextFieldDecorationBox
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.sharp.Close
 import androidx.compose.material.icons.sharp.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
@@ -71,11 +65,9 @@ import tgo1014.listofbeers.presentation.R
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.previews.isPreviewMode
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.screens.home.HomeScreen
-import tgo1014.listofbeers.presentation.ui.screens.home.HomeState
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.ExperimentalTime
+
 
 @Suppress("LocalVariableName")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -240,7 +232,7 @@ enum class SearchFabState { FAB, SEARCH }
 
 @Preview
 @Composable
-private fun SearchFabPreviewFab() = ListOfBeersTheme {
+private fun SearchFabPreviewFab() = ListOfArtsTheme {
     var state by remember { mutableStateOf(SearchFabState.FAB) }
     SearchFab(buttonState = state, searchText = "", isLoading = false) {
         state = if (state == SearchFabState.FAB) SearchFabState.SEARCH else SearchFabState.FAB
@@ -249,7 +241,7 @@ private fun SearchFabPreviewFab() = ListOfBeersTheme {
 
 @Preview
 @Composable
-private fun SearchFabPreviewFabLoading() = ListOfBeersTheme {
+private fun SearchFabPreviewFabLoading() = ListOfArtsTheme {
     var state by remember { mutableStateOf(SearchFabState.FAB) }
     SearchFab(buttonState = state, searchText = "", isLoading = true) {
         state = if (state == SearchFabState.FAB) SearchFabState.SEARCH else SearchFabState.FAB
@@ -258,7 +250,7 @@ private fun SearchFabPreviewFabLoading() = ListOfBeersTheme {
 
 @Preview
 @Composable
-private fun SearchFabPreviewSearch() = ListOfBeersTheme {
+private fun SearchFabPreviewSearch() = ListOfArtsTheme {
     var state by remember { mutableStateOf(SearchFabState.FAB) }
     SearchFab(buttonState = SearchFabState.SEARCH, searchText = "123", isLoading = false) {
         state = if (state == SearchFabState.FAB) SearchFabState.SEARCH else SearchFabState.FAB
@@ -267,7 +259,7 @@ private fun SearchFabPreviewSearch() = ListOfBeersTheme {
 
 @Preview
 @Composable
-private fun SearchFabPreviewSearchLoading() = ListOfBeersTheme {
+private fun SearchFabPreviewSearchLoading() = ListOfArtsTheme {
     var state by remember { mutableStateOf(SearchFabState.FAB) }
     SearchFab(buttonState = SearchFabState.SEARCH, searchText = "123", isLoading = true) {
         state = if (state == SearchFabState.FAB) SearchFabState.SEARCH else SearchFabState.FAB
@@ -278,7 +270,7 @@ private fun SearchFabPreviewSearchLoading() = ListOfBeersTheme {
 @Composable
 private fun HomeScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     var state by remember { mutableStateOf(SearchFabState.FAB) }
     SearchFab(buttonState = SearchFabState.SEARCH, searchText = "123", isLoading = true) {
         state = if (state == SearchFabState.FAB) SearchFabState.SEARCH else SearchFabState.FAB

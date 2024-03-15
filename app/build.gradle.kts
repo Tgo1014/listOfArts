@@ -19,6 +19,7 @@ android {
         testInstrumentationRunner = "tgo1014.listofbeers.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "BASE_URL", "\"https://www.rijksmuseum.nl/api/en/\"")
+        buildConfigField("String", "API_KEY", "\"yvmj95Jo\"") // Ideally this should be in the local.properties to not be versioned
     }
     buildFeatures {
         buildConfig = true

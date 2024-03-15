@@ -3,6 +3,7 @@ package tgo1014.listofbeers.presentation.ui.screens.home
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
@@ -49,12 +49,12 @@ import tgo1014.listofbeers.presentation.ui.composables.SearchFabState
 import tgo1014.listofbeers.presentation.ui.composables.SingleSelectionFilter
 import tgo1014.listofbeers.presentation.ui.composables.previews.DefaultPreview
 import tgo1014.listofbeers.presentation.ui.composables.providers.ThemeProvider
-import tgo1014.listofbeers.presentation.ui.theme.ListOfBeersTheme
+import tgo1014.listofbeers.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onBeerClicked: (ArtObjectUi) -> Unit,
+    onItemClicked: (ArtObjectUi) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -63,9 +63,9 @@ fun HomeScreen(
     }
     HomeScreen(
         state = state,
-        onBeerClicked = {
+        onItemClicked = {
             keyboardController?.hide()
-            onBeerClicked(it)
+            onItemClicked(it)
         },
         onBottomOfScreenReached = viewModel::onBottomReached,
         onQueryChanged = viewModel::search,
@@ -79,7 +79,7 @@ fun HomeScreen(
 private fun HomeScreen(
     state: HomeState,
     onBottomOfScreenReached: () -> Unit = {},
-    onBeerClicked: (ArtObjectUi) -> Unit = {},
+    onItemClicked: (ArtObjectUi) -> Unit = {},
     onQueryChanged: (String) -> Unit = {},
     onFilterClicked: (Filter) -> Unit = {},
     onRetryClicked: () -> Unit = {}
@@ -165,7 +165,8 @@ private fun HomeScreen(
                             .background(bgColor)
                             .aspectRatio(item.safeAspectRatio)
                             .animateItemPlacement()
-                            .animateContentSize(),
+                            .animateContentSize()
+                            .clickable { onItemClicked(item) },
                     )
                     // TODO add title of the piece
                     if (index == state.itemList.lastIndex) {
@@ -181,6 +182,6 @@ private fun HomeScreen(
 @Composable
 private fun HomeScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
-) = ListOfBeersTheme(materialYouColors = materialYouColors) {
+) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     HomeScreen(state = HomeState())
 }

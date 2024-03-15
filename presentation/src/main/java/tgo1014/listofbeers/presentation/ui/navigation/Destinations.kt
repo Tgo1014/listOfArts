@@ -8,7 +8,7 @@ sealed class Destinations(val route: String) {
     data object Home : Destinations("Home")
     data object Details : Destinations("details/{id}") {
         const val id = "id"
-        val args = listOf(navArgument(id) { type = NavType.IntType })
+        val args = listOf(navArgument(id) { type = NavType.StringType })
     }
 
     companion object {

@@ -19,10 +19,10 @@ class DetailsViewModel @Inject constructor(
     private val _state: MutableStateFlow<DetailsState> = MutableStateFlow(DetailsState.Loading)
     val state = _state.asStateFlow()
 
-    fun getBeerById(id: Int) = viewModelScope.launch {
+    fun getArtObjectById(id: String) = viewModelScope.launch {
         _state.update { DetailsState.Loading }
         getArtObjectByIdUseCase(id)
-            //.onSuccess { beer -> _state.update { DetailsState.Success(beer.toUi()) } }
+            .onSuccess { item -> _state.update { DetailsState.Success(item.toUi()) } }
             .onFailure { _state.update { DetailsState.Error } }
     }
 
