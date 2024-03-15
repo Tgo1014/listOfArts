@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "tgo1014.listofbeers.data"
+    namespace = "tgo1014.listofarts.data"
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig {
         minSdk = libs.versions.sdk.min.get().toInt()

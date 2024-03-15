@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "tgo1014.listofbeers.presentation"
+    namespace = "tgo1014.listofarts.presentation"
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig.minSdk = libs.versions.sdk.min.get().toInt()
     buildFeatures.compose = true
