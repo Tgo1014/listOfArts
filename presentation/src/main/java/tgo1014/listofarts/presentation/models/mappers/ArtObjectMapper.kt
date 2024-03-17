@@ -5,8 +5,8 @@ import tgo1014.listofarts.presentation.models.ArtObjectUi
 
 fun ArtObjectDomain.toUi() = ArtObjectUi(
     id = this.id,
-    title = this.title,
-    longTitle = this.longTitle,
+    title = this.title.trim(),
+    longTitle = this.longTitle.trim(),
     imageUrl = this.webImage.url,
     imageWidth = this.webImage.width,
     imageHeight = this.webImage.height,
