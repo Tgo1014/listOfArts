@@ -64,7 +64,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import tgo1014.listofarts.presentation.R
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.previews.isPreviewMode
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
@@ -75,10 +75,10 @@ import kotlin.time.Duration.Companion.milliseconds
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchFab(
-    modifier: Modifier = Modifier,
     searchText: String,
     buttonState: SearchFabState,
     isLoading: Boolean,
+    modifier: Modifier = Modifier,
     onCloseClicked: () -> Unit = {},
     onSearchTextChanged: (String) -> Unit = {},
     onButtonClicked: () -> Unit = {},
@@ -275,7 +275,7 @@ private fun SearchFabPreviewSearchLoading() = ListOfArtsTheme {
     }
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun HomeScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean

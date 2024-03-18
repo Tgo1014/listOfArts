@@ -11,7 +11,6 @@ interface ArtRepository {
     ): List<ArtObjectDomain>
 
     suspend fun getArtById(
-        id: String
+        id: String,
     ): ArtObjectDomain
-
 }

@@ -47,7 +47,7 @@ import tgo1014.listofarts.presentation.ui.composables.LogoText
 import tgo1014.listofarts.presentation.ui.composables.SearchFab
 import tgo1014.listofarts.presentation.ui.composables.SearchFabState
 import tgo1014.listofarts.presentation.ui.composables.SingleSelectionFilter
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
 
@@ -181,7 +181,7 @@ private fun HomeScreen(
     )
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun HomeScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean

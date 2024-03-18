@@ -6,5 +6,5 @@ data class HeaderImageDomain(
     val offsetPercentageY: Int = 0,
     val width: Int = 0,
     val height: Int = 0,
-    val url: String = ""
+    val url: String = "",
 )

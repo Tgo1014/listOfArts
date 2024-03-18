@@ -24,7 +24,7 @@ class GetArtObjectsUseCaseTest {
         fakeArtRepository = FakeArtRepository()
         usecase = GetArtObjectsUseCase(
             artRepository = fakeArtRepository,
-            coroutineProvider = fakeCoroutineProvider
+            coroutineProvider = fakeCoroutineProvider,
         )
     }
 

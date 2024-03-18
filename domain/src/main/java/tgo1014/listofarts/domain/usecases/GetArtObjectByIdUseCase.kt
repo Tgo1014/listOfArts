@@ -15,5 +15,4 @@ class GetArtObjectByIdUseCase @Inject constructor(
             artRepository.getArtById(id.replace("en-", ""))
         }
     }
-
 }

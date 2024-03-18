@@ -55,7 +55,7 @@ import tgo1014.listofarts.presentation.R
 import tgo1014.listofarts.presentation.models.ArtObjectUi
 import tgo1014.listofarts.presentation.ui.composables.PrimaryContainerFilterChip
 import tgo1014.listofarts.presentation.ui.composables.modifyIf
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.previews.isPreviewMode
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
@@ -223,7 +223,7 @@ private fun DetailScreenContent(item: ArtObjectUi) {
     }
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun DetailsScreenPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
@@ -241,7 +241,7 @@ private fun DetailsScreenPreview(
     }
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun DetailScreenLoadingPreview() = ListOfArtsTheme {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {
@@ -249,7 +249,7 @@ private fun DetailScreenLoadingPreview() = ListOfArtsTheme {
     }
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun DetailScreenErrorPreview() = ListOfArtsTheme {
     Surface(color = MaterialTheme.colorScheme.primaryContainer) {

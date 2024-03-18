@@ -5,5 +5,5 @@ data class ResponseDomain(
     val count: Int = 0,
     val countFacets: CountFacetsDomain = CountFacetsDomain(),
     val artObjects: List<ArtObjectDomain> = listOf(),
-    val facets: List<FacetDomain> = listOf()
+    val facets: List<FacetDomain> = listOf(),
 )

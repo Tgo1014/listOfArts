@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
 
@@ -39,7 +39,7 @@ fun LogoText(
     )
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun LogoTextPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean

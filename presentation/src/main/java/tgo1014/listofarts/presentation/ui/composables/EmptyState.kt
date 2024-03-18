@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import tgo1014.listofarts.presentation.R
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
 
 @Composable
@@ -37,7 +37,7 @@ fun EmptyState(
     }
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun EmptyStatePreview() = ListOfArtsTheme {
     Surface { EmptyState() }

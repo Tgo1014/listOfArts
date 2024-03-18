@@ -17,6 +17,6 @@ object StorageModuleTest {
 
     @Singleton
     @Provides
-    fun providesFakeBeerRepository(): ArtRepository = FakeArtRepository()
+    fun providesFakeArtRepository(): ArtRepository = FakeArtRepository()
 
 }

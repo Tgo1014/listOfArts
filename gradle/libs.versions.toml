@@ -5,7 +5,8 @@ accompanistNavigationMaterial = "0.34.0"
 coilCompose = "2.6.0"
 compose = "1.7.0-alpha04"
 compose-compiler = "1.5.10"
-detekt = "1.23.4"
+detekt = "1.23.5"
+detektRules = "0.3.12"
 hilt = "2.51"
 hiltNavigationCompose = "1.2.0"
 javaxInject = "1"
@@ -23,14 +24,16 @@ mockwebserver = "5.0.0-alpha.12"
 retrofit = "2.9.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
 runner = "1.5+"
-spotless = "6.12.0"
+spotless = "6.25.0"
 timber = "5.0.1"
 turbine = "1.1.0"
+zoomimageComposeCoil = "1.0.2"
+
+
 optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi,androidx.compose.ui.test.ExperimentalTestApi"
 sdk-compile = "34"
 sdk-target = "34"
 sdk-min = "21"
-zoomimageComposeCoil = "1.0.2"
 
 [libraries]
 accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanistNavigationMaterial" }
@@ -45,7 +48,7 @@ androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt" }
+detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektRules" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }

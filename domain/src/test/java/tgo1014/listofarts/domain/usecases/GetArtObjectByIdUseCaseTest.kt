@@ -23,7 +23,7 @@ class GetArtObjectByIdUseCaseTest {
         fakeArtRepository = FakeArtRepository()
         usecase = GetArtObjectByIdUseCase(
             artRepository = fakeArtRepository,
-            coroutineProvider = fakeCoroutineProvider
+            coroutineProvider = fakeCoroutineProvider,
         )
     }
 

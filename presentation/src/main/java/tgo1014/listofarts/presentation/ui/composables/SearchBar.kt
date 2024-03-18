@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import tgo1014.listofarts.presentation.R
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
 
@@ -69,7 +69,7 @@ fun SearchBar(
     )
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun SearchBarPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean

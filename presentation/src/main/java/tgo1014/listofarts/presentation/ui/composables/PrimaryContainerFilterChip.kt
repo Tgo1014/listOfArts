@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import tgo1014.listofarts.presentation.models.Filter
-import tgo1014.listofarts.presentation.ui.composables.previews.DefaultPreview
+import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
 
@@ -42,7 +42,7 @@ fun PrimaryContainerFilterChip(
     )
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun FilterChipPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
@@ -52,7 +52,7 @@ private fun FilterChipPreview(
     }
 }
 
-@DefaultPreview
+@PreviewDefault
 @Composable
 private fun FilterChipDisabledPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
