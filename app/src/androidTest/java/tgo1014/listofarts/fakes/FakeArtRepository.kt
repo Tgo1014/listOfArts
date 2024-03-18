@@ -21,6 +21,6 @@ class FakeArtRepository(
     }
 
     override suspend fun getArtById(id: String): ArtObjectDomain {
-        return artsToReturn.first()
+        return artsToReturn.first { it.id == id }
     }
 }

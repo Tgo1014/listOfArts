@@ -1,24 +1,36 @@
 package tgo1014.listofarts.presentation.ui.screens.home
 
 import android.content.Context
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onParent
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performScrollToIndex
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import tgo1014.listofarts.domain.models.ArtObjectDomain
 import tgo1014.listofarts.domain.repositories.ArtRepository
-import tgo1014.listofarts.fakes.FakeBeerRepository
+import tgo1014.listofarts.fakes.FakeArtRepository
 import tgo1014.listofarts.presentation.R
+import tgo1014.listofarts.presentation.models.Filter
 import tgo1014.listofarts.presentation.ui.MainActivity
+import tgo1014.listofarts.utils.assertContentDescriptionDoesNotExists
+import tgo1014.listofarts.utils.assertContentDescriptionExists
 import tgo1014.listofarts.utils.assertDoesNotExist
 import tgo1014.listofarts.utils.assertExists
+import tgo1014.listofarts.utils.logAllComposableNodes
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -28,84 +40,99 @@ class HomeScreenKtTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val composeRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Inject
-    lateinit var beerRepository: ArtRepository
+    lateinit var artRepository: ArtRepository
 
     @Inject
     @ApplicationContext
     lateinit var context: Context
 
-    private val testBeer1 = BeerDomain(id = 1, name = "Test beer 1")
-    private val testBeer2 = BeerDomain(id = 2, name = "Test beer 2")
+    private val fakeArtRepository by lazy { artRepository as FakeArtRepository }
+    private val testArt1 = ArtObjectDomain(id = "1", title = "Test art 1", principalMaker = "Lorem Ipsum")
+    private val testArt2 = ArtObjectDomain(id = "2", title = "Test art 2", longTitle = "Darude Sandstorm")
 
     @Before
     fun setup() {
         hiltRule.inject()
-    }
-
-    // Display all composables: composeRule.onRoot().printToLog("TAG")
-
-    @Test
-    fun should_displayErrorMessage_when_noBeersAvailable() {
-        val fakeBeerRepository = beerRepository as FakeBeerRepository
-        assert(fakeBeerRepository.beersToReturn.isEmpty())
-        composeRule.assertExists(context.getString(R.string.no_items))
+        // composeTestRule.logAllComposableNodes()
     }
 
     @Test
-    fun should_displayBeer_when_beersAvailable() {
-        val fakeBeerRepository = beerRepository as FakeBeerRepository
-        fakeBeerRepository.beersToReturn = listOf(testBeer1)
-        composeRule.assertDoesNotExist(text = context.getString(R.string.no_items))
-        composeRule.assertExists(text = testBeer1.name!!, ignoreCase = true, useUnmergedTree = true)
+    fun should_displayEmptyMessage_when_noArtsAvailable() {
+        assertTrue(fakeArtRepository.artsToReturn.isEmpty())
+        composeTestRule.assertExists(context.getString(R.string.no_items))
     }
 
     @Test
-    fun given_emptyList_should_displayBeer_when_pressingRetryButton() {
-        val fakeBeerRepository = beerRepository as FakeBeerRepository
-        assert(fakeBeerRepository.beersToReturn.isEmpty())
-        composeRule.assertExists(context.getString(R.string.no_items))
-        fakeBeerRepository.beersToReturn = listOf(testBeer1)
-        composeRule
-            .onNodeWithText(text = context.getString(R.string.retry), ignoreCase = true)
-            .performClick()
-        composeRule.assertExists(text = testBeer1.name!!, ignoreCase = true, useUnmergedTree = true)
+    fun should_displayArt_when_artsAvailable() {
+        fakeArtRepository.artsToReturn = listOf(testArt1)
+        clickRetry()
+        composeTestRule.assertDoesNotExist(context.getString(R.string.no_items))
+        composeTestRule.assertContentDescriptionExists(testArt1.title)
+    }
+
+    @Test
+    fun given_emptyList_should_displayArt_when_pressingRetryButton() {
+        assertTrue(fakeArtRepository.artsToReturn.isEmpty())
+        clickRetry()
+        composeTestRule.assertExists(context.getString(R.string.no_items))
+        fakeArtRepository.artsToReturn = listOf(testArt1)
+
+        clickRetry()
+
+        composeTestRule.assertContentDescriptionExists(testArt1.title)
     }
 
     @Test
     fun when_filtering_then_refreshesList() {
-        val fakeBeerRepository = beerRepository as FakeBeerRepository
-        val beerList = listOf(testBeer1, testBeer2)
-        fakeBeerRepository.beersToReturn = beerList
-        beerList.forEach {
-            composeRule.assertExists(text = it.name!!, ignoreCase = true, useUnmergedTree = true)
-        }
-        composeRule
-            .onNodeWithText(text = context.getString(R.string.search))
-            .performTextInput(testBeer1.name!!)
-        composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
-        composeRule.onNodeWithText(text = context.getString(R.string.blonde)).performClick()
-        composeRule.assertDoesNotExist(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
-        composeRule.assertExists(text = context.getString(R.string.no_items))
+        val artList = listOf(testArt1, testArt2)
+        fakeArtRepository.artsToReturn = artList
+        clickRetry()
+        artList.map { it.title }.forEach(composeTestRule::assertContentDescriptionExists)
+
+        fakeArtRepository.artsToReturn = artList.take(1)
+        composeTestRule.onNodeWithText(Filter.PRINT.description).performClick()
+        composeTestRule.assertContentDescriptionExists(testArt1.title)
+        composeTestRule.assertContentDescriptionDoesNotExists(testArt2.title)
+
+        fakeArtRepository.artsToReturn = emptyList()
+        composeTestRule.onNodeWithText(Filter.PRINT.description)
+            .onParent()
+            .performScrollToIndex(Filter.entries.lastIndex)
+        composeTestRule.onNodeWithText(Filter.HISTORY_MEDAL.description).performClick()
+
+        composeTestRule.assertContentDescriptionDoesNotExists(testArt1.title)
+        composeTestRule.assertContentDescriptionDoesNotExists(testArt2.title)
+        composeTestRule.assertExists(context.getString(R.string.no_items))
     }
 
     @Test
-    fun when_clickingBeer_then_openDetailScreen() {
-        val fakeBeerRepository = beerRepository as FakeBeerRepository
-        val beerList = listOf(testBeer1, testBeer2)
-        fakeBeerRepository.beersToReturn = beerList
-        composeRule.assertExists(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
-        composeRule
-            .onNodeWithText(text = testBeer1.name!!.uppercase(), useUnmergedTree = true)
+    fun when_clickingArt_then_openDetailScreen() {
+        val maker = context.getString(R.string.by).format(testArt1.principalMaker)
+        val artList = listOf(testArt1, testArt2)
+        fakeArtRepository.artsToReturn = artList
+        clickRetry()
+
+        composeTestRule
+            .onNodeWithContentDescription(testArt1.title)
             .performClick()
-        composeRule.assertExists(text = context.getString(R.string.first_brewed)) // Detail screen
-        composeRule.assertExists(text = testBeer1.name!!)
+        composeTestRule.onRoot().performTouchInput { swipeUp() }
+        composeTestRule.assertExists(testArt1.title)
+        composeTestRule.assertExists(maker)
+
         runBlocking(Dispatchers.Main) {
-            composeRule.activity.onBackPressedDispatcher.onBackPressed()
+            composeTestRule.activity.onBackPressedDispatcher.onBackPressed()
         }
-        composeRule.assertDoesNotExist(text = context.getString(R.string.first_brewed))
+        composeTestRule.assertDoesNotExist(testArt1.title)
+        composeTestRule.assertDoesNotExist(maker)
+    }
+
+    private fun clickRetry() {
+        composeTestRule
+            .onNodeWithText(context.getString(R.string.retry))
+            .performClick()
     }
 
 }

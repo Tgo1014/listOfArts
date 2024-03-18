@@ -16,4 +16,5 @@ data class ArtObjectDomain(
     val plaqueDescriptionEnglish: String = "",
     val principalMaker: String = "",
     val materialsList: List<String> = emptyList(),
+    val mainType: String = "",
 )

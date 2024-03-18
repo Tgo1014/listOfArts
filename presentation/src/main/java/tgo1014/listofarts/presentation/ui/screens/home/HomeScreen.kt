@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -151,7 +152,7 @@ private fun HomeScreen(
                             .data(item.imageUrl)
                             .crossfade(300)
                             .build(),
-                        contentDescription = null,
+                        contentDescription = item.title,
                         contentScale = ContentScale.FillWidth,
                         loading = {
                             Box(

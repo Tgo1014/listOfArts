@@ -53,6 +53,8 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -80,148 +82,155 @@ fun SearchFab(
     onCloseClicked: () -> Unit = {},
     onSearchTextChanged: (String) -> Unit = {},
     onButtonClicked: () -> Unit = {},
-) = BoxWithConstraints(modifier) {
-    val initValue = if (isPreviewMode()) isLoading else false
-    // Works based in the ContentLoadingProgressBar, it waits a minimum time to show but if it does,
-    // it just switch states again after a minimum time to minimize UI flickering
-    val _isLoading by produceState(initValue, isLoading) {
-        delay(500.milliseconds)
-        value = if (isLoading != value) {
-            isLoading
-        } else {
-            value
-        }
-    }
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val fabSize = 56.dp
-    val itemsSize = 32.dp
-    RoundedCornerShape(0)
-    val interactionSource = remember { MutableInteractionSource() }
-    val transition = updateTransition(buttonState, label = "Width")
-    val height by transition.animateDp(
-        targetValueByState = {
-            when (it) {
-                SearchFabState.FAB -> fabSize
-                SearchFabState.SEARCH -> 65.dp
-            }
-        }, label = "Height"
+) {
+    val description = stringResource(id = R.string.search)
+    val _modifier = modifier.then(
+        Modifier.semantics { contentDescription = description }
     )
-    val width by transition.animateDp(
-        targetValueByState = {
-            when {
-                it == SearchFabState.FAB && _isLoading -> fabSize * 2.2f
-                it == SearchFabState.FAB -> fabSize
-                else -> maxWidth - fabSize / 2
-            }
-        },
-        transitionSpec = { tween() },
-        label = "width"
-    )
-    Surface(
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.primaryContainer,
-        shadowElevation = androidx.compose.material.FloatingActionButtonDefaults.elevation().elevation(
-            interactionSource = interactionSource
-        ).value,
-        modifier = Modifier
-            .width(width)
-            .height(height)
-            .align(Alignment.BottomEnd)
-            .clickable { onButtonClicked() }
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(12.dp)
-        ) {
-            val paddingEnd by animateDpAsState(
-                targetValue = if (buttonState == SearchFabState.FAB) 24.dp else 12.dp,
-                label = "paddingEnd"
-            )
-            AnimatedVisibility(visible = _isLoading) {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier
-                        .padding(end = paddingEnd)
-                        .size(itemsSize)
-                )
-            }
-            val focusRequest = remember { FocusRequester() }
-            if (buttonState == SearchFabState.FAB) {
-                LocalFocusManager.current.clearFocus(true)
-                Icon(
-                    imageVector = Icons.Sharp.Search,
-                    contentDescription = null,
-                    modifier = Modifier.requiredSize(itemsSize),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+    BoxWithConstraints(_modifier) {
+        val initValue = if (isPreviewMode()) isLoading else false
+        // Works based in the ContentLoadingProgressBar, it waits a minimum time to show but if it does,
+        // it just switch states again after a minimum time to minimize UI flickering
+        val _isLoading by produceState(initValue, isLoading) {
+            delay(500.milliseconds)
+            value = if (isLoading != value) {
+                isLoading
             } else {
-                val singleLine = true
-                val colors = TextFieldDefaults.colors(
-                    cursorColor = MaterialTheme.colorScheme.tertiary,
-                    focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
+                value
+            }
+        }
+        val keyboardController = LocalSoftwareKeyboardController.current
+        val fabSize = 56.dp
+        val itemsSize = 32.dp
+        RoundedCornerShape(0)
+        val interactionSource = remember { MutableInteractionSource() }
+        val transition = updateTransition(buttonState, label = "Width")
+        val height by transition.animateDp(
+            targetValueByState = {
+                when (it) {
+                    SearchFabState.FAB -> fabSize
+                    SearchFabState.SEARCH -> 65.dp
+                }
+            }, label = "Height"
+        )
+        val width by transition.animateDp(
+            targetValueByState = {
+                when {
+                    it == SearchFabState.FAB && _isLoading -> fabSize * 2.2f
+                    it == SearchFabState.FAB -> fabSize
+                    else -> maxWidth - fabSize / 2
+                }
+            },
+            transitionSpec = { tween() },
+            label = "width"
+        )
+        Surface(
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shadowElevation = androidx.compose.material.FloatingActionButtonDefaults.elevation()
+                .elevation(
+                    interactionSource = interactionSource
+                ).value,
+            modifier = Modifier
+                .width(width)
+                .height(height)
+                .align(Alignment.BottomEnd)
+                .clickable { onButtonClicked() }
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(12.dp)
+            ) {
+                val paddingEnd by animateDpAsState(
+                    targetValue = if (buttonState == SearchFabState.FAB) 24.dp else 12.dp,
+                    label = "paddingEnd"
                 )
-                val selectionColors = TextSelectionColors(
-                    handleColor = MaterialTheme.colorScheme.tertiary,
-                    backgroundColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f)
-                )
-                SideEffect { focusRequest.requestFocus() }
-                CompositionLocalProvider(LocalTextSelectionColors provides selectionColors) {
-                    // BasicTextField to be able to removed the default padding inside other TextField components
-                    BasicTextField(
-                        value = searchText,
-                        onValueChange = { onSearchTextChanged(it) },
-                        interactionSource = interactionSource,
-                        textStyle = TextStyle(MaterialTheme.colorScheme.onPrimaryContainer),
-                        singleLine = singleLine,
-                        cursorBrush = SolidColor(MaterialTheme.colorScheme.secondary),
-                        decorationBox = {
-                            TextFieldDefaults.DecorationBox(
-                                value = searchText,
-                                innerTextField = it,
-                                enabled = true,
-                                singleLine = singleLine,
-                                visualTransformation = VisualTransformation.None,
-                                interactionSource = interactionSource,
-                                label = { Text(text = stringResource(id = R.string.search)) },
-                                trailingIcon = {
-                                    IconButton(
-                                        onClick = {
-                                            keyboardController?.hide()
-                                            onCloseClicked()
-                                        },
-                                        content = {
-                                            Icon(
-                                                imageVector = Icons.Sharp.Close,
-                                                contentDescription = null,
-                                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                            )
-                                        }
-                                    )
-                                },
-                                colors = colors,
-                                contentPadding = PaddingValues(0.dp), // Remove default padding
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Done,
-                            capitalization = KeyboardCapitalization.Sentences
-                        ),
-                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+                AnimatedVisibility(visible = _isLoading) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .requiredHeight(45.dp)
-                            .focusRequester(focusRequest)
-                            .indicatorLine(
-                                enabled = true,
-                                isError = false,
-                                interactionSource = interactionSource,
-                                colors = colors
-                            )
+                            .padding(end = paddingEnd)
+                            .size(itemsSize)
                     )
+                }
+                val focusRequest = remember { FocusRequester() }
+                if (buttonState == SearchFabState.FAB) {
+                    LocalFocusManager.current.clearFocus(true)
+                    Icon(
+                        imageVector = Icons.Sharp.Search,
+                        contentDescription = null,
+                        modifier = Modifier.requiredSize(itemsSize),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                } else {
+                    val singleLine = true
+                    val colors = TextFieldDefaults.colors(
+                        cursorColor = MaterialTheme.colorScheme.tertiary,
+                        focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        focusedIndicatorColor = MaterialTheme.colorScheme.tertiary,
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                    )
+                    val selectionColors = TextSelectionColors(
+                        handleColor = MaterialTheme.colorScheme.tertiary,
+                        backgroundColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f)
+                    )
+                    SideEffect { focusRequest.requestFocus() }
+                    CompositionLocalProvider(LocalTextSelectionColors provides selectionColors) {
+                        // BasicTextField to be able to removed the default padding inside other TextField components
+                        BasicTextField(
+                            value = searchText,
+                            onValueChange = { onSearchTextChanged(it) },
+                            interactionSource = interactionSource,
+                            textStyle = TextStyle(MaterialTheme.colorScheme.onPrimaryContainer),
+                            singleLine = singleLine,
+                            cursorBrush = SolidColor(MaterialTheme.colorScheme.secondary),
+                            decorationBox = {
+                                TextFieldDefaults.DecorationBox(
+                                    value = searchText,
+                                    innerTextField = it,
+                                    enabled = true,
+                                    singleLine = singleLine,
+                                    visualTransformation = VisualTransformation.None,
+                                    interactionSource = interactionSource,
+                                    label = { Text(text = stringResource(id = R.string.search)) },
+                                    trailingIcon = {
+                                        IconButton(
+                                            onClick = {
+                                                keyboardController?.hide()
+                                                onCloseClicked()
+                                            },
+                                            content = {
+                                                Icon(
+                                                    imageVector = Icons.Sharp.Close,
+                                                    contentDescription = null,
+                                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                                )
+                                            }
+                                        )
+                                    },
+                                    colors = colors,
+                                    contentPadding = PaddingValues(0.dp), // Remove default padding
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = ImeAction.Done,
+                                capitalization = KeyboardCapitalization.Sentences
+                            ),
+                            keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .requiredHeight(45.dp)
+                                .focusRequester(focusRequest)
+                                .indicatorLine(
+                                    enabled = true,
+                                    isError = false,
+                                    interactionSource = interactionSource,
+                                    colors = colors
+                                )
+                        )
+                    }
                 }
             }
         }
