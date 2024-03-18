@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import tgo1014.listofarts.domain.repositories.ArtRepository
 import tgo1014.listofarts.data.repositories.ArtRepositoryImpl
+import tgo1014.listofarts.domain.repositories.ArtRepository
 import javax.inject.Singleton
 
 @Module

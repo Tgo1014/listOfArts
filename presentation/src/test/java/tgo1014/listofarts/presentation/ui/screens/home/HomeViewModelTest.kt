@@ -77,7 +77,8 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `GIVEN user changed filter WHEN list have values THEN clear list and fetch new`() = runTest {
+    fun `GIVEN user changed filter WHEN list have values THEN clear list and fetch new`() =
+        runTest {
             turbineScope {
                 val filter = Filter.PRINT
                 val stateFlow = viewModel.state.testIn(this)
@@ -117,7 +118,8 @@ class HomeViewModelTest {
         }
 
     @Test
-    fun `GIVEN user changed filter WHEN updating filters THEN just last one is selected`() = runTest {
+    fun `GIVEN user changed filter WHEN updating filters THEN just last one is selected`() =
+        runTest {
             turbineScope {
                 val filter1 = Filter.DRAWING
                 val filter2 = Filter.PAINTING

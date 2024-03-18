@@ -38,11 +38,12 @@ class ArtRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN a request by Id is made WHEN response is successful THEN return one art`() = runTest {
-        mockWebServer.enqueue(responseGetByIdJson.asMockResponse)
-        val result = artRepository.getArtById("Lorem")
-        assertTrue(result.title.isNotBlank())
-    }
+    fun `GIVEN a request by Id is made WHEN response is successful THEN return one art`() =
+        runTest {
+            mockWebServer.enqueue(responseGetByIdJson.asMockResponse)
+            val result = artRepository.getArtById("Lorem")
+            assertTrue(result.title.isNotBlank())
+        }
 
     @Test(expected = Exception::class)
     fun `GIVEN a request by id is made WHEN response is invalid THEN throw exception`() = runTest {

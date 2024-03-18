@@ -58,6 +58,6 @@ private fun FilterChipDisabledPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-            PrimaryContainerFilterChip(Filter.PHOTOGRAPH.description, false) {}
+        PrimaryContainerFilterChip(Filter.PHOTOGRAPH.description, false) {}
     }
 }

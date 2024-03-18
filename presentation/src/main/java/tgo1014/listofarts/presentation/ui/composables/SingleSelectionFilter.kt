@@ -43,7 +43,8 @@ private fun SingleSelectionFilterPreview(
     @PreviewParameter(ThemeProvider::class) materialYouColors: Boolean
 ) = ListOfArtsTheme(materialYouColors = materialYouColors) {
     Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
-        val items = listOf(FilterState(Filter.PAINTING, false), FilterState(Filter.PHOTOGRAPH, true))
+        val items =
+            listOf(FilterState(Filter.PAINTING, false), FilterState(Filter.PHOTOGRAPH, true))
         SingleSelectionFilter(filters = items, onClick = {})
     }
 }

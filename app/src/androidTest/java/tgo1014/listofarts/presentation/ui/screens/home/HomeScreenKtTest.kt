@@ -1,7 +1,6 @@
 package tgo1014.listofarts.presentation.ui.screens.home
 
 import android.content.Context
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -30,7 +29,6 @@ import tgo1014.listofarts.utils.assertContentDescriptionDoesNotExists
 import tgo1014.listofarts.utils.assertContentDescriptionExists
 import tgo1014.listofarts.utils.assertDoesNotExist
 import tgo1014.listofarts.utils.assertExists
-import tgo1014.listofarts.utils.logAllComposableNodes
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -50,8 +48,10 @@ class HomeScreenKtTest {
     lateinit var context: Context
 
     private val fakeArtRepository by lazy { artRepository as FakeArtRepository }
-    private val testArt1 = ArtObjectDomain(id = "1", title = "Test art 1", principalMaker = "Lorem Ipsum")
-    private val testArt2 = ArtObjectDomain(id = "2", title = "Test art 2", longTitle = "Darude Sandstorm")
+    private val testArt1 =
+        ArtObjectDomain(id = "1", title = "Test art 1", principalMaker = "Lorem Ipsum")
+    private val testArt2 =
+        ArtObjectDomain(id = "2", title = "Test art 2", longTitle = "Darude Sandstorm")
 
     @Before
     fun setup() {
