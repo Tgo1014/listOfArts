@@ -1,0 +1,274 @@
+{
+  "elapsedMilliseconds": 112,
+  "artObject": {
+    "links": {
+      "search": "http://www.rijksmuseum.nl/api/nl/collection"
+    },
+    "id": "en-SK-A-2344",
+    "priref": "6417",
+    "objectNumber": "SK-A-2344",
+    "language": "en",
+    "title": "The Milkmaid",
+    "copyrightHolder": null,
+    "webImage": {
+      "guid": "e4e3005c-dd9e-4db6-b466-50b17a9a52cd",
+      "offsetPercentageX": 50,
+      "offsetPercentageY": 27,
+      "width": 2261,
+      "height": 2548,
+      "url": "https://lh3.googleusercontent.com/cRtF3WdYfRQEraAcQz8dWDJOq3XsRX-h244rOw6zwkHtxy7NHjJOany7u4I2EG_uMAfNwBLHkFyLMENzpmfBTSYXIH_F=s0"
+    },
+    "colors": [
+      {
+        "percentage": 11,
+        "hex": "#7E6E50"
+      },
+      {
+        "percentage": 0,
+        "hex": " #E3E0CB"
+      },
+      {
+        "percentage": 35,
+        "hex": " #B7AD89"
+      },
+      {
+        "percentage": 0,
+        "hex": " #3C4C76"
+      },
+      {
+        "percentage": 0,
+        "hex": " #7587A4"
+      },
+      {
+        "percentage": 51,
+        "hex": " #201D20"
+      }
+    ],
+    "colorsWithNormalization": [
+      {
+        "originalHex": "#7E6E50",
+        "normalizedHex": "#E0CC91"
+      },
+      {
+        "originalHex": " #E3E0CB",
+        "normalizedHex": "#FBF6E1"
+      },
+      {
+        "originalHex": " #B7AD89",
+        "normalizedHex": "#E0CC91"
+      },
+      {
+        "originalHex": " #3C4C76",
+        "normalizedHex": "#4279DB"
+      },
+      {
+        "originalHex": " #7587A4",
+        "normalizedHex": "#737C84"
+      },
+      {
+        "originalHex": " #201D20",
+        "normalizedHex": "#000000"
+      }
+    ],
+    "normalizedColors": [
+      {
+        "percentage": 51,
+        "hex": "#000000"
+      },
+      {
+        "percentage": 35,
+        "hex": " #D2B48C"
+      },
+      {
+        "percentage": 11,
+        "hex": " #696969"
+      },
+      {
+        "percentage": 0,
+        "hex": " #483D8B"
+      },
+      {
+        "percentage": 0,
+        "hex": " #778899"
+      },
+      {
+        "percentage": 0,
+        "hex": " #F5F5DC"
+      }
+    ],
+    "normalized32Colors": [
+      {
+        "percentage": 51,
+        "hex": "#000000"
+      },
+      {
+        "percentage": 46,
+        "hex": " #E0CC91"
+      },
+      {
+        "percentage": 0,
+        "hex": " #4279DB"
+      },
+      {
+        "percentage": 0,
+        "hex": " #737C84"
+      },
+      {
+        "percentage": 0,
+        "hex": " #FBF6E1"
+      }
+    ],
+    "materialsThesaurus": [],
+    "techniquesThesaurus": [],
+    "productionPlacesThesaurus": [],
+    "titles": [
+      "The Milkmaid"
+    ],
+    "description": "Een dienstmaagd staat achter een tafel en schenkt melk uit een melkkan in een kookpot. Op de tafel staat een mand met brood en een stenen kruik, links een venster met een rieten mand en een koperen pot. Onderaan de muur rechts een rijtje tegels en een stoofje.",
+    "labelText": null,
+    "objectTypes": [
+      "painting"
+    ],
+    "objectCollection": [
+      "paintings"
+    ],
+    "makers": [],
+    "principalMakers": [
+      {
+        "name": "Johannes Vermeer",
+        "unFixedName": "Vermeer, Johannes",
+        "placeOfBirth": "Delft",
+        "dateOfBirth": "1632-10-31",
+        "dateOfBirthPrecision": null,
+        "dateOfDeath": "1675-12-15",
+        "dateOfDeathPrecision": null,
+        "placeOfDeath": "Delft",
+        "occupation": [
+          "draughtsman",
+          "painter"
+        ],
+        "roles": [
+          "painter"
+        ],
+        "nationality": "Noord-Nederlands",
+        "biography": null,
+        "productionPlaces": [],
+        "qualification": null,
+        "labelDesc": "Johannes Vermeer (31-okt-1632 - 15-dec-1675)"
+      }
+    ],
+    "plaqueDescriptionDutch": "Geconcentreerd schenkt een keukenmeid melk uit een kan. De voorstelling is heel verstild. Alleen het straaltje melk lijkt te bewegen. Van een alledaags onderwerp en een eenvoudige compositie wist Vermeer een indringend schilderij te maken.\r\nVooral in de weergave van het licht onderscheidt Vermeer zich. Met kleine puntjes geeft hij de glimlichtjes weer, zoals bijvoorbeeld op het brood en het blauwe kleed. ",
+    "plaqueDescriptionEnglish": "A maid concentrates keenly as she pours milk from a jug. It is a quiet, tranquil scene. The only movement is the flow of milk. Vermeer turned a simple composition of a prosaic subject into an intense work of art.\r\nIt is in the rendering of light that Vermeer truly excelled, painting tiny dots for highlights, as on the bread and the blue cloth.",
+    "principalMaker": "Johannes Vermeer",
+    "artistRole": null,
+    "associations": [],
+    "acquisition": {
+      "method": "purchase",
+      "date": "1908-01-01T00:00:00",
+      "creditLine": "Purchased with the support of the Vereniging Rembrandt"
+    },
+    "exhibitions": [],
+    "materials": [
+      "canvas",
+      "oil paint (paint)"
+    ],
+    "techniques": [],
+    "productionPlaces": [],
+    "dating": {
+      "presentingDate": "c. 1660",
+      "sortingDate": 1660,
+      "period": 17,
+      "yearEarly": 1660,
+      "yearLate": 1660
+    },
+    "classification": {
+      "iconClassIdentifier": [
+        "41C222",
+        "47I22311",
+        "41C6413",
+        "41C621",
+        "41B23",
+        "41A773"
+      ],
+      "iconClassDescription": [
+        "kitchen-maid, kitchen servant",
+        "milkmaid",
+        "milk",
+        "bread, loaf",
+        "foot-stove",
+        "container of ceramics: jar, jug, pot, vase"
+      ],
+      "motifs": [],
+      "events": [],
+      "periods": [],
+      "places": [],
+      "people": [],
+      "objectNumbers": [
+        "SK-A-2344"
+      ]
+    },
+    "hasImage": true,
+    "historicalPersons": [],
+    "inscriptions": [],
+    "documentation": [
+      "Gijsbert van der Wal, 'Schilderen in druppeltjes', Kunstschrift (2014) nr. 3, p. 13, afb. 11.",
+      "P. Hecht, 'Daniël Franken : genereus en bescheiden', Bulletin van de Vereniging Rembrandt 24 (2014), afb. p. 10.",
+      "Bikker, Jonathan, 'The hidden collection of the spectacularly bankrupt banker Leendert Pieter de Neufville', Simiolus 36 (2012), nr. 3/4, p. 196, afb. 21.",
+      "The New York Times, 13 sept. 2009, p. 77 [paginagrote advertentie van The Metropolitan Museum of Art].",
+      "Karen Rosenberg, 'A humble domestic crosses the sea/ocean', The New York Times, 11 sept. 2009, p. 23, 29.",
+      "Pieter Roelofs, 'Nu of nooit : na 300 jaar weer samen', Oog 3 (2009) nr. 1, p. 80-81.",
+      "Z.Z. Filipczak, 'Vermeer, elusiveness, and visual theory', Simiolus 32 (2006), nr. 4, p. 263, afb. 2.",
+      "C. van der Bas, 'The Muilman Collection: the progressive taste of an eighteenth-century banking family', Simiolus 32, (2006), nr. 2/3, p. 156"
+    ],
+    "catRefRPK": [],
+    "principalOrFirstMaker": "Johannes Vermeer",
+    "dimensions": [
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "45.5"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "41"
+      }
+    ],
+    "physicalProperties": [],
+    "physicalMedium": "oil on canvas",
+    "longTitle": "The Milkmaid, Johannes Vermeer, c. 1660",
+    "subTitle": "h 45.5cm × w 41cm",
+    "scLabelLine": "Johannes Vermeer (1632–1675), oil on canvas, c. 1660",
+    "label": {
+      "title": "The Milkmaid",
+      "makerLine": "Johannes Vermeer (1632–1675), oil on canvas, c. 1660",
+      "description": "A maidservant pours milk, entirely absorbed in her work. Except for the stream of milk, everything else is still. Vermeer took this simple everyday activity and made it the subject of an impressive painting – the woman stands like a statue in the brightly lit room. Vermeer also had an eye for how light by means of hundreds of colourful dots plays over the surface of objects.",
+      "notes": "Multimediatour",
+      "date": "2018-02-27"
+    },
+    "showImage": true,
+    "location": "HG-2.30.3"
+  },
+  "artObjectPage": {
+    "id": "en-SK-A-2344",
+    "similarPages": [],
+    "lang": "en",
+    "objectNumber": "SK-A-2344",
+    "tags": [],
+    "plaqueDescription": "A maid concentrates keenly as she pours milk from a jug. It is a quiet, tranquil scene. The only movement is the flow of milk. Vermeer turned a simple composition of a prosaic subject into an intense work of art.\r\nIt is in the rendering of light that Vermeer truly excelled, painting tiny dots for highlights, as on the bread and the blue cloth.",
+    "audioFile1": null,
+    "audioFileLabel1": null,
+    "audioFileLabel2": null,
+    "createdOn": "2012-09-21T13:49:12.23496+00:00",
+    "updatedOn": "2012-09-21T13:49:12.9399538+00:00",
+    "adlibOverrides": {
+      "titel": null,
+      "maker": null,
+      "etiketText": null
+    }
+  }
+}

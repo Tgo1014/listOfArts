@@ -9,16 +9,21 @@ plugins {
 
 android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
-    namespace = "tgo1014.listofbeers"
+    namespace = "tgo1014.listofarts"
     defaultConfig {
-        applicationId = "tgo1014.beerbox"
+        applicationId = "tgo1014.listofarts"
         minSdk = libs.versions.sdk.min.get().toInt()
         targetSdk = libs.versions.sdk.target.get().toInt()
         versionCode = 1
         versionName = "0.1.0"
-        testInstrumentationRunner = "tgo1014.listofbeers.HiltTestRunner"
+        testInstrumentationRunner = "tgo1014.listofarts.HiltTestRunner"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField("String", "BASE_URL", "\"https://api.punkapi.com/v2/\"")
+        buildConfigField("String", "BASE_URL", "\"https://www.rijksmuseum.nl/api/en/\"")
+        buildConfigField(
+            "String",
+            "API_KEY",
+            "\"yvmj95Jo\""
+        ) // Ideally this should be in the local.properties to not be versioned
     }
     buildFeatures {
         buildConfig = true

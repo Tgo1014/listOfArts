@@ -17,7 +17,6 @@ subprojects {
     configure<SpotlessExtension> {
         kotlin {
             ktlint()
-                .setUseExperimental(true)
                 .editorConfigOverride(
                     mapOf(
                         "ij_kotlin_allow_trailing_comma" to "true",

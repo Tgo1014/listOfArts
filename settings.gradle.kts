@@ -15,7 +15,7 @@ dependencyResolutionManagement {
         maven("https://jitpack.io")
     }
 }
-rootProject.name = "listOfBeers()"
+rootProject.name = "listOfArts()"
 include(":app")
 include(":domain")
 include(":presentation")

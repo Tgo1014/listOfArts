@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "tgo1014.listofbeers.presentation"
+    namespace = "tgo1014.listofarts.presentation"
     compileSdk = libs.versions.sdk.compile.get().toInt()
     defaultConfig.minSdk = libs.versions.sdk.min.get().toInt()
     buildFeatures.compose = true
@@ -35,17 +35,24 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.accompanist.navigation.material)
-    implementation(libs.google.accompanist.systemuicontroller)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.zoomimage.compose.coil)
+    implementation(libs.androidx.material.icons.extended)
     ksp(libs.hilt.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.mockito.kotlin)
     detektPlugins(libs.detekt)
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
+    // Compose Strong Skipping
+    compilerOptions.freeCompilerArgs.addAll(
+        "-P",
+        "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",
+    )
 }

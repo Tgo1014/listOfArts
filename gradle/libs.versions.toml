@@ -1,31 +1,35 @@
 [versions]
-androidGradlePlugin = "8.2.0"
-accompanistSystemuicontroller = "0.33.2-alpha"
-activityCompose = "1.9.0-alpha01"
-accompanistNavigationMaterial = "0.33.2-alpha"
-coilCompose = "2.5.0"
-compose = "1.6.0-beta03"
-compose-compiler = "1.5.7"
-detekt = "1.23.4"
-hilt = "2.49"
-hiltNavigationCompose = "1.1.0"
+androidGradlePlugin = "8.3.0"
+activityCompose = "1.9.0-alpha03"
+accompanistNavigationMaterial = "0.34.0"
+coilCompose = "2.6.0"
+compose = "1.7.0-alpha04"
+compose-compiler = "1.5.10"
+detekt = "1.23.5"
+detektRules = "0.3.12"
+hilt = "2.51"
+hiltNavigationCompose = "1.2.0"
 javaxInject = "1"
 junit = "4.13.2"
-ksp = "1.9.21-1.0.16"
-kotlin = "1.9.21"
-kotlinxCoroutinesTest = "1.7.3"
-kotlinxSerializationJson = "1.6.2"
-lifecycleViewmodelKtx = "2.6.2"
-loggingInterceptor = "5.0.0-alpha.11"
-material3 = "1.2.0-beta01"
+ksp = "1.9.23-1.0.19"
+kotlin = "1.9.22"
+kotlinxCoroutinesTest = "1.8.0"
+kotlinxSerializationJson = "1.6.3"
+lifecycleViewmodelKtx = "2.7.0"
+loggingInterceptor = "5.0.0-alpha.12"
+material3 = "1.2.1"
+materialIconsExtended = "1.6.3"
 mockitoKotlin = "5.2.1"
-mockwebserver = "5.0.0-alpha.10"
+mockwebserver = "5.0.0-alpha.12"
 retrofit = "2.9.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
-runner = "1.5.2"
-spotless = "6.12.0"
+runner = "1.5+"
+spotless = "6.25.0"
 timber = "5.0.1"
-turbine = "0.12.1"
+turbine = "1.1.0"
+zoomimageComposeCoil = "1.0.2"
+
+
 optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi,androidx.compose.ui.test.ExperimentalTestApi"
 sdk-compile = "34"
 sdk-target = "34"
@@ -37,14 +41,14 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "compose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt" }
-google-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektRules" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
@@ -65,6 +69,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 androidx-core = { group = "androidx.test", name = "runner", version.ref = "runner" }
+zoomimage-compose-coil = { module = "io.github.panpf.zoomimage:zoomimage-compose-coil", version.ref = "zoomimageComposeCoil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
