@@ -1,38 +1,47 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.ktorfit)
+    alias(libs.plugins.serialization)
 }
 
 android {
     namespace = "tgo1014.listofarts.data"
-    compileSdk = libs.versions.sdk.compile.get().toInt()
-    defaultConfig {
-        minSdk = libs.versions.sdk.min.get().toInt()
-        testOptions.targetSdk = libs.versions.sdk.target.get().toInt()
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    defaultConfig.minSdk = libs.versions.android.minSdk.get().toInt()
 }
 
-dependencies {
-    implementation(project(":domain"))
-    implementation(libs.retrofit)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    debugImplementation(libs.ui.test.junit4)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.mockwebserver)
-    testImplementation(libs.retrofit2.kotlinx.serialization.converter)
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.javaTargetVersion.get())
+    targetCompatibility = JavaVersion.toVersion(libs.versions.javaTargetVersion.get())
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
+kotlin {
+
+    compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_0)
+    jvmToolchain(libs.versions.javaTargetVersion.get().toInt())
+
+    androidTarget()
+    jvm()
+    wasmJs().browser()
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktorfit.lib)
+            implementation(libs.ktorfit.converters.response)
+            implementation(libs.koin.core)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(project(":composeApp:domain"))
+        }
+        jvmMain.dependencies {}
+        androidMain.dependencies {}
+    }
 }

@@ -1,22 +1,34 @@
-@file:Suppress("UnstableApiUsage")
+rootProject.name = "KotlinProject"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
-        google()
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        mavenCentral()
         gradlePluginPortal()
-        mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google {
+            mavenContent {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
+        maven("https://maven.pkg.jetbrains.space/public/p/ktor/eap/")
         mavenCentral()
-        maven("https://jitpack.io")
     }
 }
-rootProject.name = "listOfArts()"
-include(":app")
-include(":domain")
-include(":presentation")
+
+include(":composeApp")
+include(":composeApp:domain")
 include(":data")
