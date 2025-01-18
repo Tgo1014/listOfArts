@@ -71,18 +71,17 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktorfit.lib)
 
-            implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0-beta-1")
-            implementation("io.ktor:ktor-client-content-negotiation:3.0.0-beta-1")
-            implementation("io.ktor:ktor-client-logging:3.0.0-beta-1")
-            implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:2.0.0")
-            implementation("io.coil-kt.coil3:coil:3.0.0-alpha06")
-            implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktorfit.converters.response)
+            implementation(libs.coil.network.ktor)
         }
         desktopMain.dependencies {
-            implementation("io.ktor:ktor-client-java:+")
+            implementation(libs.ktor.client.java)
             implementation(compose.desktop.currentOs)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1")
-            implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-alpha06")
+            implementation(libs.jetbrains.kotlinx.coroutines.swing)
+            implementation(libs.coil.network.okhttp)
         }
     }
 }
