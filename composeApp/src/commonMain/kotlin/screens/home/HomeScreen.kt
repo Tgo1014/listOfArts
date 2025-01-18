@@ -52,14 +52,12 @@ import presentation.models.Filter
 import presentation.theme.ListOfArtsTheme
 import tgo1014.listofarts.presentation.models.ArtObjectUi
 
-
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
     onItemClicked: (ArtObjectUi) -> Unit,
 ) {
-    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
-    val state by viewModel.state.collectAsStateWithLifecycle(lifecycleOwner)
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val keyboardController = LocalSoftwareKeyboardController.current
     LaunchedEffect(Unit) {
         viewModel.fetchArtObjects()

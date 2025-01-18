@@ -4,5 +4,6 @@ import kotlin.coroutines.CoroutineContext
 
 interface CoroutineProvider {
     val main: CoroutineContext
+    val default: CoroutineContext
     val io: CoroutineContext
 }

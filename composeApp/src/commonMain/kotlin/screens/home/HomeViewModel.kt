@@ -16,9 +16,9 @@ import presentation.models.mappers.toUi
 import tgo1014.listofarts.domain.usecases.GetArtObjectsUseCase
 import tgo1014.listofarts.presentation.models.ArtObjectUi
 
-class HomeViewModel : ViewModel(), KoinComponent {
-
-    private val getArtObjectsUseCase: GetArtObjectsUseCase by inject()
+class HomeViewModel(
+    private val getArtObjectsUseCase: GetArtObjectsUseCase,
+) : ViewModel() {
 
     private var searchJob: Job? = null
     private var page = 1

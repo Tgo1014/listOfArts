@@ -78,7 +78,7 @@ kotlin {
             implementation(libs.coil.network.ktor)
         }
         desktopMain.dependencies {
-            implementation(libs.ktor.client.java)
+          //  implementation(libs.ktor.client.java)
             implementation(compose.desktop.currentOs)
             implementation(libs.jetbrains.kotlinx.coroutines.swing)
             implementation(libs.coil.network.okhttp)
