@@ -1,4 +1,4 @@
-package tgo1014.listofarts.presentation.models
+package presentation.models
 
 data class ArtObjectUi(
     val id: String = "",

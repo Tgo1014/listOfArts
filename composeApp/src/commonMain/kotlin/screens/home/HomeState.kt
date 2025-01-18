@@ -1,7 +1,7 @@
 package screens.home
 
 import presentation.models.FilterState
-import tgo1014.listofarts.presentation.models.ArtObjectUi
+import presentation.models.ArtObjectUi
 
 data class HomeState(
     val isLoading: Boolean = false,

@@ -21,7 +21,7 @@ interface RijksmMuseumApi {
         @Query("imgonly") onlyWithImage: Boolean = true,
         @Query("toppieces") onlyTopPieces: Boolean = true,
         @Query("key") key: String,
-    ): GetCollectionsResponse
+    ): Response<GetCollectionsResponse>
 
     @GET("collection/{id}")
     suspend fun getObjectDetails(

@@ -1,6 +1,7 @@
 package repositories
 
 import extensions.successOrThrow
+import models.GetCollectionsResponse
 import models.mappers.toDomain
 import network.RijksmMuseumApi
 import org.koin.core.component.KoinComponent
@@ -20,7 +21,8 @@ class ArtRepositoryImpl: ArtRepository, KoinComponent {
             type = type,
             key = key
         )
-        return response//.successOrThrow()
+        return response
+            .successOrThrow<GetCollectionsResponse>()
             .artObjects
             .orEmpty()
             .map { it.toDomain() }

@@ -3,22 +3,25 @@ package screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import presentation.models.Filter
 import presentation.models.mappers.toUi
+import tgo1014.listofarts.domain.CoroutineProvider
 import tgo1014.listofarts.domain.usecases.GetArtObjectsUseCase
-import tgo1014.listofarts.presentation.models.ArtObjectUi
+import presentation.models.ArtObjectUi
 
 class HomeViewModel(
     private val getArtObjectsUseCase: GetArtObjectsUseCase,
-) : ViewModel() {
+    coroutineProvider: CoroutineProvider,
+) : ViewModel(
+    viewModelScope = CoroutineScope(coroutineProvider.main)
+) {
 
     private var searchJob: Job? = null
     private var page = 1

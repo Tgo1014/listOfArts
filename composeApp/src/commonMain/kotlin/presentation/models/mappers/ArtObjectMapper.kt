@@ -1,7 +1,7 @@
 package presentation.models.mappers
 
 import tgo1014.listofarts.domain.models.ArtObjectDomain
-import tgo1014.listofarts.presentation.models.ArtObjectUi
+import presentation.models.ArtObjectUi
 
 fun ArtObjectDomain.toUi() = ArtObjectUi(
     id = this.id,

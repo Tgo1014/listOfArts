@@ -35,10 +35,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.SingletonImageLoader
 import coil3.compose.LocalPlatformContext
 import coil3.compose.SubcomposeAsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import coil3.util.DebugLogger
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.koin.compose.viewmodel.koinViewModel
@@ -50,7 +52,7 @@ import presentation.composables.SingleSelectionFilter
 import presentation.composables.previews.ThemeProvider
 import presentation.models.Filter
 import presentation.theme.ListOfArtsTheme
-import tgo1014.listofarts.presentation.models.ArtObjectUi
+import presentation.models.ArtObjectUi
 
 @Composable
 fun HomeScreen(
@@ -75,7 +77,6 @@ fun HomeScreen(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HomeScreen(
     state: HomeState,
@@ -157,7 +158,6 @@ private fun HomeScreen(
                             .build(),
                         contentDescription = item.title,
                         contentScale = ContentScale.FillWidth,
-                        onError = { println(it.result.throwable) },
                         loading = {
                             Box(
                                 modifier = Modifier
@@ -169,11 +169,8 @@ private fun HomeScreen(
                             .fillMaxWidth()
                             .background(bgColor)
                             .aspectRatio(item.safeAspectRatio)
-                            .animateItem()
-                            .animateContentSize()
                             .clickable { onItemClicked(item) },
                     )
-                    // TODO add title of the piece
                     if (index == state.itemList.lastIndex) {
                         SideEffect { onBottomOfScreenReached() }
                     }

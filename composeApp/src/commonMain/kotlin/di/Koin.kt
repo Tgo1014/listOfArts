@@ -24,6 +24,7 @@ import tgo1014.listofarts.domain.CoroutineProvider
 import tgo1014.listofarts.domain.repositories.ArtRepository
 import tgo1014.listofarts.domain.usecases.GetArtObjectsUseCase
 
+// TODO: change enableNetworkLogs based if the app is in debug mode
 fun commonModule(enableNetworkLogs: Boolean) = module {
     singleOf(::provideJson)
     singleOf(::provideKtorfit)
@@ -46,7 +47,7 @@ private fun provideJson(): Json = Json {
 
 // TODO make a version platform based that has IO provided
 private fun provideCoroutineProvider(): CoroutineProvider = object : CoroutineProvider {
-    override val main = Dispatchers.Main
+    override val main = Dispatchers.Main.immediate
     override val default = Dispatchers.Default
     override val io = Dispatchers.Default
 }
