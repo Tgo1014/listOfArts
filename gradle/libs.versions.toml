@@ -4,28 +4,15 @@ android-compileSdk = "35"
 android-minSdk = "24"
 android-targetSdk = "35"
 androidx-activityCompose = "1.10.0"
-androidx-appcompat = "1.7.0"
-androidx-constraintlayout = "2.2.0"
-androidx-core-ktx = "1.15.0"
-androidx-espresso-core = "3.6.1"
-androidx-material = "1.12.0"
-androidx-test-junit = "1.2.1"
 coil = "3.0.4"
-coilVersion = "3.0.4"
-coilNetworkKtor = "3.0.0-alpha06"
 compose-plugin = "1.8.0-alpha01"
-junit = "4.13.2"
 koinComposeViewmodel = "4.1.0-Beta5"
-koinCore = "3.2.0"
 kotlin = "2.1.0"
 jetbrainsKotlinJvm = "2.0.20"
 kotlinxCoroutines = "1.10.1"
 javaTargetVersion = "17"
 kotlinxCoroutinesSwing = "1.10.1"
 kotlinxSerializationJson = "1.8.0"
-ktorClientJava = "3.1.0-eap-1212"
-ktorClientLogging = "3.0.0-beta-1"
-ktorfitConvertersResponse = "2.2.0"
 ktorfitLib = "2.2.0"
 ktorSerializationKotlinxJson = "3.0.3"
 lifecycleViewmodelCompose = "2.8.4"
@@ -37,20 +24,10 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version = 
 jetbrains-kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinxCoroutinesSwing" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeViewmodel" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinComposeViewmodel" } #change to BOM
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
-androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
-androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorSerializationKotlinxJson" }
-ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktorClientJava" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorSerializationKotlinxJson" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
 ktorfit-converters-response = { module = "de.jensklingenberg.ktorfit:ktorfit-converters-response", version.ref = "ktorfitLib" }
