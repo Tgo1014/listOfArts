@@ -4,15 +4,13 @@ import extensions.successOrThrow
 import models.GetCollectionsResponse
 import models.mappers.toDomain
 import network.RijksmMuseumApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import tgo1014.listofarts.domain.models.ArtObjectDomain
 import tgo1014.listofarts.domain.repositories.ArtRepository
 
-class ArtRepositoryImpl: ArtRepository, KoinComponent {
-
-    private val rijksmMuseumApi: RijksmMuseumApi by inject()
-    private val key: String by inject()
+class ArtRepositoryImpl(
+    private val rijksmMuseumApi: RijksmMuseumApi,
+    private val key: String
+) : ArtRepository {
 
     override suspend fun getArt(page: Int, query: String?, type: String?): List<ArtObjectDomain> {
         val response = rijksmMuseumApi.getCollections(
@@ -22,7 +20,7 @@ class ArtRepositoryImpl: ArtRepository, KoinComponent {
             key = key
         )
         return response
-            .successOrThrow<GetCollectionsResponse>()
+            .successOrThrow()
             .artObjects
             .orEmpty()
             .map { it.toDomain() }
