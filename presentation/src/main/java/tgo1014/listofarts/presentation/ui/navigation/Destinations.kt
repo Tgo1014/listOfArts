@@ -7,11 +7,11 @@ sealed class Destinations(val route: String) {
 
     data object Home : Destinations("Home")
     data object Details : Destinations("details/{id}") {
-        const val id = "id"
-        val args = listOf(navArgument(id) { type = NavType.StringType })
+        const val ID = "id"
+        val args = listOf(navArgument(ID) { type = NavType.StringType })
     }
 
     companion object {
-        fun toDetails(id: String) = Details.route.replace("{${Details.id}}", id)
+        fun toDetails(id: String) = Details.route.replace("{${Details.ID}}", id)
     }
 }

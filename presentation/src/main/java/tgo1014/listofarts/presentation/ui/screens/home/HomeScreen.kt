@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
@@ -33,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -47,6 +51,7 @@ import tgo1014.listofarts.presentation.ui.composables.LogoText
 import tgo1014.listofarts.presentation.ui.composables.SearchFab
 import tgo1014.listofarts.presentation.ui.composables.SearchFabState
 import tgo1014.listofarts.presentation.ui.composables.SingleSelectionFilter
+import tgo1014.listofarts.presentation.ui.composables.extensions.plus
 import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
 import tgo1014.listofarts.presentation.ui.theme.ListOfArtsTheme
@@ -110,9 +115,19 @@ private fun HomeScreen(
         },
         content = {
             val spacing = 2.dp
+            // These insets below avoid clipping when using 3 buttons nav bar
+            val systemBarsPadding =
+                WindowInsets.systemBars.union(WindowInsets.displayCutout).asPaddingValues()
+            val direction = LocalLayoutDirection.current
+            val noTopPadding = WindowInsets(
+                top = 0.dp,
+                left = systemBarsPadding.calculateLeftPadding(direction),
+                right = systemBarsPadding.calculateRightPadding(direction),
+                bottom = systemBarsPadding.calculateBottomPadding()
+            )
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(130.dp),
-                contentPadding = PaddingValues(spacing),
+                contentPadding = PaddingValues(spacing) + noTopPadding.asPaddingValues(),
                 verticalItemSpacing = spacing,
                 horizontalArrangement = Arrangement.spacedBy(spacing),
                 modifier = Modifier.padding(it)
