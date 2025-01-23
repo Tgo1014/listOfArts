@@ -186,7 +186,6 @@ private fun HomeScreen(
                             .animateContentSize()
                             .clickable { onItemClicked(item) },
                     )
-                    // TODO add title of the piece
                     if (index == state.itemList.lastIndex) {
                         SideEffect { onBottomOfScreenReached() }
                     }
