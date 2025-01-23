@@ -22,6 +22,10 @@ android {
     kotlinOptions.jvmTarget = libs.versions.jvm.get().toString()
 }
 
+kotlin {
+    compilerOptions.freeCompilerArgs.add(libs.versions.optIns.get())
+}
+
 dependencies {
     implementation(project(":domain"))
     implementation(libs.lifecycle.viewmodel.ktx)
@@ -45,14 +49,4 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockito.kotlin)
     detektPlugins(libs.detekt)
-
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
-    // Compose Strong Skipping
-    compilerOptions.freeCompilerArgs.addAll(
-        "-P",
-        "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",
-    )
 }
