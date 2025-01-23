@@ -8,6 +8,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -54,7 +55,7 @@ import kotlinx.coroutines.delay
 import tgo1014.listofarts.presentation.R
 import tgo1014.listofarts.presentation.models.ArtObjectUi
 import tgo1014.listofarts.presentation.ui.composables.PrimaryContainerFilterChip
-import tgo1014.listofarts.presentation.ui.composables.modifyIf
+import tgo1014.listofarts.presentation.ui.composables.extensions.modifyIf
 import tgo1014.listofarts.presentation.ui.composables.previews.PreviewDefault
 import tgo1014.listofarts.presentation.ui.composables.previews.isPreviewMode
 import tgo1014.listofarts.presentation.ui.composables.providers.ThemeProvider
@@ -124,7 +125,9 @@ private fun DetailScreenContent(item: ArtObjectUi) {
     LazyColumn(
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = WindowInsets.navigationBars.asPaddingValues(),
+        contentPadding = PaddingValues(
+            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        ),
         modifier = Modifier.fillMaxWidth()
     ) {
         item {

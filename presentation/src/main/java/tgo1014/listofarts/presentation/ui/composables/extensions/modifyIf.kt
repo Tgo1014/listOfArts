@@ -1,4 +1,4 @@
-package tgo1014.listofarts.presentation.ui.composables
+package tgo1014.listofarts.presentation.ui.composables.extensions
 
 import androidx.compose.ui.Modifier
 

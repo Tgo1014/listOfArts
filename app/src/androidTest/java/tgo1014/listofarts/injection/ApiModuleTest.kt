@@ -7,6 +7,7 @@ import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import mockwebserver3.MockWebServer
+import okhttp3.ExperimentalOkHttpApi
 import tgo1014.listofarts.data.network.RijksmMuseumApi
 import tgo1014.listofarts.utils.getService
 import javax.inject.Singleton
@@ -16,7 +17,9 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [ApiModule::class]
 )
+@OptIn(ExperimentalOkHttpApi::class)
 object ApiModuleTest {
+
 
     @Singleton
     @Provides

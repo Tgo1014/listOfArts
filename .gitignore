@@ -83,3 +83,5 @@ lint/tmp/
 # lint/reports/
 
 .idea/
+
+.kotlin/

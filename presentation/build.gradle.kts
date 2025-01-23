@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -15,10 +16,14 @@ android {
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility(libs.versions.jvm.get().toInt())
+        targetCompatibility(libs.versions.jvm.get().toInt())
     }
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlinOptions.jvmTarget = libs.versions.jvm.get().toString()
+}
+
+kotlin {
+    compilerOptions.freeCompilerArgs.add(libs.versions.optIns.get())
 }
 
 dependencies {
@@ -28,7 +33,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.compiler)
     implementation(libs.androidx.ui.util)
     debugImplementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
@@ -45,14 +49,4 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockito.kotlin)
     detektPlugins(libs.detekt)
-
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += libs.versions.optIns.get()
-    // Compose Strong Skipping
-    compilerOptions.freeCompilerArgs.addAll(
-        "-P",
-        "plugin:androidx.compose.compiler.plugins.kotlin:experimentalStrongSkipping=true",
-    )
 }

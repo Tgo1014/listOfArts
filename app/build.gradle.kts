@@ -39,10 +39,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility(libs.versions.jvm.get().toInt())
+        targetCompatibility(libs.versions.jvm.get().toInt())
     }
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlinOptions.jvmTarget = libs.versions.jvm.get().toString()
 }
 
 dependencies {

@@ -17,7 +17,6 @@ enum class Filter(val description: String) {
 
 @Composable
 fun Filter.translation(): String = when (this) {
-    // TODO stringResource(R.string.blonde)
     Filter.PAINTING -> this.description
     Filter.PRINT -> this.description
     Filter.PHOTOGRAPH -> this.description

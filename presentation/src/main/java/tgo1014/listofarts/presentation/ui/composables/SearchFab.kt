@@ -118,7 +118,7 @@ fun SearchFab(
                 when {
                     it == SearchFabState.FAB && _isLoading -> fabSize * 2.2f
                     it == SearchFabState.FAB -> fabSize
-                    else -> maxWidth - fabSize / 2
+                    else -> this.maxWidth - fabSize / 2
                 }
             },
             transitionSpec = { tween() },

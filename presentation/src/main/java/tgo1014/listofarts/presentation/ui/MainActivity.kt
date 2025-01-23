@@ -7,14 +7,14 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.navigation.ModalBottomSheetLayout
+import androidx.compose.material.navigation.bottomSheet
+import androidx.compose.material.navigation.rememberBottomSheetNavigator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.DisposableEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.google.accompanist.navigation.material.bottomSheet
-import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import tgo1014.listofarts.presentation.ui.navigation.Destinations
 import tgo1014.listofarts.presentation.ui.screens.details.DetailsScreen
@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                             route = Destinations.Details.route,
                             arguments = Destinations.Details.args
                         ) { navEntry ->
-                            val itemId = navEntry.arguments?.getString(Destinations.Details.id)!!
+                            val itemId = navEntry.arguments?.getString(Destinations.Details.ID)!!
                             DetailsScreen(id = itemId)
                         }
                     }
