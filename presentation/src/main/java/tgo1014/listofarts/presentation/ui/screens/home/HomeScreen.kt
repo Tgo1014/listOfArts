@@ -167,7 +167,7 @@ private fun HomeScreen(
                             .fillMaxWidth()
                             .background(bgColor)
                             .aspectRatio(item.safeAspectRatio)
-                            .animateItemPlacement()
+                            .animateItem()
                             .animateContentSize()
                             .clickable { onItemClicked(item) },
                     )

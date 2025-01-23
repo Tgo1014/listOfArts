@@ -1,30 +1,30 @@
 [versions]
-androidGradlePlugin = "8.3.0"
-activityCompose = "1.9.0-alpha03"
+androidGradlePlugin = "8.8.0"
+activityCompose = "1.10.0"
 accompanistNavigationMaterial = "0.34.0"
 coilCompose = "2.6.0"
-compose = "1.7.0-alpha04"
-compose-compiler = "1.5.10"
+compose = "1.8.0-alpha08"
+compose-compiler = "1.5.15"
 detekt = "1.23.5"
 detektRules = "0.3.12"
-hilt = "2.51"
+hilt = "2.52"
 hiltNavigationCompose = "1.2.0"
 jvm = "21"
 javaxInject = "1"
 junit = "4.13.2"
-ksp = "1.9.23-1.0.19"
-kotlin = "1.9.22"
-kotlinxCoroutinesTest = "1.8.0"
-kotlinxSerializationJson = "1.6.3"
-lifecycleViewmodelKtx = "2.7.0"
+ksp = "2.1.0-1.0.29"
+kotlin = "2.1.0"
+kotlinxCoroutinesTest = "1.10.1"
+kotlinxSerializationJson = "1.8.0"
+lifecycleViewmodelKtx = "2.8.7"
 loggingInterceptor = "5.0.0-alpha.12"
-material3 = "1.2.1"
-materialIconsExtended = "1.6.3"
+material3 = "1.4.0-alpha06"
+materialIconsExtended = "1.7.6"
 mockitoKotlin = "5.2.1"
 mockwebserver = "5.0.0-alpha.12"
 retrofit = "2.9.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
-runner = "1.5+"
+runner = "1.6.2"
 spotless = "6.25.0"
 timber = "5.0.1"
 turbine = "1.1.0"
@@ -32,14 +32,13 @@ zoomimageComposeCoil = "1.0.2"
 
 
 optIns = "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi,com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi,androidx.compose.ui.test.ExperimentalTestApi"
-sdk-compile = "34"
-sdk-target = "34"
+sdk-compile = "35"
+sdk-target = "35"
 sdk-min = "21"
 
 [libraries]
 accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "accompanistNavigationMaterial" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -83,4 +82,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
