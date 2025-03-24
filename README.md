@@ -29,15 +29,15 @@ A simple demo app for playing and testing latest Android libraries. Data is cour
 - Detekt (with Twitter Compose rules)
 
 ## ✅ Available Features
-- Online art search via text from the Rijksmuseum catalog
-- Art filtering by technique
-- Light and Dark mode support
-- Portrait and Landscape support
-- Material You dynamic color support (Android 12+)
-- Themed/Monochrome Icons (Android 12+)
-- Predictive Back Gesture (Android 13+)
-- Unit tests
-- Instrumentation tests
+- 🔍 Online art search via text from the Rijksmuseum catalog
+- 🎭 Filter by art's technique
+- ☀️ Light and Dark mode support 🌙
+- 🔄 Portrait and Landscape support
+- 🎨 Material You dynamic color support (Android 12+)
+- 📱 Themed/Monochrome Icons (Android 12+)
+- ✨ Predictive Back Gesture (Android 13+)
+- 🧪 Unit tests
+- 🔬 Instrumentation tests
 
 ## ☑️TODO
 - [ ] Add instrumentation tests to Github Checks
